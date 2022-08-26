@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::layout(~{::section})">
+  <head>
+    <title>Bootstrap demo</title>
+  </head>
+  
+  <body>
+  
+    <section>
+
+	<div class="container">
+	
+		<div id="signup_form" class="row align-items-center" style="margin-top: 120px;">
+	        
+	        	<div class="offset-md-2 col-md-2 bg-primary text-light border border-2 rounded-2 shadow mt-4" style="height: 500px;">
+	        	
+	        		<div class="left-bar">
+	        		
+	        		<div class="ps-3" style="padding-top: 62px;">
+	        			<h4>Looks like you're new here!</h4>
+	        		
+	        			<p class="pt-3" style="font-size: 1rem">Sign up with your Email Id to get started.</p>
+	        			
+	        			<img class="pt-3" alt="" th:src="@{/images/loginleft.png}" style="width:80%">
+	        		</div>
+	        		
+	        		</div>
+	        	
+	        	</div>
+	        	
+	        	
+	        	<div class="col-md-6">
+	        	
+	        		<div class="right-bar">
+	        		
+	        		<!-- messages of success and error -->
+					<div th:if="${session.message}" class="text-center">
+						<div th:classappend="${session.message.type}" class="alert alert-primary" role="alert">
+				  			<span th:text="${session.message.content}"></span>
+						</div>
+						<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+					</div>
+	        		
+	        		<div class="p-3">
+	        		
+	        			<form th:action="@{/do_signup}" method="post" th:object="${user}">
+	        			
+						  <div class="mb-3">
+						    <label for="exampleInputEmail1" class="form-label">Email Id</label>
+						    <input type="email"
+						     name="email"
+						      class="form-control"
+						      th:classappend="${#fields.hasErrors('email') ? 'is-invalid' : ''}"
+						      th:value="${user.email}">
+						      <div th:each="e : ${#fields.errors('email')}" th:text="${e}" class="invalid-feedback"></div>
+						  </div>
+						  
+						  <div class="mb-3">
+						    <label for="exampleInputEmail1" class="form-label">Password</label>
+						    <input type="password"
+						     name="password"
+						      class="form-control"
+						      th:classappend="${#fields.hasErrors('password') ? 'is-invalid' : ''}"
+						      th:value="${user.password}">
+						      <div th:each="e : ${#fields.errors('password')}" th:text="${e}" class="invalid-feedback"></div>
+						  </div>
+						  
+						  <div class="mb-3">
+						    <label for="exampleInputEmail1" class="form-label">Mobile Number</label>
+						    <input type="number"
+						     name="mobilenum"
+						      class="form-control"
+						      th:classappend="${#fields.hasErrors('mobilenum') ? 'is-invalid' : ''}"
+						      th:value="${user.mobilenum}">
+						      <div th:each="e : ${#fields.errors('mobilenum')}" th:text="${e}" class="invalid-feedback"></div>
+						  </div>
+						  
+						  <p class="mb-3" style="font-size: 0.8rem">By continuing, you agree to Eworld's 
+						  <span class="text-primary">Terms of Use</span> and <span class="text-primary">Privacy Policy.</span></p>
+	        			  
+	        			  <div class="d-grid gap-2">
+						  <button type="submit" class="btn btn-primary">Signup</button>
+	        			  
+						</div>
+	        			  
+						</form>
+	        		
+	        			<a id="signup" th:href="@{/login}" style="text-decoration: none;"><div class="pt-3 text-center">Existing User? Log in</div></a>
+	        		
+	        		</div>
+	        		
+	        		</div>
+	        	
+	        	</div>
+	        	
+	        
+	        </div>
+	
+	</div>
+	
+	</section>
+      
+  </body>
+</html>

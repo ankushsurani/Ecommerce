@@ -1,0 +1,60 @@
+div h5 a:hover{
+	color: blue!important;
+}
+
+.content-center{
+	display: flex;
+	justify-content: center;
+    align-items: center;
+}
+
+body{
+	background-color: #faf1f5!important;
+}
+
+.bg-orange{
+	background-color: #fa7405!important;
+}
+
+.custom-popover {
+  --bs-popover-body-padding-x: 0rem;
+  --bs-popover-body-padding-y: 0rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* search css */
+.search-container{
+	position: relative;
+}
+
+.search-result{
+	position: absolute;
+	width: 290px;
+	height: 350px;
+	background: white;
+	display: none;
+}
+
+/* custom scrollbar */
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}

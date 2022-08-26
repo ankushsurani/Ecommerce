@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::layout(~{::section})">
+  <head>
+  
+    <title>Bootstrap demo</title>
+    
+  </head>
+  
+  <body>
+  
+    <section>
+    
+    <!-- messages of success and error -->
+					<div th:if="${session.message}" class="text-center pt-5" style="margin-bottom: -100px;">
+						<div th:classappend="${session.message.type}" class="alert alert-primary" role="alert">
+				  			<span th:text="${session.message.content}"></span>
+						</div>
+						<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+					</div>
+
+	<div th:if="${cart} == 0" class="container rounded-3 shadow" style="width: 100%; background-color: white;margin-top: 100px;">
+	
+	
+		<div class="text-center" style="padding-top: 10%;padding-bottom: 10%">
+			
+			<div>
+			<img alt="" th:src="@{/images/cart.webp}" style="width: 20%;">
+				<h3 class="mt-2" style="font-family: serif;">Your cart is empty!</h3>
+				<p style="font-family: serif;">Add items to it now.</p>
+				<div class="d-grid gap-2 col-2 mx-auto"><a th:href="@{/}" style="font-family: serif;" class="btn btn-primary" type="button">Shop now</a></div>
+			</div>
+	
+		</div>
+	
+	</div>
+	
+	
+	
+	<div th:unless="${cart} == 0" class="container-fluid" style="margin-top: 100px;">
+	
+		<div class="row">
+		<div class="col-md-9 rightbar mt-5">
+	
+		<div class="cart-body">
+		
+			<div class='row mx-5'>
+			
+				<div class='col-md-6 mb-5' th:each="c : ${cart}">
+				
+				<div class='card mb-3 content-center shadow' style='max-width: 540px;height: 200px;'>
+				  <div class='row g-0'>
+				    <div class='col-md-4 content-center'>
+				      <img th:src="@{'/product_img/'+${c.product.productImages[0].productPic}}" style='max-height: 180px;max-width: 140px;' />
+				    </div>
+				    <div class='col-md-8 content-center'>
+				      <div class='card-body'>
+				        <h5 class='text-capitalize' style='font-family: serif;'><a style="text-decoration: none;color: black;" th:href="@{'/product/'+${c.product.pId}}"> <span th:text=${c.product.pName}></span> </a></h5>
+					  
+					  <div class="row row-cols-auto g-0">
+					  <div class="col me-2"><div class="fw-bold" style="font-size: 18px;font-family: serif;">&#8377; <span th:text="${c.product.getPriceAfterApplyingDiscount}"></span></div></div>
+					  <div class="col me-2"><i style="font-size: 18px;font-family: serif;" class="text-muted text-decoration-line-through">&#8377; <span th:text="${c.product.pPrice}"></span></i></div>
+					  <div class="col"><p style="color: green;font-family: serif;"><span th:text="${c.product.pDiscount}"></span>% off</p></div>
+					  </div>
+					  
+					  <div class="row row-cols-auto g-0">
+					  <div class="col me-4">
+					  <ul class="pagination pagination">
+					   <li th:if="${c.quantity != 1}" class="page-item"><a id="minus" th:href="@{'/user/decrease-quantity/'+${c.cartId}}" class="page-link text-dark"><i class="fa-solid fa-minus"></i></a></li>
+					    <li class="page-item"><a class="page-link text-dark"><span th:text="${c.quantity}"></span></a></li>
+					    <li th:if="${c.quantity < 5}" class="page-item"><a id="plus" th:href="@{'/user/increase-quantity/'+${c.cartId}}" class="page-link text-dark"><i class="fa-solid fa-plus"></i></a></li>
+					  </ul>
+					  </div>
+					  <div class="col"><a class="btn" th:href="@{'/user/remove-cart-item/'+${c.cartId}}" style="border:none;font-weight:bold;">Remove</a></div>
+					  </div>
+					  
+					  </div>
+				
+				      </div>
+				    </div>
+				  </div>
+				</div>
+			
+			</div>
+			
+			
+		</div>
+		</div>
+		
+		<div class="col-md-2 leftbar mt-5">
+			
+			<div class="position-fixed">
+				
+				<div class="card shadow" style='width:300px;font-family:serif;'>
+							<div class="card-header text-center">
+							    PRICE DETAILS
+							  </div>
+							  <div class="card-body">
+							    <table class="table table-borderless">
+								  <tbody>
+								    <tr>
+								      <th>Price (<span th:text="${#lists.size(cart)}"></span> item)</th>
+								      <th> <div class='ms-2'>&#8377;<span th:text="${totalPrice}"></span></div> </th>
+								    </tr>
+								    <tr>
+								      <th>Discount</th>
+								      <th> <div class='text-success'>- &#8377;<span th:text="${totalPrice-totalDiscountPrice}"></span></div> </th>
+								    </tr>
+								    <tr>
+								      <th>Delivery Charges</th>
+								      <th> <span class='ms-2 text-success'> FREE </span> </th>
+								    </tr>
+								  </tbody>
+								</table>
+							  </div>
+							  <div class="card-header">
+							    <table class="table table-borderless">
+								  <tbody>
+								    <tr>
+								      <th>Total Amount</th>
+								      <th> <div style='margin-left:45px;'>&#8377;<span th:text="${totalDiscountPrice}"></span></div> </th>
+								    </tr>
+								  </tbody>
+								</table>
+								
+								<form th:action="@{/user/place-order}" method="post">
+									
+									<input type="hidden" name="orderAmount" th:value="${totalDiscountPrice}">
+									
+									<div class="d-grid gap-2">
+									  	<button class="btn bg-orange text-light">PLACE ORDER</button>
+									</div>
+								 </form>
+							  </div>
+							</div>
+				
+				</div>
+				
+			</div>
+		
+		</div>
+			
+	</div>
+	
+	</section>
+      
+  </body>
+</html>
