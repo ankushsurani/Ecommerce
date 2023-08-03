@@ -31,7 +31,7 @@
 				  <div class="card-body pt-2 pb-0">
 				    
 				    <div class="row row-cols-auto">
-				    	<div class="col">
+				    	<div th:if="${currentUser.name != null}" class="col">
 				    		<h5 class="card-title fw-bold" th:text="${currentUser.name + ' ' + currentUser.surname}"></h5>
 				    	</div>
 				    	<div class="col">

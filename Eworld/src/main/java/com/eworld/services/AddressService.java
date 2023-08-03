@@ -14,21 +14,21 @@ public class AddressService {
 
 	@Autowired
 	private AddressRepository addressRepository;
-	
+
 	public void saveAddress(Address address) {
 		this.addressRepository.save(address);
 	}
-	
-	public List<Address> getAddressByUser(User user){
+
+	public List<Address> getAddressByUser(User user) {
 		return this.addressRepository.findByUser(user);
 	}
-	
+
 	public Address getAddressById(int addressId) {
 		return this.addressRepository.findById(addressId).get();
 	}
-	
+
 	public void deleteAddress(Address address) {
 		this.addressRepository.delete(address);
 	}
-	
+
 }

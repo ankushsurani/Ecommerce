@@ -8,27 +8,26 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-
 @Entity
 @Table(name = "payments")
 public class Payment {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	
+
 	private String rzporderId;
-	
+
 	private int amount;
-	
+
 	private String receipt;
-	
+
 	private String status;
-	
+
 	@OneToOne
 	@JoinColumn(name = "order_id")
 	private Order order;
-	
+
 	private String paymentId;
 
 	public Payment() {
@@ -112,7 +111,5 @@ public class Payment {
 	public void setPaymentId(String paymentId) {
 		this.paymentId = paymentId;
 	}
-	
-	
 
 }

@@ -9,8 +9,8 @@ import com.eworld.entities.Address;
 import com.eworld.entities.User;
 
 @Repository
-public interface AddressRepository extends JpaRepository<Address, Integer>{
-	
+public interface AddressRepository extends JpaRepository<Address, Integer> {
+
 	public List<Address> findByUser(User user);
 
 }

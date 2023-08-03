@@ -22,41 +22,41 @@ import com.eworld.services.UserService;
 
 @Controller
 public class ProductController {
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private ProductService productService;
-	
+
 	@Autowired
 	private CartService cartService;
-	
+
 	@ModelAttribute
 	public void currentUser(Principal principal, Model model) {
-		if(principal != null) {
+		if (principal != null) {
 			User user = this.userService.findByEmail(principal.getName());
-				model.addAttribute("currentUser", user);
-				
+			model.addAttribute("currentUser", user);
+
 			List<Cart> carts = this.cartService.findByUser(user);
-			model.addAttribute("cart",carts);
+			model.addAttribute("cart", carts);
 		}
 	}
-	
+
 	@GetMapping("/product/{pId}")
-	public String getProduct(@PathVariable("pId") int pId ,Model model, HttpSession session) {
-		
+	public String getProduct(@PathVariable("pId") int pId, Model model, HttpSession session) {
+
 		try {
-			
+
 			Product product = this.productService.getProduct(pId);
 			model.addAttribute("product", product);
-			model.addAttribute("title",product.getpName());
-			
+			model.addAttribute("title", product.getpName());
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
 		}
-		
+
 		return "product_details";
 	}
 

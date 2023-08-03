@@ -12,32 +12,32 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Address {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
+
 	@Size(min = 3, max = 50)
 	private String name;
-	
+
 	@Size(min = 10, max = 10)
 	private String mobilenum;
-	
+
 	@NotBlank
 	private String pincode;
-	
+
 	@Size(min = 5, max = 500)
 	private String fullAddress;
-	
+
 	@NotBlank
 	private String state;
-	
+
 	@NotBlank
 	private String city;
-	
+
 	@NotBlank
 	private String addressType;
-	
+
 	@ManyToOne
 	@JsonIgnore
 	private User user;
@@ -131,7 +131,5 @@ public class Address {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
-	
 
 }

@@ -23,30 +23,30 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int pId;
-	
+
 	@NotBlank
-	@Size(min = 3,max = 100)
+	@Size(min = 3, max = 100)
 	private String pName;
-	
+
 	@NotBlank
-	@Size(min = 10,max = 65535)
+	@Size(min = 10, max = 65535)
 	@Column(length = 65535)
 	private String pDescription;
-	
-	@Min(value=10, message="Price must be greater than 10")  
-    @Max(value=500000, message="Price must be less than 500000")  
+
+	@Min(value = 10, message = "Price must be greater than 10")
+	@Max(value = 500000, message = "Price must be less than 500000")
 	private int pPrice;
-	
-	@Max(value=70, message="Discount must be less than 70%")  
+
+	@Max(value = 70, message = "Discount must be less than 70%")
 	private int pDiscount;
-	
-	@Min(value=1, message="Quantity must be greater than or equal to than 1")  
-	@Max(value=10000, message="Quantity must be less than or equal to 10000")  
+
+	@Min(value = 1, message = "Quantity must be greater than or equal to than 1")
+	@Max(value = 10000, message = "Quantity must be less than or equal to 10000")
 	private int pQuantity;
-	
+
 	@OneToMany(mappedBy = "product")
 	private List<ProductImage> productImages = new ArrayList<>();
-	
+
 	@ManyToOne
 	@JsonIgnore
 	private Category category;
@@ -67,8 +67,6 @@ public class Product {
 		this.category = category;
 	}
 
-
-
 	public Product(int pId, String pName, String pDescription, int pPrice, int pDiscount, int pQuantity,
 			List<ProductImage> productImages, Category category) {
 		super();
@@ -81,8 +79,6 @@ public class Product {
 		this.productImages = productImages;
 		this.category = category;
 	}
-
-
 
 	public int getpId() {
 		return pId;
@@ -147,12 +143,11 @@ public class Product {
 	public void setProductImages(List<ProductImage> productImages) {
 		this.productImages = productImages;
 	}
-	
-	//calculate price after discount
+
+	// calculate price after discount
 	public int getPriceAfterApplyingDiscount() {
 		int discount = (int) ((this.getpDiscount() / 100.0) * this.getpPrice());
 		return this.getpPrice() - discount;
 	}
-	
-	
+
 }

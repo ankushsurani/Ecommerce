@@ -9,8 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 @Entity
 public class Category {
@@ -22,7 +20,7 @@ public class Category {
 	private String title;
 
 	private String description;
-	
+
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
 	private List<Product> products = new ArrayList<>();
 
@@ -76,7 +74,5 @@ public class Category {
 	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
-	
-	
-	
+
 }

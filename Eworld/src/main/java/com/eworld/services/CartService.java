@@ -15,25 +15,25 @@ public class CartService {
 
 	@Autowired
 	private CartRepository cartRepository;
-	
+
 	public void saveCart(Cart cart) {
 		this.cartRepository.save(cart);
 	}
-	
+
 	public Cart findByProduct(Product product) {
 		return this.cartRepository.findByProduct(product);
 	}
-	
+
 	public List<Cart> findByUser(User user) {
 		return this.cartRepository.findByUser(user);
 	}
-	
+
 	public Cart getCart(int cartId) {
 		return this.cartRepository.findById(cartId).get();
 	}
-	
+
 	public void removeCart(int cartId) {
 		this.cartRepository.deleteById(cartId);
 	}
-	
+
 }

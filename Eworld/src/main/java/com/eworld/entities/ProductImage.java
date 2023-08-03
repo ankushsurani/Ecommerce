@@ -14,9 +14,9 @@ public class ProductImage {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
+
 	private String productPic;
-	
+
 	@ManyToOne
 	@JsonIgnore
 	private Product product;
@@ -61,7 +61,5 @@ public class ProductImage {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
-	
-	
-	
+
 }

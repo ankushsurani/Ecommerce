@@ -1,9 +1,9 @@
 package com.eworld.helper;
 
 public class Msg {
-	
+
 	private String content;
-	
+
 	private String type;
 
 	public Msg(String content, String type) {
@@ -27,8 +27,5 @@ public class Msg {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
-	
 
 }
-

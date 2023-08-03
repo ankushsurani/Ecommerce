@@ -1,27 +1,27 @@
-body{
-	background-color: #faf1f5!important;
+body {
+	background-color: #faf1f5 !important;
 }
 
-.card-body img:hover{
+.card-body img:hover {
 	transform: scaleX(-1);
 }
 
-.adminbg1{
+.adminbg1 {
 	background: url("/images/adminback1.png");
 }
 
-.adminbg2{
+.adminbg2 {
 	background: url("/images/adminback2.png");
 }
 
-.adminbg3{
+.adminbg3 {
 	background: url("/images/adminback3.png");
 }
 
-.adminbg4{
+.adminbg4 {
 	background: url("/images/adminback4.png");
 }
 
-.adminbg5{
+.adminbg5 {
 	background: url("/images/adminback5.png");
 }

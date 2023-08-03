@@ -34,85 +34,83 @@ import com.eworld.services.UserService;
 
 @Controller
 public class HomeController {
-	
+
 	@Value("${product.image}")
 	private String path;
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private ProductService productService;
-	
+
 	@Autowired
 	private CategoryService categoryService;
-	
+
 	@Autowired
 	private CartService cartService;
-	
+
 	@ModelAttribute
 	public void currentUser(Principal principal, Model model) {
-		if(principal != null) {
+		if (principal != null) {
 			User user = this.userService.findByEmail(principal.getName());
-				model.addAttribute("currentUser", user);
-				
+			model.addAttribute("currentUser", user);
+
 			List<Cart> carts = this.cartService.findByUser(user);
-			model.addAttribute("cart",carts);
+			model.addAttribute("cart", carts);
 		}
 	}
-	
+
 	@GetMapping("/")
-	public String home(@RequestParam(required = false,value = "category") String category ,Model model, HttpSession session) {
-		
+	public String home(@RequestParam(required = false, value = "category") String category, Model model,
+			HttpSession session) {
+
 		model.addAttribute("title", "Home - Eworld");
-		
+
 		try {
-			
+
 			List<Category> categories = this.categoryService.getAllCategories();
 			model.addAttribute("categories", categories);
-			
-			if(category == null) {
+
+			if (category == null) {
 				List<Product> products = this.productService.getAllProducts();
 				model.addAttribute("products", products);
-				model.addAttribute("active",0);
-			}
-			else {
+				model.addAttribute("active", 0);
+			} else {
 				List<Product> products = this.productService.getProductByCategory(Integer.parseInt(category));
 				model.addAttribute("products", products);
-				model.addAttribute("active",Integer.parseInt(category));
+				model.addAttribute("active", Integer.parseInt(category));
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
 		}
-		
+
 		return "index";
 	}
-	
-	
-	//method to serve file
+
+	// method to serve file
 	@GetMapping(value = "/product_img/{imageName}", produces = MediaType.IMAGE_JPEG_VALUE)
-	public void downloadImage(@PathVariable("imageName") String imageName,HttpServletResponse response) throws IOException {
-				
+	public void downloadImage(@PathVariable("imageName") String imageName, HttpServletResponse response)
+			throws IOException {
+
 		InputStream resource = FileImageUpload.getResource(path, imageName);
-				
+
 		response.setContentType(MediaType.IMAGE_JPEG_VALUE);
-				
+
 		StreamUtils.copy(resource, response.getOutputStream());
-				
+
 	}
-	
-	
-	//search handler
+
+	// search handler
 	@GetMapping("/search/{query}")
 	@ResponseBody
-	public ResponseEntity<?> search(@PathVariable("query") String query){
-			
+	public ResponseEntity<?> search(@PathVariable("query") String query) {
+
 		List<Product> products = this.productService.getBypNameContaining(query);
-			
+
 		return ResponseEntity.ok(products);
 	}
-	
-	
+
 }

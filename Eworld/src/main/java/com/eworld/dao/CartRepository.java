@@ -10,10 +10,10 @@ import com.eworld.entities.Product;
 import com.eworld.entities.User;
 
 @Repository
-public interface CartRepository extends JpaRepository<Cart, Integer>{
+public interface CartRepository extends JpaRepository<Cart, Integer> {
 
 	public Cart findByProduct(Product product);
-	
+
 	public List<Cart> findByUser(User user);
-	
+
 }

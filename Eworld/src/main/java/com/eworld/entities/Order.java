@@ -13,31 +13,31 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "orders")
 public class Order {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int order_id;
-	
+
 	private Date createdDate;
-	
+
 	private Date deliveryDate;
-	
+
 	private String status;
-	
+
 	private String paymentType;
-	
+
 	private int totalPayment;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "address_id")
 	private Address address;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Product product;
-	
+
 	private int quantity;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
@@ -155,6 +155,4 @@ public class Order {
 		this.user = user;
 	}
 
-	
-	
 }

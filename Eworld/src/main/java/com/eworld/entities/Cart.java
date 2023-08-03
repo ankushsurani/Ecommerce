@@ -15,17 +15,17 @@ public class Cart {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int cartId;
-	
+
 	private Date createdDate;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Product product;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
-	
+
 	private int quantity;
 
 	public Cart() {
@@ -88,7 +88,5 @@ public class Cart {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	
-	
-	
+
 }

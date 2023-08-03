@@ -11,9 +11,9 @@ public class ProductImageService {
 
 	@Autowired
 	private ProductImageRepository productImageRepository;
-	
+
 	public void saveImage(ProductImage productImages) {
 		this.productImageRepository.save(productImages);
 	}
-	
+
 }

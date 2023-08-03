@@ -24,171 +24,117 @@ import com.eworld.services.UserService;
 
 @Controller
 public class LoginController {
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private CartService cartService;
-	
+
 	@Autowired
 	private EmailService emailService;
-	
+
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-	
+
 	Random otp1 = new Random(1);
 	Random otp2 = new Random(1);
 	Random otp3 = new Random(5);
 	Random otp4 = new Random(8);
 	Random otp5 = new Random(7);
 	Random otp6 = new Random(3);
-	
+
 	@ModelAttribute
 	public void currentUser(Principal principal, Model model) {
-		if(principal != null) {
+		if (principal != null) {
 			User user = this.userService.findByEmail(principal.getName());
-				model.addAttribute("currentUser", user);
-				
+			model.addAttribute("currentUser", user);
+
 			List<Cart> carts = this.cartService.findByUser(user);
-			model.addAttribute("cart",carts);
+			model.addAttribute("cart", carts);
 		}
 	}
-	
+
 	@GetMapping("/login")
 	public String signup(@ModelAttribute("user") User user, Model model) {
-		
-		model.addAttribute("title","Login - Eworld");
-		
+
+		model.addAttribute("title", "Login - Eworld");
+
 		return "login";
-		
+
 	}
-	
+
 	@GetMapping("/forgot")
 	public String forgotPassword(Model model) {
-		
-		model.addAttribute("title","Forgot Password - Eworld");
+
+		model.addAttribute("title", "Forgot Password - Eworld");
 		model.addAttribute("addOtp", false);
-		
+
 		return "/forgot_password";
 	}
-	
+
 	@PostMapping("/send-otp")
 	public String sendOtp(@RequestParam("forgot_email") String email, Model model, HttpSession session) {
 		model.addAttribute("title", "Send OTP - Eworld");
-		
+
 		try {
-			
+
 			User user = this.userService.findByEmail(email);
-			
-			if(user != null) {
-				
+
+			if (user != null) {
+
 				int int1 = otp1.nextInt(3);
 				int int2 = otp2.nextInt(4);
 				int int3 = otp3.nextInt(8);
 				int int4 = otp4.nextInt(9);
 				int int5 = otp5.nextInt(9);
 				int int6 = otp6.nextInt(6);
-				
-				int fullOtp = int1 + int2*10 + int3*100 + int4*1000 + int5*10000 + int6*100000;
-				
+
+				int fullOtp = int1 + int2 * 10 + int3 * 100 + int4 * 1000 + int5 * 10000 + int6 * 100000;
+
 				String subject = "Eworld - Shop Your Fabs";
-				
+
 				String to = user.getEmail();
-				
+
 				String message = "<!DOCTYPE html>\r\n"
 						+ "<html xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" lang=\"en\">\r\n"
-						+ "\r\n"
-						+ "<head>\r\n"
-						+ "	<title></title>\r\n"
+						+ "\r\n" + "<head>\r\n" + "	<title></title>\r\n"
 						+ "	<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\r\n"
 						+ "	<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n"
 						+ "	<!--[if mso]><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch><o:AllowPNG/></o:OfficeDocumentSettings></xml><![endif]-->\r\n"
-						+ "	<style>\r\n"
-						+ "		* {\r\n"
-						+ "			box-sizing: border-box;\r\n"
-						+ "		}\r\n"
-						+ "\r\n"
-						+ "		body {\r\n"
-						+ "			margin: 0;\r\n"
-						+ "			padding: 0;\r\n"
-						+ "		}\r\n"
-						+ "\r\n"
-						+ "		a[x-apple-data-detectors] {\r\n"
+						+ "	<style>\r\n" + "		* {\r\n" + "			box-sizing: border-box;\r\n"
+						+ "		}\r\n" + "\r\n" + "		body {\r\n" + "			margin: 0;\r\n"
+						+ "			padding: 0;\r\n" + "		}\r\n" + "\r\n" + "		a[x-apple-data-detectors] {\r\n"
 						+ "			color: inherit !important;\r\n"
-						+ "			text-decoration: inherit !important;\r\n"
-						+ "		}\r\n"
-						+ "\r\n"
-						+ "		#MessageViewBody a {\r\n"
-						+ "			color: inherit;\r\n"
-						+ "			text-decoration: none;\r\n"
-						+ "		}\r\n"
-						+ "\r\n"
-						+ "		p {\r\n"
-						+ "			line-height: inherit\r\n"
-						+ "		}\r\n"
-						+ "\r\n"
-						+ "		.desktop_hide,\r\n"
-						+ "		.desktop_hide table {\r\n"
-						+ "			mso-hide: all;\r\n"
-						+ "			display: none;\r\n"
-						+ "			max-height: 0px;\r\n"
-						+ "			overflow: hidden;\r\n"
-						+ "		}\r\n"
-						+ "\r\n"
-						+ "		@media (max-width:620px) {\r\n"
-						+ "			.desktop_hide table.icons-inner {\r\n"
-						+ "				display: inline-block !important;\r\n"
-						+ "			}\r\n"
-						+ "\r\n"
-						+ "			.icons-inner {\r\n"
-						+ "				text-align: center;\r\n"
-						+ "			}\r\n"
-						+ "\r\n"
-						+ "			.icons-inner td {\r\n"
-						+ "				margin: 0 auto;\r\n"
-						+ "			}\r\n"
-						+ "\r\n"
-						+ "			.fullMobileWidth,\r\n"
-						+ "			.image_block img.big,\r\n"
-						+ "			.row-content {\r\n"
-						+ "				width: 100% !important;\r\n"
-						+ "			}\r\n"
-						+ "\r\n"
-						+ "			.mobile_hide {\r\n"
-						+ "				display: none;\r\n"
-						+ "			}\r\n"
-						+ "\r\n"
-						+ "			.stack .column {\r\n"
-						+ "				width: 100%;\r\n"
-						+ "				display: block;\r\n"
-						+ "			}\r\n"
-						+ "\r\n"
-						+ "			.mobile_hide {\r\n"
-						+ "				min-height: 0;\r\n"
-						+ "				max-height: 0;\r\n"
-						+ "				max-width: 0;\r\n"
-						+ "				overflow: hidden;\r\n"
-						+ "				font-size: 0px;\r\n"
-						+ "			}\r\n"
-						+ "\r\n"
-						+ "			.desktop_hide,\r\n"
-						+ "			.desktop_hide table {\r\n"
-						+ "				display: table !important;\r\n"
-						+ "				max-height: none !important;\r\n"
-						+ "			}\r\n"
-						+ "		}\r\n"
-						+ "	</style>\r\n"
-						+ "</head>\r\n"
-						+ "\r\n"
+						+ "			text-decoration: inherit !important;\r\n" + "		}\r\n" + "\r\n"
+						+ "		#MessageViewBody a {\r\n" + "			color: inherit;\r\n"
+						+ "			text-decoration: none;\r\n" + "		}\r\n" + "\r\n" + "		p {\r\n"
+						+ "			line-height: inherit\r\n" + "		}\r\n" + "\r\n" + "		.desktop_hide,\r\n"
+						+ "		.desktop_hide table {\r\n" + "			mso-hide: all;\r\n"
+						+ "			display: none;\r\n" + "			max-height: 0px;\r\n"
+						+ "			overflow: hidden;\r\n" + "		}\r\n" + "\r\n"
+						+ "		@media (max-width:620px) {\r\n" + "			.desktop_hide table.icons-inner {\r\n"
+						+ "				display: inline-block !important;\r\n" + "			}\r\n" + "\r\n"
+						+ "			.icons-inner {\r\n" + "				text-align: center;\r\n" + "			}\r\n"
+						+ "\r\n" + "			.icons-inner td {\r\n" + "				margin: 0 auto;\r\n"
+						+ "			}\r\n" + "\r\n" + "			.fullMobileWidth,\r\n"
+						+ "			.image_block img.big,\r\n" + "			.row-content {\r\n"
+						+ "				width: 100% !important;\r\n" + "			}\r\n" + "\r\n"
+						+ "			.mobile_hide {\r\n" + "				display: none;\r\n" + "			}\r\n" + "\r\n"
+						+ "			.stack .column {\r\n" + "				width: 100%;\r\n"
+						+ "				display: block;\r\n" + "			}\r\n" + "\r\n"
+						+ "			.mobile_hide {\r\n" + "				min-height: 0;\r\n"
+						+ "				max-height: 0;\r\n" + "				max-width: 0;\r\n"
+						+ "				overflow: hidden;\r\n" + "				font-size: 0px;\r\n"
+						+ "			}\r\n" + "\r\n" + "			.desktop_hide,\r\n"
+						+ "			.desktop_hide table {\r\n" + "				display: table !important;\r\n"
+						+ "				max-height: none !important;\r\n" + "			}\r\n" + "		}\r\n"
+						+ "	</style>\r\n" + "</head>\r\n" + "\r\n"
 						+ "<body style=\"background-color: #FFFFFF; margin: 0; padding: 0; -webkit-text-size-adjust: none; text-size-adjust: none;\">\r\n"
 						+ "	<table class=\"nl-container\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #FFFFFF;\">\r\n"
-						+ "		<tbody>\r\n"
-						+ "			<tr>\r\n"
-						+ "				<td>\r\n"
+						+ "		<tbody>\r\n" + "			<tr>\r\n" + "				<td>\r\n"
 						+ "					<table class=\"row row-1\" align=\"center\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #132437;\">\r\n"
-						+ "						<tbody>\r\n"
-						+ "							<tr>\r\n"
+						+ "						<tbody>\r\n" + "							<tr>\r\n"
 						+ "								<td>\r\n"
 						+ "									<table class=\"row-content stack\" align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-position: center top; background-repeat: no-repeat; background-image: url('https://d1oco4z2z1fhwp.cloudfront.net/templates/default/4016/blue-glow_3.jpg'); color: #000000; width: 600px;\" width=\"600\">\r\n"
 						+ "										<tbody>\r\n"
@@ -211,14 +157,11 @@ public class LoginController {
 						+ "												</td>\r\n"
 						+ "											</tr>\r\n"
 						+ "										</tbody>\r\n"
-						+ "									</table>\r\n"
-						+ "								</td>\r\n"
-						+ "							</tr>\r\n"
-						+ "						</tbody>\r\n"
+						+ "									</table>\r\n" + "								</td>\r\n"
+						+ "							</tr>\r\n" + "						</tbody>\r\n"
 						+ "					</table>\r\n"
 						+ "					<table class=\"row row-2\" align=\"center\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #132437;\">\r\n"
-						+ "						<tbody>\r\n"
-						+ "							<tr>\r\n"
+						+ "						<tbody>\r\n" + "							<tr>\r\n"
 						+ "								<td>\r\n"
 						+ "									<table class=\"row-content stack\" align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-position: center top; background-color: #ffffff; color: #000000; width: 600px;\" width=\"600\">\r\n"
 						+ "										<tbody>\r\n"
@@ -234,14 +177,11 @@ public class LoginController {
 						+ "												</td>\r\n"
 						+ "											</tr>\r\n"
 						+ "										</tbody>\r\n"
-						+ "									</table>\r\n"
-						+ "								</td>\r\n"
-						+ "							</tr>\r\n"
-						+ "						</tbody>\r\n"
+						+ "									</table>\r\n" + "								</td>\r\n"
+						+ "							</tr>\r\n" + "						</tbody>\r\n"
 						+ "					</table>\r\n"
 						+ "					<table class=\"row row-3\" align=\"center\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #ff7d14; background-image: url('https://d1oco4z2z1fhwp.cloudfront.net/templates/default/4016/orange-gradient-wide.png'); background-repeat: no-repeat;\">\r\n"
-						+ "						<tbody>\r\n"
-						+ "							<tr>\r\n"
+						+ "						<tbody>\r\n" + "							<tr>\r\n"
 						+ "								<td>\r\n"
 						+ "									<table class=\"row-content stack\" align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #ffffff; color: #000000; width: 600px;\" width=\"600\">\r\n"
 						+ "										<tbody>\r\n"
@@ -259,7 +199,8 @@ public class LoginController {
 						+ "															<td class=\"pad\" style=\"padding-bottom:20px;padding-left:30px;padding-right:30px;padding-top:20px;\">\r\n"
 						+ "																<div style=\"font-family: sans-serif\">\r\n"
 						+ "																	<div class=\"txtTinyMce-wrapper\" style=\"font-size: 14px; mso-line-height-alt: 25.2px; color: #737487; line-height: 1.8; font-family: Arial, Helvetica Neue, Helvetica, sans-serif;\">\r\n"
-						+ "																		<p style=\"margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 32.4px;\"><span style=\"font-size:18px;\">Use Code " + fullOtp + " To Reset Your Eworld Password. Do Not Share This Code With Anyone.</span></p>\r\n"
+						+ "																		<p style=\"margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 32.4px;\"><span style=\"font-size:18px;\">Use Code "
+						+ fullOtp + " To Reset Your Eworld Password. Do Not Share This Code With Anyone.</span></p>\r\n"
 						+ "																	</div>\r\n"
 						+ "																</div>\r\n"
 						+ "															</td>\r\n"
@@ -268,14 +209,11 @@ public class LoginController {
 						+ "												</td>\r\n"
 						+ "											</tr>\r\n"
 						+ "										</tbody>\r\n"
-						+ "									</table>\r\n"
-						+ "								</td>\r\n"
-						+ "							</tr>\r\n"
-						+ "						</tbody>\r\n"
+						+ "									</table>\r\n" + "								</td>\r\n"
+						+ "							</tr>\r\n" + "						</tbody>\r\n"
 						+ "					</table>\r\n"
 						+ "					<table class=\"row row-4\" align=\"center\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #ff7d14;\">\r\n"
-						+ "						<tbody>\r\n"
-						+ "							<tr>\r\n"
+						+ "						<tbody>\r\n" + "							<tr>\r\n"
 						+ "								<td>\r\n"
 						+ "									<table class=\"row-content stack\" align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #ffffff; color: #000000; width: 600px;\" width=\"600\">\r\n"
 						+ "										<tbody>\r\n"
@@ -335,14 +273,11 @@ public class LoginController {
 						+ "												</td>\r\n"
 						+ "											</tr>\r\n"
 						+ "										</tbody>\r\n"
-						+ "									</table>\r\n"
-						+ "								</td>\r\n"
-						+ "							</tr>\r\n"
-						+ "						</tbody>\r\n"
+						+ "									</table>\r\n" + "								</td>\r\n"
+						+ "							</tr>\r\n" + "						</tbody>\r\n"
 						+ "					</table>\r\n"
 						+ "					<table class=\"row row-5\" align=\"center\" width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt;\">\r\n"
-						+ "						<tbody>\r\n"
-						+ "							<tr>\r\n"
+						+ "						<tbody>\r\n" + "							<tr>\r\n"
 						+ "								<td>\r\n"
 						+ "									<table class=\"row-content stack\" align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" role=\"presentation\" style=\"mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000000; width: 600px;\" width=\"600\">\r\n"
 						+ "										<tbody>\r\n"
@@ -372,92 +307,80 @@ public class LoginController {
 						+ "												</td>\r\n"
 						+ "											</tr>\r\n"
 						+ "										</tbody>\r\n"
-						+ "									</table>\r\n"
-						+ "								</td>\r\n"
-						+ "							</tr>\r\n"
-						+ "						</tbody>\r\n"
-						+ "					</table>\r\n"
-						+ "				</td>\r\n"
-						+ "			</tr>\r\n"
-						+ "		</tbody>\r\n"
-						+ "	</table><!-- End -->\r\n"
-						+ "</body>\r\n"
-						+ "\r\n"
-						+ "</html>";
-				
+						+ "									</table>\r\n" + "								</td>\r\n"
+						+ "							</tr>\r\n" + "						</tbody>\r\n"
+						+ "					</table>\r\n" + "				</td>\r\n" + "			</tr>\r\n"
+						+ "		</tbody>\r\n" + "	</table><!-- End -->\r\n" + "</body>\r\n" + "\r\n" + "</html>";
+
 				this.emailService.sendEmail(subject, message, to);
-				
+
 				model.addAttribute("forgotOtp", fullOtp);
 				model.addAttribute("currentEmail", user.getEmail());
-				
-				session.setAttribute("message", new Msg("OTP Successfully Sent To " + user.getEmail(), "alert-success"));
+
+				session.setAttribute("message",
+						new Msg("OTP Successfully Sent To " + user.getEmail(), "alert-success"));
 				model.addAttribute("addOtp", true);
-				
+
 				return "forgot_password";
 			}
-			
+
 			else {
-				
+
 				session.setAttribute("message", new Msg("Please Enter Valid Email Id", "alert-danger"));
 				return "redirect:/forgot";
-				
+
 			}
-			
+
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 			session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
 			return "redirect:/forgot";
 
 		}
-		
+
 	}
-	
-	
+
 	@PostMapping("/submit-forgot")
 	public String submitForgotPassword(@RequestParam("currentEmail") String currentEmail,
-										@RequestParam("forgot_otp") int forgot_otp,
-										@RequestParam("forgotOtp") int sendedOtp,
-										@RequestParam("newPass") String newPass,
-										@RequestParam("retypePass") String retypePass,
-										Model model, HttpSession session) {
+			@RequestParam("forgot_otp") int forgot_otp, @RequestParam("forgotOtp") int sendedOtp,
+			@RequestParam("newPass") String newPass, @RequestParam("retypePass") String retypePass, Model model,
+			HttpSession session) {
 		model.addAttribute("title", "Forgot Password - Eworld");
-		
+
 		try {
-			
+
 			User user = this.userService.findByEmail(currentEmail);
-			
-				if(newPass.equals(retypePass)) {
-					
-					if(forgot_otp == sendedOtp) {
-						user.setPassword(this.passwordEncoder.encode(newPass));
-						this.userService.saveUser(user);
-						
-						session.setAttribute("message", new Msg("Your Password Has Been Successfully Changed", "alert-success"));
-						return "redirect:/login";
-					}
-					else {
-						session.setAttribute("message", new Msg("Please Enter Valid OTP", "alert-danger"));
-						model.addAttribute("forgotOtp", sendedOtp);
-						return "forgot_password";
-					}
-					
-				}
-				else {
-					session.setAttribute("message", new Msg("Both New Passwords Must Be Same", "alert-danger"));
+
+			if (newPass.equals(retypePass)) {
+
+				if (forgot_otp == sendedOtp) {
+					user.setPassword(this.passwordEncoder.encode(newPass));
+					this.userService.saveUser(user);
+
+					session.setAttribute("message",
+							new Msg("Your Password Has Been Successfully Changed", "alert-success"));
+					return "redirect:/login";
+				} else {
+					session.setAttribute("message", new Msg("Please Enter Valid OTP", "alert-danger"));
 					model.addAttribute("forgotOtp", sendedOtp);
 					return "forgot_password";
 				}
-				
-			
+
+			} else {
+				session.setAttribute("message", new Msg("Both New Passwords Must Be Same", "alert-danger"));
+				model.addAttribute("forgotOtp", sendedOtp);
+				return "forgot_password";
+			}
+
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 			session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
 			return "redirect:/forgot";
-			
+
 		}
-		
+
 	}
-	
+
 }

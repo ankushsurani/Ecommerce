@@ -9,8 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.eworld.entities.User;
 
-public class CustomUserDetails implements UserDetails{
-	
+public class CustomUserDetails implements UserDetails {
+
 	private User user;
 
 	public CustomUserDetails(User user) {
@@ -51,9 +51,7 @@ public class CustomUserDetails implements UserDetails{
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return user.isStatus();
 	}
-	
-	
 
 }
