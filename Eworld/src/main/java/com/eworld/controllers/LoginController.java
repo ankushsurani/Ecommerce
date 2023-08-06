@@ -7,6 +7,7 @@ import java.util.Random;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +37,9 @@ public class LoginController {
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+	
+	@Value("${spring.application.name}")
+	private String appName;
 
 	Random otp1 = new Random(1);
 	Random otp2 = new Random(1);
@@ -53,6 +57,9 @@ public class LoginController {
 			List<Cart> carts = this.cartService.findByUser(user);
 			model.addAttribute("cart", carts);
 		}
+		model.addAttribute("appName", this.appName);
+		model.addAttribute("subPageName", "Login");
+		model.addAttribute("pageName", "My Account");
 	}
 
 	@GetMapping("/login")
@@ -318,7 +325,7 @@ public class LoginController {
 				model.addAttribute("currentEmail", user.getEmail());
 
 				session.setAttribute("message",
-						new Msg("OTP Successfully Sent To " + user.getEmail(), "test-green"));
+						new Msg("OTP Successfully Sent To " + user.getEmail(), "alert-success"));
 				model.addAttribute("addOtp", true);
 
 				return "forgot_password";
@@ -326,7 +333,7 @@ public class LoginController {
 
 			else {
 
-				session.setAttribute("message", new Msg("Please Enter Valid Email Id", "text-red"));
+				session.setAttribute("message", new Msg("Please Enter Valid Email Id", "alert-danger"));
 				return "redirect:/forgot";
 
 			}
@@ -334,7 +341,7 @@ public class LoginController {
 		} catch (Exception e) {
 
 			e.printStackTrace();
-			session.setAttribute("message", new Msg("Something Went Wrong!!", "text-red"));
+			session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
 			return "redirect:/forgot";
 
 		}
@@ -359,16 +366,16 @@ public class LoginController {
 					this.userService.saveUser(user);
 
 					session.setAttribute("message",
-							new Msg("Your Password Has Been Successfully Changed", "text-green"));
+							new Msg("Your Password Has Been Successfully Changed", "alert-success"));
 					return "redirect:/login";
 				} else {
-					session.setAttribute("message", new Msg("Please Enter Valid OTP", "text-red"));
+					session.setAttribute("message", new Msg("Please Enter Valid OTP", "alert-danger"));
 					model.addAttribute("forgotOtp", sendedOtp);
 					return "forgot_password";
 				}
 
 			} else {
-				session.setAttribute("message", new Msg("Both New Passwords Must Be Same", "text-red"));
+				session.setAttribute("message", new Msg("Both New Passwords Must Be Same", "alert-danger"));
 				model.addAttribute("forgotOtp", sendedOtp);
 				return "forgot_password";
 			}
@@ -376,7 +383,7 @@ public class LoginController {
 		} catch (Exception e) {
 
 			e.printStackTrace();
-			session.setAttribute("message", new Msg("Something Went Wrong!!", "text-red"));
+			session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
 			return "redirect:/forgot";
 
 		}

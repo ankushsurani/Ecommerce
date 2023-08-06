@@ -198,11 +198,8 @@ public class MyProfileController {
 
 			User oldUser = this.userService.getUserById(user.getUserId());
 
-			if (user.getName() != null) {
-				oldUser.setName(user.getName());
-			}
-			if (user.getSurname() != null) {
-				oldUser.setSurname(user.getSurname());
+			if (user.getFullName() != null) {
+				oldUser.setFullName(user.getFullName());
 			}
 			if (user.getGender() != null) {
 				oldUser.setGender(user.getGender());

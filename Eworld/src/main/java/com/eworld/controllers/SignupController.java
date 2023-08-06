@@ -5,10 +5,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,6 +41,9 @@ public class SignupController {
 
 	@Autowired
 	private EmailService emailService;
+	
+	@Value("${spring.application.name}")
+	private String appName;
 
 	@ModelAttribute
 	public void currentUser(Principal principal, Model model) {
@@ -49,6 +54,10 @@ public class SignupController {
 			List<Cart> carts = this.cartService.findByUser(user);
 			model.addAttribute("cart", carts);
 		}
+		
+		model.addAttribute("appName", this.appName);
+		model.addAttribute("subPageName", "Signup");
+		model.addAttribute("pageName", "My Account");
 	}
 
 	@GetMapping("/signup")
@@ -75,8 +84,7 @@ public class SignupController {
 
 			if (this.userService.findByEmail(user.getEmail()) != null) {
 				User oldUser = this.userService.findByEmail(user.getEmail());
-				if (this.passwordEncoder.matches(user.getPassword(), oldUser.getPassword())
-						&& oldUser.getMobilenum().equals(user.getMobilenum())) {
+				if (this.passwordEncoder.matches(user.getPassword(), oldUser.getPassword())) {
 
 					session.setAttribute("message",
 							new Msg("You Are Already Registered. Please Login", "alert-success"));
@@ -85,7 +93,7 @@ public class SignupController {
 
 				} else {
 
-					session.setAttribute("message", new Msg("Fill valid Password or Mobile Number", "alert-danger"));
+					session.setAttribute("message", new Msg("Fill valid Password", "alert-danger"));
 					model.addAttribute("user", user);
 					return "signup";
 

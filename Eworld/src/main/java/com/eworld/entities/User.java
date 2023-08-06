@@ -24,9 +24,8 @@ public class User {
 	@GenericGenerator(name = "custom-uuid-generator", strategy = "com.eworld.helper.CustomUUIDGenerator")
 	private String userId;
 
-	private String name;
-
-	private String surname;
+	@Size(min = 3, max = 100, message = "Name must have 3 to 100 characters")
+	private String fullName;
 
 	@Column(unique = true)
 	@Email(regexp = "^[a-z0-9](\\.?[a-z0-9]){5,}@g(oogle)?mail\\.com$")
@@ -35,7 +34,6 @@ public class User {
 	@Pattern(regexp = "(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9].*[0-9])(?=.*[^a-zA-Z0-9]).{8,}", message = "Password must have 1 uppercase alphabet, 1 lowercase alphabet, 2 digits and 1 special character. Also the minimum allowed length is 8 characters")
 	private String password;
 
-	@Size(min = 10, max = 10, message = "Mobile Number must have 10 digits")
 	private String mobilenum;
 
 	private String gender;
@@ -58,12 +56,11 @@ public class User {
 		super();
 	}
 
-	public User(String userId, String name, String surname, String email, String password, String mobilenum,
-			String gender, String profilePic, String role, boolean status) {
+	public User(String userId, String fullName, String email, String password, String mobilenum, String gender,
+			String profilePic, String role, boolean status) {
 		super();
 		this.userId = userId;
-		this.name = name;
-		this.surname = surname;
+		this.fullName = fullName;
 		this.email = email;
 		this.password = password;
 		this.mobilenum = mobilenum;
@@ -73,11 +70,10 @@ public class User {
 		this.status = status;
 	}
 
-	public User(String name, String surname, String email, String password, String mobilenum, String gender,
-			String profilePic, String role, boolean status) {
+	public User(String fullName, String email, String password, String mobilenum, String gender, String profilePic,
+			String role, boolean status) {
 		super();
-		this.name = name;
-		this.surname = surname;
+		this.fullName = fullName;
 		this.email = email;
 		this.password = password;
 		this.mobilenum = mobilenum;
@@ -95,20 +91,12 @@ public class User {
 		this.userId = userId;
 	}
 
-	public String getName() {
-		return name;
+	public String getFullName() {
+		return fullName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getSurname() {
-		return surname;
-	}
-
-	public void setSurname(String surname) {
-		this.surname = surname;
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
 	public String getEmail() {
@@ -193,10 +181,10 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", name=" + name + ", surname=" + surname + ", email=" + email + ", password="
-				+ password + ", mobilenum=" + mobilenum + ", gender=" + gender + ", profilePic=" + profilePic
-				+ ", role=" + role + ", status=" + status + ", emailVerification=" + emailVerification
-				+ ", creationDateTime=" + creationDateTime + "]";
+		return "User [userId=" + userId + ", fullName=" + fullName + ", email=" + email + ", password=" + password
+				+ ", mobilenum=" + mobilenum + ", gender=" + gender + ", profilePic=" + profilePic + ", role=" + role
+				+ ", status=" + status + ", emailVerification=" + emailVerification + ", creationDateTime="
+				+ creationDateTime + "]";
 	}
 
 }

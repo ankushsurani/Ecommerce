@@ -29,6 +29,10 @@ public class Product {
 	private String pName;
 
 	@NotBlank
+	@Size(min = 1, max = 100)
+	private String pBrandName;
+
+	@NotBlank
 	@Size(min = 10, max = 65535)
 	@Column(length = 65535)
 	private String pDescription;
@@ -44,6 +48,11 @@ public class Product {
 	@Max(value = 10000, message = "Quantity must be less than or equal to 10000")
 	private int pQuantity;
 
+	@Column(columnDefinition = "boolean default false")
+	private boolean highPriority;
+	
+	private String bannerImage;
+
 	@OneToMany(mappedBy = "product")
 	private List<ProductImage> productImages = new ArrayList<>();
 
@@ -55,27 +64,34 @@ public class Product {
 		super();
 	}
 
-	public Product(String pName, String pDescription, int pPrice, int pDiscount, int pQuantity,
-			List<ProductImage> productImages, Category category) {
+	public Product(String pName, String pBrandName, String pDescription, int pPrice, int pDiscount, int pQuantity,
+			boolean highPriority, String bannerImage, List<ProductImage> productImages, Category category) {
 		super();
 		this.pName = pName;
+		this.pBrandName = pBrandName;
 		this.pDescription = pDescription;
 		this.pPrice = pPrice;
 		this.pDiscount = pDiscount;
 		this.pQuantity = pQuantity;
+		this.highPriority = highPriority;
+		this.bannerImage = bannerImage;
 		this.productImages = productImages;
 		this.category = category;
 	}
 
-	public Product(int pId, String pName, String pDescription, int pPrice, int pDiscount, int pQuantity,
-			List<ProductImage> productImages, Category category) {
+	public Product(int pId, String pName, String pBrandName, String pDescription, int pPrice, int pDiscount,
+			int pQuantity, boolean highPriority, String bannerImage, List<ProductImage> productImages,
+			Category category) {
 		super();
 		this.pId = pId;
 		this.pName = pName;
+		this.pBrandName = pBrandName;
 		this.pDescription = pDescription;
 		this.pPrice = pPrice;
 		this.pDiscount = pDiscount;
 		this.pQuantity = pQuantity;
+		this.highPriority = highPriority;
+		this.bannerImage = bannerImage;
 		this.productImages = productImages;
 		this.category = category;
 	}
@@ -142,6 +158,30 @@ public class Product {
 
 	public void setProductImages(List<ProductImage> productImages) {
 		this.productImages = productImages;
+	}
+
+	public boolean isHighPriority() {
+		return highPriority;
+	}
+
+	public void setHighPriority(boolean highPriority) {
+		this.highPriority = highPriority;
+	}
+
+	public String getBannerImage() {
+		return bannerImage;
+	}
+
+	public void setBannerImage(String bannerImage) {
+		this.bannerImage = bannerImage;
+	}
+
+	public String getpBrandName() {
+		return pBrandName;
+	}
+
+	public void setpBrandName(String pBrandName) {
+		this.pBrandName = pBrandName;
 	}
 
 	// calculate price after discount

@@ -59,35 +59,49 @@ public class HomeController {
 			List<Cart> carts = this.cartService.findByUser(user);
 			model.addAttribute("cart", carts);
 		}
+		model.addAttribute("pageName", "home");
 	}
 
+	/*
+	 * @GetMapping("/") public String home(@RequestParam(required = false, value =
+	 * "category") String category, Model model, HttpSession session) {
+	 * 
+	 * model.addAttribute("title", "Home - Eworld");
+	 * 
+	 * try {
+	 * 
+	 * List<Category> categories = this.categoryService.getAllCategories();
+	 * model.addAttribute("categories", categories);
+	 * 
+	 * if (category == null) { List<Product> products =
+	 * this.productService.getAllProducts(); model.addAttribute("products",
+	 * products); model.addAttribute("active", 0); } else { List<Product> products =
+	 * this.productService.getProductByCategory(Integer.parseInt(category));
+	 * model.addAttribute("products", products); model.addAttribute("active",
+	 * Integer.parseInt(category)); }
+	 * 
+	 * } catch (Exception e) { e.printStackTrace(); session.setAttribute("message",
+	 * new Msg("Something Went Wrong!!", "alert-danger")); }
+	 * 
+	 * return "index-2"; }
+	 */
+
 	@GetMapping("/")
-	public String home(@RequestParam(required = false, value = "category") String category, Model model,
-			HttpSession session) {
+	public String homePage(Model model, HttpSession session) {
 
 		model.addAttribute("title", "Home - Eworld");
 
 		try {
 
-			List<Category> categories = this.categoryService.getAllCategories();
-			model.addAttribute("categories", categories);
-
-			if (category == null) {
-				List<Product> products = this.productService.getAllProducts();
-				model.addAttribute("products", products);
-				model.addAttribute("active", 0);
-			} else {
-				List<Product> products = this.productService.getProductByCategory(Integer.parseInt(category));
-				model.addAttribute("products", products);
-				model.addAttribute("active", Integer.parseInt(category));
-			}
+			List<Product> highPriorityProducts = this.productService.getHighPriorityProducts();
+			model.addAttribute("highPriorityProducts", highPriorityProducts);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
 		}
 
-		return "index";
+		return "index-2";
 	}
 
 	// method to serve file

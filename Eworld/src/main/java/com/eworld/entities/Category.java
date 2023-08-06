@@ -20,6 +20,8 @@ public class Category {
 	private String title;
 
 	private String description;
+	
+	private String categoryImage;
 
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
 	private List<Product> products = new ArrayList<>();
@@ -28,18 +30,20 @@ public class Category {
 		super();
 	}
 
-	public Category(int id, String title, String description, List<Product> products) {
+	public Category(int id, String title, String description, String categoryImage, List<Product> products) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.description = description;
+		this.categoryImage = categoryImage;
 		this.products = products;
 	}
 
-	public Category(String title, String description, List<Product> products) {
+	public Category(String title, String description, String categoryImage, List<Product> products) {
 		super();
 		this.title = title;
 		this.description = description;
+		this.categoryImage = categoryImage;
 		this.products = products;
 	}
 
@@ -73,6 +77,14 @@ public class Category {
 
 	public void setProducts(List<Product> products) {
 		this.products = products;
+	}
+
+	public String getCategoryImage() {
+		return categoryImage;
+	}
+
+	public void setCategoryImage(String categoryImage) {
+		this.categoryImage = categoryImage;
 	}
 
 }
