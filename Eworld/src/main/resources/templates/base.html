@@ -1,15 +1,47 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	th:fragment="layout(content)">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title th:text="${title}"></title>
+
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="apple-touch-icon" sizes="76x76"
+	th:href="@{/images/login_signup/apple-icon.png}" />
+<link rel="icon" type="image/png"
+	th:href="@{/images/login_signup/favicon.png}" />
+<!-- Fonts and icons -->
 <link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+	href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700"
+	rel="stylesheet" />
+<!-- Font Awesome Icons -->
+<script src="https://kit.fontawesome.com/42d5adcbca.js"
+	crossorigin="anonymous"></script>
+<!-- Nucleo Icons -->
+<link th:href="@{/css/login_signup/nucleo-icons.css}" rel="stylesheet" />
+<link th:href="@{/css/login_signup/nucleo-svg.css}" rel="stylesheet" />
+<!-- Main Styling -->
+<link
+	th:href="@{/css/login_signup/soft-ui-dashboard-tailwind.css?v=1.0.5}"
+	rel="stylesheet" />
+
+<!-- Nepcha Analytics (nepcha.com) -->
+<!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
+<script defer data-site="YOUR_DOMAIN_HERE"
+	src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+
+<title th:text="${title}"></title>
+
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
 	rel="stylesheet"
-	integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
+	integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
 	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+	crossorigin="anonymous"></script>
 
 <link rel="stylesheet" th:href="@{/css/normal.css}" />
 
@@ -18,114 +50,168 @@
 	integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
 	crossorigin="anonymous"></script>
 
+<!-- tailwind css -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.js"></script>
 
 </head>
+
+
 
 <body>
 
 
-	<!-- navbar -->
-	<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
-		<div class="container-fluid">
-			<a class="navbar-brand" style="margin-left: 30%" th:href="@{/}"><img
-				th:src="@{/images/logo.png}"
-				style="width: 100px; filter: brightness(0) invert(1);"></a>
-			<button class="navbar-toggler" type="button"
-				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-				aria-controls="navbarSupportedContent" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-				<div class="d-flex ps-5" role="search">
-					<input onkeyup="search()" id="search-input"
-						class="form-control me-2" type="text" placeholder="Search"
-						aria-label="Search">
-					<button class="btn btn-outline-light" type="submit">Search</button>
-
-					<div class="search-result my-5 shadow rounded-2 overflow-auto">
-
-						<!-- result goes here -->
-
-					</div>
-
-				</div>
-
-				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-					<li class="nav-item"><a class="nav-link active ps-5"
-						aria-current="page" th:href="@{/}"><i
-							class="fa-solid fa-house"></i> Home</a></li>
-					<li th:if="${currentUser == null}" class="nav-item ps-3">
-
-						<button type="button" class="btn btn-light"
-							data-bs-container="body" data-bs-toggle="popover"
-							data-bs-placement="bottom" data-bs-html="true"
-							data-bs-content="<h3 class='text-center'>Hello User</h3><p>To access your Eworld account</p><div class='text-center'><a href='login' class='btn btn-primary'>Login / Signup</a></div>">
-							<i class="fa-regular fa-user"></i> Profile
+	<div class="container sticky top-0 z-sticky">
+		<div class="flex flex-wrap -mx-3">
+			<div class="w-full max-w-full px-3 flex-0">
+				<!-- Navbar -->
+				<nav
+					class="absolute top-0 left-0 right-0 z-30 flex flex-wrap items-center px-4 py-2 mx-6 my-4 shadow-soft-2xl rounded-blur bg-white/80 backdrop-blur-2xl backdrop-saturate-200 lg:flex-nowrap lg:justify-start">
+					<div
+						class="flex items-center justify-between w-full p-0 pl-6 mx-auto flex-wrap-inherit">
+						<a
+							class="py-2.375 text-sm mr-4 ml-4 whitespace-nowrap font-bold text-slate-700 lg:ml-0"
+							th:href="@{/}"> <img th:src="@{/images/logo.png}"
+							style="width: 100px; filter: brightness(0);">
+						</a>
+						<button navbar-trigger
+							class="px-3 py-1 ml-2 leading-none transition-all bg-transparent border border-transparent border-solid rounded-lg shadow-none cursor-pointer text-lg ease-soft-in-out lg:hidden"
+							type="button" aria-controls="navigation" aria-expanded="false"
+							aria-label="Toggle navigation">
+							<span
+								class="inline-block mt-2 align-middle bg-center bg-no-repeat bg-cover w-6 h-6 bg-none">
+								<span bar1
+								class="w-5.5 rounded-xs relative my-0 mx-auto block h-px bg-gray-600 transition-all duration-300"></span>
+								<span bar2
+								class="w-5.5 rounded-xs mt-1.75 relative my-0 mx-auto block h-px bg-gray-600 transition-all duration-300"></span>
+								<span bar3
+								class="w-5.5 rounded-xs mt-1.75 relative my-0 mx-auto block h-px bg-gray-600 transition-all duration-300"></span>
+							</span>
 						</button>
+						<div navbar-menu
+							class="items-center flex-grow overflow-hidden transition-all duration-500 ease-soft lg-max:max-h-0 basis-full lg:flex lg:basis-auto">
+							<ul
+								class="flex flex-col pl-0 mx-auto mb-0 list-none lg:flex-row xl:ml-auto">
+								<li>
 
-					</li>
+									<div class="d-flex ps-5" role="search">
+										<input onkeyup="search()" id="search-input"
+											class="form-control me-2" type="text" placeholder="Search"
+											aria-label="Search">
+										<button class="btn btn-outline-dark" type="submit">Search</button>
 
-					<li th:unless="${currentUser == null}" class="nav-item ps-3">
+										<div class="search-result my-5 shadow rounded-2 overflow-auto">
 
-						<div class="dropdown">
-							<button style="border: none;"
-								class="btn text-light dropdown-toggle" type="button"
-								data-bs-toggle="dropdown" aria-expanded="false">
-								<i class="fa-regular fa-user"></i> <span class="text-capitalize"
-									th:text="${currentUser.name != null ? currentUser.name : 'My Account'}"></span>
-							</button>
-							<ul class="dropdown-menu">
-								<li
-									th:if="${currentUser != null && currentUser.getRole() == 'ROLE_USER'}"><a
-									class="dropdown-item" th:href="@{/user/profile}"><i
-										class="fa-solid fa-circle-user text-primary pe-2"></i> My
-										Profile</a></li>
+											<!-- result goes here -->
 
-								<li
-									th:if="${currentUser != null && currentUser.getRole() == 'ROLE_USER'}"><a
-									class="dropdown-item" th:href="@{/user/my-orders}"><i
-										class="fa-solid fa-bag-shopping text-primary pe-2"></i> Orders</a></li>
-								<li
-									th:if="${currentUser != null && currentUser.getRole() == 'ROLE_ADMIN'}"><a
-									class="dropdown-item" th:href="@{/admin/current-orders}"><i
-										class="fa-solid fa-bag-shopping text-primary pe-2"></i>Current
-										Orders</a></li>
+										</div>
 
-								<li><a class="dropdown-item" th:href="@{/logout}"><i
-										class="fa-solid fa-right-from-bracket text-primary pe-2"></i>
-										Logout</a></li>
+									</div>
+
+								</li>
 							</ul>
+
+							
+
+							<ul>
+
+								<li th:unless="${currentUser == null}" class="nav-item ps-3">
+
+
+
+									<button id="dropdownUserAvatarButton"
+										data-dropdown-toggle="dropdownAvatar"
+										class="px-3 pt-2 flex text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+										type="button">
+										<img class="w-9 h-9 rounded-full"
+											th:src="@{/images/default_profile.png}" alt="user photo">
+									</button> <!-- Dropdown menu -->
+									<div id="dropdownAvatar"
+										class="shadow-soft-2xl rounded-blur bg-white/80 backdrop-blur-2xl backdrop-saturate-200 z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+										<div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
+											<div class="text-center"
+												th:text="${currentUser.name != null ? currentUser.name : ''}"></div>
+											<div class="font-medium truncate"
+												th:text="${currentUser.email}"></div>
+										</div>
+										<ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+											aria-labelledby="">
+											<li
+												th:if="${currentUser != null && currentUser.getRole() == 'ROLE_USER'}">
+												<a th:href="@{/user/profile}"
+												style="text-decoration: none; font-family: sans-serif;"
+												class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><i
+													class="px-2 fa-solid fa-circle-user"></i> My Profile</a>
+											</li>
+											<li
+												th:if="${currentUser != null && currentUser.getRole() == 'ROLE_USER'}">
+												<a th:href="@{/user/my-orders}"
+												style="text-decoration: none; font-family: sans-serif;"
+												class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><i
+													class="px-2 fa-solid fa-bag-shopping"></i> Orders</a>
+											</li>
+											<li
+												th:if="${currentUser != null && currentUser.getRole() == 'ROLE_ADMIN'}">
+												<a th:href="@{/admin/current-orders}"
+												style="text-decoration: none; font-family: sans-serif;"
+												class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><i
+													class="px-2 fa-solid fa-bag-shopping"></i> Current Orders</a>
+											</li>
+											<li><a th:href="@{/logout}"
+												style="text-decoration: none; font-family: sans-serif;"
+												class="text-black block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+													<i class="px-2 fa-solid fa-user-minus"></i> Logout
+											</a></li>
+										</ul>
+									</div>
+
+
+
+
+								</li>
+
+
+							</ul>
+							
+							<ul class="hidden pl-0 mb-0 list-none lg:block lg:flex-row">
+
+								<li
+									th:if="${currentUser != null && currentUser.getRole() == 'ROLE_USER'}"
+									class=""><a class="nav-link active ps-3"
+									aria-current="page" th:href="@{/user/mycart}"><i
+										class="fa-solid fa-cart-plus position-relative"> <span
+											style="font-size: 8px;"
+											th:text="${cart} == 0 ? 0 : ${#lists.size(cart)}"
+											class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-items">
+
+										</span></i> <span class="ps-1"> Cart</span></a></li>
+
+								<li
+									th:if="${currentUser != null && currentUser.getRole() == 'ROLE_ADMIN'}"
+									class="nav-item"><a class="nav-link active ps-3"
+									aria-current="page" th:href="@{/admin/dashboard}"> <img
+										class="me-1" alt="" th:src="@{/images/dashboard.png}"
+										style="width: 20px; filter: brightness(0) invert(1);">
+										Dashboard
+								</a></li>
+
+								<li th:if="${currentUser == null}" class="nav-item ps-3"><a
+									style="text-decoration: blink;"
+									class="font-bold block px-4 py-2 mr-2 font-normal text-black transition-all duration-250 lg-max:opacity-0 lg-max:text-slate-700 ease-soft-in-out text-sm lg:px-2 lg:hover:text-pink/75"
+									th:href="@{/login}"> <i
+										class="font-bold mr-1 text-black lg-max:text-slate-700 fas fa-key opacity-60"></i>
+										Sign In
+								</a></li>
+
+							</ul>
+							
 						</div>
-
-					</li>
-
-					<li
-						th:if="${currentUser != null && currentUser.getRole() == 'ROLE_USER'}"
-						class="nav-item"><a class="nav-link active ps-3"
-						aria-current="page" th:href="@{/user/mycart}"><i
-							class="fa-solid fa-cart-plus position-relative"> <span
-								style="font-size: 8px;"
-								th:text="${cart} == 0 ? 0 : ${#lists.size(cart)}"
-								class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-items">
-
-							</span></i> <span class="ps-1"> Cart</span></a></li>
-
-					<li
-						th:if="${currentUser != null && currentUser.getRole() == 'ROLE_ADMIN'}"
-						class="nav-item"><a class="nav-link active ps-3"
-						aria-current="page" th:href="@{/admin/dashboard}"> <img
-							class="me-1" alt="" th:src="@{/images/dashboard.png}"
-							style="width: 20px; filter: brightness(0) invert(1);">
-							Dashboard
-					</a></li>
-
-				</ul>
-
+					</div>
+				</nav>
 			</div>
 		</div>
-	</nav>
+	</div>
+
 
 
 
@@ -139,10 +225,6 @@
 	<script src="https://kit.fontawesome.com/ea10794980.js"
 		crossorigin="anonymous"></script>
 
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
-		crossorigin="anonymous"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
 		integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk"
@@ -160,6 +242,12 @@
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 	<script th:src="@{/js/normal.js}"></script>
+
+	<!-- plugin for scrollbar  -->
+	<!-- main script file  -->
+	<script th:src="@{/js/soft-ui-dashboard-tailwind.js}"></script>
+
+
 
 </body>
 </html>

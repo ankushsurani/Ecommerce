@@ -318,7 +318,7 @@ public class LoginController {
 				model.addAttribute("currentEmail", user.getEmail());
 
 				session.setAttribute("message",
-						new Msg("OTP Successfully Sent To " + user.getEmail(), "alert-success"));
+						new Msg("OTP Successfully Sent To " + user.getEmail(), "test-green"));
 				model.addAttribute("addOtp", true);
 
 				return "forgot_password";
@@ -326,7 +326,7 @@ public class LoginController {
 
 			else {
 
-				session.setAttribute("message", new Msg("Please Enter Valid Email Id", "alert-danger"));
+				session.setAttribute("message", new Msg("Please Enter Valid Email Id", "text-red"));
 				return "redirect:/forgot";
 
 			}
@@ -334,7 +334,7 @@ public class LoginController {
 		} catch (Exception e) {
 
 			e.printStackTrace();
-			session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
+			session.setAttribute("message", new Msg("Something Went Wrong!!", "text-red"));
 			return "redirect:/forgot";
 
 		}
@@ -359,16 +359,16 @@ public class LoginController {
 					this.userService.saveUser(user);
 
 					session.setAttribute("message",
-							new Msg("Your Password Has Been Successfully Changed", "alert-success"));
+							new Msg("Your Password Has Been Successfully Changed", "text-green"));
 					return "redirect:/login";
 				} else {
-					session.setAttribute("message", new Msg("Please Enter Valid OTP", "alert-danger"));
+					session.setAttribute("message", new Msg("Please Enter Valid OTP", "text-red"));
 					model.addAttribute("forgotOtp", sendedOtp);
 					return "forgot_password";
 				}
 
 			} else {
-				session.setAttribute("message", new Msg("Both New Passwords Must Be Same", "alert-danger"));
+				session.setAttribute("message", new Msg("Both New Passwords Must Be Same", "text-red"));
 				model.addAttribute("forgotOtp", sendedOtp);
 				return "forgot_password";
 			}
@@ -376,7 +376,7 @@ public class LoginController {
 		} catch (Exception e) {
 
 			e.printStackTrace();
-			session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
+			session.setAttribute("message", new Msg("Something Went Wrong!!", "text-red"));
 			return "redirect:/forgot";
 
 		}
