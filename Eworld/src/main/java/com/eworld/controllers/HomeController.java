@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -18,7 +19,6 @@ import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.eworld.entities.Cart;
@@ -28,7 +28,9 @@ import com.eworld.entities.User;
 import com.eworld.helper.FileImageUpload;
 import com.eworld.helper.Msg;
 import com.eworld.services.CartService;
+import com.eworld.services.CategoryPriorityService;
 import com.eworld.services.CategoryService;
+import com.eworld.services.ProductPriorityService;
 import com.eworld.services.ProductService;
 import com.eworld.services.UserService;
 
@@ -50,6 +52,15 @@ public class HomeController {
 	@Autowired
 	private CartService cartService;
 
+	@Autowired
+	private ProductPriorityService productPriorityService;
+
+	@Autowired
+	private CategoryPriorityService categoryPriorityService;
+
+	@Value("${spring.application.name}")
+	private String appName;
+
 	@ModelAttribute
 	public void currentUser(Principal principal, Model model) {
 		if (principal != null) {
@@ -59,6 +70,7 @@ public class HomeController {
 			List<Cart> carts = this.cartService.findByUser(user);
 			model.addAttribute("cart", carts);
 		}
+		model.addAttribute("appName", this.appName);
 		model.addAttribute("pageName", "home");
 	}
 
@@ -93,8 +105,10 @@ public class HomeController {
 
 		try {
 
-			List<Product> highPriorityProducts = this.productService.getHighPriorityProducts();
-			model.addAttribute("highPriorityProducts", highPriorityProducts);
+			Map<String, Product> highPriorityProducts = this.productPriorityService.getHighPriorityProducts();
+			List<Category> highPriorityCategories = this.categoryPriorityService.getHighPrioCategories();
+			model.addAttribute("highPriorityProducts", highPriorityProducts).addAttribute("highPriorityCategories",
+					highPriorityCategories);
 
 		} catch (Exception e) {
 			e.printStackTrace();

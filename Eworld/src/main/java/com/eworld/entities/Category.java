@@ -18,6 +18,8 @@ public class Category {
 	private int id;
 
 	private String title;
+	
+	private String cachyTitle;
 
 	private String description;
 	
@@ -30,18 +32,20 @@ public class Category {
 		super();
 	}
 
-	public Category(int id, String title, String description, String categoryImage, List<Product> products) {
+	public Category(int id, String title, String cachyTitle, String description, String categoryImage, List<Product> products) {
 		super();
 		this.id = id;
 		this.title = title;
+		this.cachyTitle = cachyTitle;
 		this.description = description;
 		this.categoryImage = categoryImage;
 		this.products = products;
 	}
 
-	public Category(String title, String description, String categoryImage, List<Product> products) {
+	public Category(String title, String cachyTitle, String description, String categoryImage, List<Product> products) {
 		super();
 		this.title = title;
+		this.cachyTitle = cachyTitle;
 		this.description = description;
 		this.categoryImage = categoryImage;
 		this.products = products;
@@ -85,6 +89,14 @@ public class Category {
 
 	public void setCategoryImage(String categoryImage) {
 		this.categoryImage = categoryImage;
+	}
+
+	public String getCachyTitle() {
+		return cachyTitle;
+	}
+
+	public void setCachyTitle(String cachyTitle) {
+		this.cachyTitle = cachyTitle;
 	}
 
 }

@@ -11,8 +11,9 @@
 	<!-- Start Main Banner Area -->
 	<section>
 		<div class="home-slides-two owl-carousel owl-theme">
-			<div th:each="product : ${highPriorityProducts}" class="main-banner"
-				th:style="'background-image: url(/product_img/' + ${product.bannerImage} + ')'">
+			<div th:each="product : ${highPriorityProducts.entrySet()}"
+				class="main-banner"
+				th:style="'background-image: url(/product_img/' + ${product.key} + ')'">
 				<div class="d-table">
 					<div class="d-table-cell">
 						<div class="container-fluid">
@@ -20,15 +21,16 @@
 								<div class="col-lg-6 col-md-12">
 									<div class="banner-content text-white">
 										<div class="line"></div>
-										<span class="sub-title" th:text="${product.pBrandName}"></span>
-										<h1 th:text="${product.pName}"></h1>
+										<span class="sub-title" th:text="${product.value.pBrandName}"></span>
+										<h1 th:text="${product.value.pName}"></h1>
 										<p>
 											<span style="font-weight: bold;">Just <i
 												class="fa-solid fa-indian-rupee-sign"></i></span><span
-												style="font-weight: bold;" th:text="${product.pPrice}"></span>
+												style="font-weight: bold;" th:text="${product.value.pPrice}"></span>
 										</p>
 										<div class="btn-box">
-											<a href="products-right-sidebar-2.html" class="default-btn">SEE DETAILS</a> <a href="products-right-sidebar-3.html"
+											<a href="products-right-sidebar-2.html" class="default-btn">SEE
+												DETAILS</a> <a href="products-right-sidebar-3.html"
 												class="optional-btn">BUY NOW</a>
 										</div>
 									</div>
@@ -50,55 +52,15 @@
 				</div>
 
 				<div class="row">
-					<div class="col-lg-6 col-md-6 col-sm-6">
+					<div th:each="category : ${highPriorityCategories}"
+						class="col-lg-6 col-md-6 col-sm-6">
 						<div class="single-categories-box">
-							<img src="assets/img/categories/img1.jpg" alt="image">
+							<img th:src="@{'/product_img/' + ${category.categoryImage}}"
+								alt="image" style="height: 400px;">
 
 							<div class="content text-white">
-								<span>Do not Miss Today</span>
-								<h3>50% OFF</h3>
-								<a href="products-right-sidebar.html" class="default-btn">Discover
-									Now</a>
-							</div>
-							<a href="products-right-sidebar.html" class="link-btn"></a>
-						</div>
-					</div>
-
-					<div class="col-lg-6 col-md-6 col-sm-6">
-						<div class="single-categories-box">
-							<img src="assets/img/categories/img2.jpg" alt="image">
-
-							<div class="content">
-								<span>New Collection</span>
-								<h3>Need Now</h3>
-								<a href="products-right-sidebar.html" class="default-btn">Discover
-									Now</a>
-							</div>
-							<a href="products-right-sidebar.html" class="link-btn"></a>
-						</div>
-					</div>
-
-					<div class="col-lg-6 col-md-6 col-sm-6">
-						<div class="single-categories-box">
-							<img src="assets/img/categories/img3.jpg" alt="image">
-
-							<div class="content">
-								<span>Your Looks</span>
-								<h3>Must Haves</h3>
-								<a href="products-right-sidebar.html" class="default-btn">Discover
-									Now</a>
-							</div>
-							<a href="products-right-sidebar.html" class="link-btn"></a>
-						</div>
-					</div>
-
-					<div class="col-lg-6 col-md-6 col-sm-6">
-						<div class="single-categories-box">
-							<img src="assets/img/categories/img4.jpg" alt="image">
-
-							<div class="content text-white">
-								<span>Take 20% OFF</span>
-								<h3>Winter Spring!</h3>
+								<span th:text="${category.cachyTitle}"></span>
+								<h3 th:text="${category.title}"></h3>
 								<a href="products-right-sidebar.html" class="default-btn">Discover
 									Now</a>
 							</div>

@@ -1573,41 +1573,7 @@ Main Banner CSS
   background-repeat: no-repeat;
 }
 
-.banner-bg {
-  background-image: url(/product_image/*[[${product.bannerImage}]]*/);
-}
 
-.banner-bg2 {
-  background-image: url(../../assets/img/main-banner2.jpg);
-}
-
-.banner-bg3 {
-  background-image: url(../../assets/img/main-banner3.jpg);
-}
-
-.banner-bg4 {
-  background-image: url(../../assets/img/offer-bg.jpg);
-}
-
-.banner-bg5 {
-  background-image: url(../../assets/img/main-banner5.jpg);
-}
-
-.banner-bg6 {
-  background-image: url(../../assets/img/main-banner6.jpg);
-}
-
-.banner-bg7 {
-  background-image: url(../../assets/img/main-banner2.jpg);
-}
-
-.banner-bg8 {
-  background-image: url(../../assets/img/main-banner2.jpg);
-}
-
-.banner-bg9 {
-  background-image: url(../../assets/img/main-banner2.jpg);
-}
 
 .banner-section {
   height: 650px;

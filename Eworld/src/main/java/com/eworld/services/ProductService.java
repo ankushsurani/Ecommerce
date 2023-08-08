@@ -33,9 +33,5 @@ public class ProductService {
 	public List<Product> getBypNameContaining(String productName) {
 		return this.productRepository.findBypNameContaining(productName);
 	}
-	
-	public List<Product> getHighPriorityProducts(){
-		return this.productRepository.findByHighPriorityIsTrue();
-	}
 
 }

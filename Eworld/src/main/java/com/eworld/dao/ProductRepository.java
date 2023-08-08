@@ -14,7 +14,5 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
 	// search
 	public List<Product> findBypNameContaining(String productName);
-	
-	public List<Product> findByHighPriorityIsTrue();
 
 }
