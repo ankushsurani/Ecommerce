@@ -30,6 +30,7 @@ import com.eworld.helper.Msg;
 import com.eworld.services.CartService;
 import com.eworld.services.CategoryPriorityService;
 import com.eworld.services.CategoryService;
+import com.eworld.services.OrderService;
 import com.eworld.services.ProductPriorityService;
 import com.eworld.services.ProductService;
 import com.eworld.services.UserService;
@@ -57,6 +58,9 @@ public class HomeController {
 
 	@Autowired
 	private CategoryPriorityService categoryPriorityService;
+
+	@Autowired
+	private OrderService orderService;
 
 	@Value("${spring.application.name}")
 	private String appName;
@@ -106,9 +110,17 @@ public class HomeController {
 		try {
 
 			Map<String, Product> highPriorityProducts = this.productPriorityService.getHighPriorityProducts();
+
 			List<Category> highPriorityCategories = this.categoryPriorityService.getHighPrioCategories();
-			model.addAttribute("highPriorityProducts", highPriorityProducts).addAttribute("highPriorityCategories",
-					highPriorityCategories);
+
+			List<Product> recentProducts = this.productService.get10RecentProducts(0, 10).toList();
+
+			List<Product> highSellingProducts = this.orderService.getTopSellingProductsInLast15Days(0, 10).toList();
+
+			model.addAttribute("highPriorityProducts", highPriorityProducts)
+					.addAttribute("highPriorityCategories", highPriorityCategories)
+					.addAttribute("recentProducts", recentProducts)
+					.addAttribute("highSellingProducts", highSellingProducts);
 
 		} catch (Exception e) {
 			e.printStackTrace();

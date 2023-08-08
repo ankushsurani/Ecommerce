@@ -1,5 +1,6 @@
 package com.eworld.entities;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +49,8 @@ public class Product {
 	@Max(value = 10000, message = "Quantity must be less than or equal to 10000")
 	private int pQuantity;
 
+	private LocalDateTime addedDate;
+
 	@OneToMany(mappedBy = "product")
 	private List<ProductImage> productImages = new ArrayList<>();
 
@@ -60,7 +63,7 @@ public class Product {
 	}
 
 	public Product(String pName, String pBrandName, String pDescription, int pPrice, int pDiscount, int pQuantity,
-			List<ProductImage> productImages, Category category) {
+			LocalDateTime addedDate, List<ProductImage> productImages, Category category) {
 		super();
 		this.pName = pName;
 		this.pBrandName = pBrandName;
@@ -68,12 +71,13 @@ public class Product {
 		this.pPrice = pPrice;
 		this.pDiscount = pDiscount;
 		this.pQuantity = pQuantity;
+		this.addedDate = addedDate;
 		this.productImages = productImages;
 		this.category = category;
 	}
 
 	public Product(int pId, String pName, String pBrandName, String pDescription, int pPrice, int pDiscount,
-			int pQuantity, List<ProductImage> productImages, Category category) {
+			LocalDateTime addedDate, int pQuantity, List<ProductImage> productImages, Category category) {
 		super();
 		this.pId = pId;
 		this.pName = pName;
@@ -82,6 +86,7 @@ public class Product {
 		this.pPrice = pPrice;
 		this.pDiscount = pDiscount;
 		this.pQuantity = pQuantity;
+		this.addedDate = addedDate;
 		this.productImages = productImages;
 		this.category = category;
 	}
@@ -156,6 +161,14 @@ public class Product {
 
 	public void setpBrandName(String pBrandName) {
 		this.pBrandName = pBrandName;
+	}
+
+	public LocalDateTime getAddedDate() {
+		return addedDate;
+	}
+
+	public void setAddedDate(LocalDateTime addedDate) {
+		this.addedDate = addedDate;
 	}
 
 	// calculate price after discount

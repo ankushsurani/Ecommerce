@@ -1,6 +1,6 @@
 package com.eworld.entities;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,9 +18,9 @@ public class Order {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int order_id;
 
-	private Date createdDate;
+	private LocalDateTime createdDate;
 
-	private Date deliveryDate;
+	private LocalDateTime deliveryDate;
 
 	private String status;
 
@@ -46,8 +46,8 @@ public class Order {
 		super();
 	}
 
-	public Order(int order_id, Date createdDate, Date deliveryDate, String status, String paymentType, int totalPayment,
-			Address address, Product product, int quantity, User user) {
+	public Order(int order_id, LocalDateTime createdDate, LocalDateTime deliveryDate, String status, String paymentType,
+			int totalPayment, Address address, Product product, int quantity, User user) {
 		super();
 		this.order_id = order_id;
 		this.createdDate = createdDate;
@@ -61,8 +61,8 @@ public class Order {
 		this.user = user;
 	}
 
-	public Order(Date createdDate, Date deliveryDate, String status, String paymentType, int totalPayment,
-			Address address, Product product, int quantity, User user) {
+	public Order(LocalDateTime createdDate, LocalDateTime deliveryDate, String status, String paymentType,
+			int totalPayment, Address address, Product product, int quantity, User user) {
 		super();
 		this.createdDate = createdDate;
 		this.deliveryDate = deliveryDate;
@@ -83,19 +83,19 @@ public class Order {
 		this.order_id = order_id;
 	}
 
-	public Date getCreatedDate() {
+	public LocalDateTime getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(Date createdDate) {
+	public void setCreatedDate(LocalDateTime createdDate) {
 		this.createdDate = createdDate;
 	}
 
-	public Date getDeliveryDate() {
+	public LocalDateTime getDeliveryDate() {
 		return deliveryDate;
 	}
 
-	public void setDeliveryDate(Date deliveryDate) {
+	public void setDeliveryDate(LocalDateTime deliveryDate) {
 		this.deliveryDate = deliveryDate;
 	}
 
