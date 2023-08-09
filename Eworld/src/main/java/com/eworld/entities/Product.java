@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -54,6 +55,9 @@ public class Product {
 	@OneToMany(mappedBy = "product")
 	private List<ProductImage> productImages = new ArrayList<>();
 
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+	private List<Rating> ratings = new ArrayList<>();
+
 	@ManyToOne
 	@JsonIgnore
 	private Category category;
@@ -63,7 +67,7 @@ public class Product {
 	}
 
 	public Product(String pName, String pBrandName, String pDescription, int pPrice, int pDiscount, int pQuantity,
-			LocalDateTime addedDate, List<ProductImage> productImages, Category category) {
+			LocalDateTime addedDate, List<ProductImage> productImages, List<Rating> ratings, Category category) {
 		super();
 		this.pName = pName;
 		this.pBrandName = pBrandName;
@@ -73,11 +77,12 @@ public class Product {
 		this.pQuantity = pQuantity;
 		this.addedDate = addedDate;
 		this.productImages = productImages;
+		this.ratings =ratings;
 		this.category = category;
 	}
 
 	public Product(int pId, String pName, String pBrandName, String pDescription, int pPrice, int pDiscount,
-			LocalDateTime addedDate, int pQuantity, List<ProductImage> productImages, Category category) {
+			LocalDateTime addedDate, int pQuantity, List<ProductImage> productImages, List<Rating> ratings, Category category) {
 		super();
 		this.pId = pId;
 		this.pName = pName;
@@ -88,6 +93,7 @@ public class Product {
 		this.pQuantity = pQuantity;
 		this.addedDate = addedDate;
 		this.productImages = productImages;
+		this.ratings =ratings;
 		this.category = category;
 	}
 
@@ -169,6 +175,14 @@ public class Product {
 
 	public void setAddedDate(LocalDateTime addedDate) {
 		this.addedDate = addedDate;
+	}
+
+	public List<Rating> getRatings() {
+		return ratings;
+	}
+
+	public void setRatings(List<Rating> ratings) {
+		this.ratings = ratings;
 	}
 
 	// calculate price after discount

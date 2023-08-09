@@ -117,10 +117,13 @@ public class HomeController {
 
 			List<Product> highSellingProducts = this.orderService.getTopSellingProductsInLast15Days(0, 10).toList();
 
+			List<Product> mostRatedRecentProducts = this.productService.getMostRatedProductsOfRecentDates();
+
 			model.addAttribute("highPriorityProducts", highPriorityProducts)
 					.addAttribute("highPriorityCategories", highPriorityCategories)
 					.addAttribute("recentProducts", recentProducts)
-					.addAttribute("highSellingProducts", highSellingProducts);
+					.addAttribute("highSellingProducts", highSellingProducts)
+					.addAttribute("mostRatedRecentProducts", mostRatedRecentProducts);
 
 		} catch (Exception e) {
 			e.printStackTrace();

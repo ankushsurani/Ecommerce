@@ -1,6 +1,7 @@
 package com.eworld.controllers.user;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.eworld.entities.Address;
 import com.eworld.entities.Cart;
+import com.eworld.entities.DeliveryStatus;
 import com.eworld.entities.Order;
 import com.eworld.entities.Payment;
 import com.eworld.entities.User;
@@ -119,7 +121,7 @@ public class OrderController {
 			for (Cart cart : carts) {
 				Order order = new Order();
 
-				order.setCreatedDate(new Date());
+				order.setCreatedDate(LocalDateTime.now());
 				order.setAddress(address);
 				order.setProduct(cart.getProduct());
 				order.setQuantity(cart.getQuantity());
@@ -128,12 +130,12 @@ public class OrderController {
 				order.setTotalPayment(orderAmount);
 
 				if (paymentOption.equals("Cash On Delivery")) {
-					order.setStatus("Awaiting Pickup");
+					order.setDeliveryStatus(DeliveryStatus.AWAITINGPICKUP);
 					this.cartService.removeCart(cart.getCartId());
 				}
 
 				else {
-					order.setStatus("Awaiting Payment");
+					order.setDeliveryStatus(DeliveryStatus.AWAITINGPAYMENT);
 				}
 
 				this.orderService.saveOrder(order);
@@ -234,7 +236,7 @@ public class OrderController {
 				this.paymentService.savePayment(payment);
 
 				Order order = this.orderService.findById(payment.getOrder().getOrder_id());
-				order.setStatus("Awaiting Pickup");
+				order.setDeliveryStatus(DeliveryStatus.AWAITINGPICKUP);
 				this.orderService.saveOrder(order);
 			}
 

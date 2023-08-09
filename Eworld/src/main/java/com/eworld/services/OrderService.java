@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.eworld.dao.OrderRepository;
+import com.eworld.entities.DeliveryStatus;
 import com.eworld.entities.Order;
 import com.eworld.entities.Product;
 import com.eworld.entities.User;
@@ -36,8 +37,8 @@ public class OrderService {
 		return this.orderRepository.getOrderByStatus(status);
 	}
 
-	public List<Order> findOrderByStatus(String status1, String status2, String status3) {
-		return this.orderRepository.findOrderByStatus(status1, status2, status3);
+	public List<Order> getOrdersByStatuses(List<DeliveryStatus> statuses) {
+		return orderRepository.findOrdersByStatuses(statuses);
 	}
 
 	public List<Order> getOrderByUser(User user) {
@@ -48,6 +49,11 @@ public class OrderService {
 		LocalDateTime cutoffDate = LocalDateTime.now().minus(15, ChronoUnit.DAYS);
 		PageRequest pageRequest = PageRequest.of(page, size);
 		return orderRepository.findTopSellingProductsInLast15Days(cutoffDate, pageRequest);
+	}
+
+	public boolean hasUserOrderedProduct(User user, Product product) {
+		return this.orderRepository.existsByUserAndProductAndDeliveryStatus(user, product,
+				DeliveryStatus.SUCCESS);
 	}
 
 }

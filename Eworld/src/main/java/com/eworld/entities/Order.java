@@ -3,6 +3,8 @@ package com.eworld.entities;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,7 +24,8 @@ public class Order {
 
 	private LocalDateTime deliveryDate;
 
-	private String status;
+	@Enumerated(EnumType.STRING)
+	private DeliveryStatus deliveryStatus;
 
 	private String paymentType;
 
@@ -46,13 +49,13 @@ public class Order {
 		super();
 	}
 
-	public Order(int order_id, LocalDateTime createdDate, LocalDateTime deliveryDate, String status, String paymentType,
-			int totalPayment, Address address, Product product, int quantity, User user) {
+	public Order(int order_id, LocalDateTime createdDate, LocalDateTime deliveryDate, DeliveryStatus deliveryStatus,
+			String paymentType, int totalPayment, Address address, Product product, int quantity, User user) {
 		super();
 		this.order_id = order_id;
 		this.createdDate = createdDate;
 		this.deliveryDate = deliveryDate;
-		this.status = status;
+		this.deliveryStatus = deliveryStatus;
 		this.paymentType = paymentType;
 		this.totalPayment = totalPayment;
 		this.address = address;
@@ -61,12 +64,12 @@ public class Order {
 		this.user = user;
 	}
 
-	public Order(LocalDateTime createdDate, LocalDateTime deliveryDate, String status, String paymentType,
-			int totalPayment, Address address, Product product, int quantity, User user) {
+	public Order(LocalDateTime createdDate, LocalDateTime deliveryDate, DeliveryStatus deliveryStatus,
+			String paymentType, int totalPayment, Address address, Product product, int quantity, User user) {
 		super();
 		this.createdDate = createdDate;
 		this.deliveryDate = deliveryDate;
-		this.status = status;
+		this.deliveryStatus = deliveryStatus;
 		this.paymentType = paymentType;
 		this.totalPayment = totalPayment;
 		this.address = address;
@@ -99,12 +102,12 @@ public class Order {
 		this.deliveryDate = deliveryDate;
 	}
 
-	public String getStatus() {
-		return status;
+	public DeliveryStatus getDeliveryStatus() {
+		return deliveryStatus;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setDeliveryStatus(DeliveryStatus deliveryStatus) {
+		this.deliveryStatus = deliveryStatus;
 	}
 
 	public String getPaymentType() {

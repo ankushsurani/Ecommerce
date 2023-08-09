@@ -2,8 +2,8 @@ package com.eworld.controllers.admin;
 
 import java.security.Principal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.eworld.entities.Category;
+import com.eworld.entities.DeliveryStatus;
 import com.eworld.entities.Order;
 import com.eworld.entities.Product;
 import com.eworld.entities.ProductImage;
@@ -175,8 +176,8 @@ public class AdminDashboardController {
 		try {
 
 			if (status == null || status.equals("all")) {
-				List<Order> orders = this.orderService.findOrderByStatus("Awaiting Payment", "Awaiting Pickup",
-						"Partially Shipped");
+				List<Order> orders = this.orderService.getOrdersByStatuses(List.of(DeliveryStatus.AWAITINGPAYMENT,
+						DeliveryStatus.AWAITINGPICKUP, DeliveryStatus.PARTIALLYSHIPPED));
 				model.addAttribute("orders", orders);
 			} else {
 				List<Order> statusOrders = this.orderService.getOrderByStatus(status);
@@ -195,7 +196,7 @@ public class AdminDashboardController {
 	@PostMapping("/change-status/{orderId}")
 	public String changeOrderStatus(@PathVariable("orderId") int orderId, @RequestParam("status") String status,
 			@RequestParam(name = "deliveryDate", required = false) String deliveryDate, Model model,
-			HttpSession session) {
+			HttpSession session) throws ParseException {
 		model.addAttribute("title", "Change Status - Eworld");
 
 		try {
@@ -203,17 +204,13 @@ public class AdminDashboardController {
 			Order order = this.orderService.findById(orderId);
 
 			if (status.equals("Completed")) {
-				order.setStatus(status);
-				order.setDeliveryDate(new Date());
+//				order.setStatus(status); 
+				order.setDeliveryDate(LocalDateTime.now());
 			} else {
-				order.setStatus(status);
-				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-				try {
-					Date date = formatter.parse(deliveryDate);
-					order.setDeliveryDate(date);
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
+//				order.setStatus(status);
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+				LocalDateTime date = (LocalDateTime) formatter.parse(deliveryDate);
+				order.setDeliveryDate(date);
 
 			}
 

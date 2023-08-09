@@ -184,12 +184,12 @@
 
 				<div class="products-slides owl-carousel owl-theme">
 					<div class="single-products-box"
-						th:each="recentProduct : ${recentProducts}">
+						th:each="mostRatedrecentProduct : ${mostRatedRecentProducts}">
 						<div class="products-image">
 							<a href="products-type-5.html"> <img style="height: 45vh;"
-								th:src="@{'/product_img/' + ${recentProduct.productImages[0].productPic}}"
+								th:src="@{'/product_img/' + ${mostRatedrecentProduct.productImages[0].productPic}}"
 								alt="image"> <img
-								th:src="@{'/product_img/' + ${recentProduct.productImages[1].productPic}}"
+								th:src="@{'/product_img/' + ${mostRatedrecentProduct.productImages[1].productPic}}"
 								class="hover-image" alt="image">
 							</a>
 
@@ -224,14 +224,14 @@
 
 						<div class="products-content">
 							<h3>
-								<a href="products-type-5.html" th:text="${recentProduct.pName}"></a>
+								<a href="products-type-5.html" th:text="${mostRatedrecentProduct.pName}"></a>
 							</h3>
 							<div class="price">
 								<i class="fa-solid fa-indian-rupee-sign text-muted text-decoration-line-through"></i>
-								<span class="old-price" th:text="${recentProduct.pPrice}"></span>
+								<span class="old-price" th:text="${mostRatedrecentProduct.pPrice}"></span>
 								<i class="fa-solid fa-indian-rupee-sign"></i> <span
 									class="new-price"
-									th:text="${recentProduct.getPriceAfterApplyingDiscount}"></span>
+									th:text="${mostRatedrecentProduct.getPriceAfterApplyingDiscount}"></span>
 							</div>
 							<div class="star-rating">
 								<i class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
