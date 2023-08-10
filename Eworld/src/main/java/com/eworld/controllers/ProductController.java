@@ -50,7 +50,7 @@ public class ProductController {
 
 			Product product = this.productService.getProduct(pId);
 			model.addAttribute("product", product);
-			model.addAttribute("title", product.getpName());
+			model.addAttribute("title", product.getName());
 
 		} catch (Exception e) {
 			e.printStackTrace();

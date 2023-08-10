@@ -18,12 +18,14 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	public List<Product> findByCategory_id(int category_id);
 
 	// search
-	public List<Product> findBypNameContaining(String productName);
+	public List<Product> findByNameContaining(String name);
 
 	@Query("SELECT p FROM Product p ORDER BY p.addedDate DESC")
 	Page<Product> find10RecentProducts(Pageable pageable);
 
-	@Query("SELECT p FROM Product p WHERE p.pId IN (SELECT r.product.pId FROM Rating r WHERE r.ratedDate >= :cutoffDate GROUP BY r.product.pId ORDER BY COUNT(r.product.pId) DESC, MAX(r.ratedDate) DESC)")
+	@Query("SELECT p FROM Product p WHERE p.id IN (SELECT r.product.id FROM Rating r WHERE r.ratedDate >= :cutoffDate GROUP BY r.product.id ORDER BY COUNT(r.product.id) DESC, MAX(r.ratedDate) DESC)")
 	List<Product> findMostRatedProductsOfRecentDates(@Param("cutoffDate") LocalDateTime cutoffDate);
+	
+	Page<Product> findAllByOrderByDiscountDesc(Pageable pageable);
 
 }

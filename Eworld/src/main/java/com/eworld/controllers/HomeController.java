@@ -113,17 +113,25 @@ public class HomeController {
 
 			List<Category> highPriorityCategories = this.categoryPriorityService.getHighPrioCategories();
 
-			List<Product> recentProducts = this.productService.get10RecentProducts(0, 10).toList();
+			List<Product> recentProducts = this.productService.get10RecentProducts(0, 10);
 
 			List<Product> highSellingProducts = this.orderService.getTopSellingProductsInLast15Days(0, 10).toList();
 
 			List<Product> mostRatedRecentProducts = this.productService.getMostRatedProductsOfRecentDates();
 
+			List<Product> productsByHighDiscount = this.productService.getProductsByHighDiscount(0, 10);
+
 			model.addAttribute("highPriorityProducts", highPriorityProducts)
 					.addAttribute("highPriorityCategories", highPriorityCategories)
 					.addAttribute("recentProducts", recentProducts)
 					.addAttribute("highSellingProducts", highSellingProducts)
-					.addAttribute("mostRatedRecentProducts", mostRatedRecentProducts);
+					.addAttribute("mostRatedRecentProducts", mostRatedRecentProducts)
+					.addAttribute("productsByHighDiscount", productsByHighDiscount);
+
+			/*
+			 * params category, recent products, high discounted product, popular product,
+			 * best selling product
+			 */
 
 		} catch (Exception e) {
 			e.printStackTrace();

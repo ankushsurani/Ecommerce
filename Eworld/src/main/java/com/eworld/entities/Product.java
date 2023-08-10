@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -24,31 +25,31 @@ public class Product {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int pId;
+	private int id;
 
 	@NotBlank
 	@Size(min = 3, max = 100)
-	private String pName;
+	private String name;
 
 	@NotBlank
 	@Size(min = 1, max = 100)
-	private String pBrandName;
+	private String brandName;
 
 	@NotBlank
 	@Size(min = 10, max = 65535)
 	@Column(length = 65535)
-	private String pDescription;
+	private String description;
 
 	@Min(value = 10, message = "Price must be greater than 10")
 	@Max(value = 500000, message = "Price must be less than 500000")
-	private int pPrice;
+	private int price;
 
 	@Max(value = 70, message = "Discount must be less than 70%")
-	private int pDiscount;
+	private int discount;
 
 	@Min(value = 1, message = "Quantity must be greater than or equal to than 1")
 	@Max(value = 10000, message = "Quantity must be less than or equal to 10000")
-	private int pQuantity;
+	private int quantity;
 
 	private LocalDateTime addedDate;
 
@@ -57,6 +58,9 @@ public class Product {
 
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 	private List<Rating> ratings = new ArrayList<>();
+	
+	@Transient
+	private double avgRating;
 
 	@ManyToOne
 	@JsonIgnore
@@ -66,107 +70,91 @@ public class Product {
 		super();
 	}
 
-	public Product(String pName, String pBrandName, String pDescription, int pPrice, int pDiscount, int pQuantity,
+	public Product(String name, String brandName, String description, int price, int discount, int quantity,
 			LocalDateTime addedDate, List<ProductImage> productImages, List<Rating> ratings, Category category) {
 		super();
-		this.pName = pName;
-		this.pBrandName = pBrandName;
-		this.pDescription = pDescription;
-		this.pPrice = pPrice;
-		this.pDiscount = pDiscount;
-		this.pQuantity = pQuantity;
+		this.name = name;
+		this.brandName = brandName;
+		this.description = description;
+		this.price = price;
+		this.discount = discount;
+		this.quantity = quantity;
 		this.addedDate = addedDate;
 		this.productImages = productImages;
-		this.ratings =ratings;
+		this.ratings = ratings;
 		this.category = category;
 	}
 
-	public Product(int pId, String pName, String pBrandName, String pDescription, int pPrice, int pDiscount,
-			LocalDateTime addedDate, int pQuantity, List<ProductImage> productImages, List<Rating> ratings, Category category) {
+	public Product(int id, String name, String brandName, String description, int price, int discount, int quantity,
+			LocalDateTime addedDate, List<ProductImage> productImages, List<Rating> ratings, Category category) {
 		super();
-		this.pId = pId;
-		this.pName = pName;
-		this.pBrandName = pBrandName;
-		this.pDescription = pDescription;
-		this.pPrice = pPrice;
-		this.pDiscount = pDiscount;
-		this.pQuantity = pQuantity;
+		this.id = id;
+		this.name = name;
+		this.brandName = brandName;
+		this.description = description;
+		this.price = price;
+		this.discount = discount;
+		this.quantity = quantity;
 		this.addedDate = addedDate;
 		this.productImages = productImages;
-		this.ratings =ratings;
+		this.ratings = ratings;
 		this.category = category;
 	}
 
-	public int getpId() {
-		return pId;
+	public int getId() {
+		return id;
 	}
 
-	public void setpId(int pId) {
-		this.pId = pId;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public String getpName() {
-		return pName;
+	public String getName() {
+		return name;
 	}
 
-	public void setpName(String pName) {
-		this.pName = pName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getpDescription() {
-		return pDescription;
+	public String getBrandName() {
+		return brandName;
 	}
 
-	public void setpDescription(String pDescription) {
-		this.pDescription = pDescription;
+	public void setBrandName(String brandName) {
+		this.brandName = brandName;
 	}
 
-	public int getpPrice() {
-		return pPrice;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setpPrice(int pPrice) {
-		this.pPrice = pPrice;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public int getpDiscount() {
-		return pDiscount;
+	public int getPrice() {
+		return price;
 	}
 
-	public void setpDiscount(int pDiscount) {
-		this.pDiscount = pDiscount;
+	public void setPrice(int price) {
+		this.price = price;
 	}
 
-	public int getpQuantity() {
-		return pQuantity;
+	public int getDiscount() {
+		return discount;
 	}
 
-	public void setpQuantity(int pQuantity) {
-		this.pQuantity = pQuantity;
+	public void setDiscount(int discount) {
+		this.discount = discount;
 	}
 
-	public Category getCategory() {
-		return category;
+	public int getQuantity() {
+		return quantity;
 	}
 
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-
-	public List<ProductImage> getProductImages() {
-		return productImages;
-	}
-
-	public void setProductImages(List<ProductImage> productImages) {
-		this.productImages = productImages;
-	}
-
-	public String getpBrandName() {
-		return pBrandName;
-	}
-
-	public void setpBrandName(String pBrandName) {
-		this.pBrandName = pBrandName;
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 	public LocalDateTime getAddedDate() {
@@ -177,6 +165,14 @@ public class Product {
 		this.addedDate = addedDate;
 	}
 
+	public List<ProductImage> getProductImages() {
+		return productImages;
+	}
+
+	public void setProductImages(List<ProductImage> productImages) {
+		this.productImages = productImages;
+	}
+
 	public List<Rating> getRatings() {
 		return ratings;
 	}
@@ -185,10 +181,26 @@ public class Product {
 		this.ratings = ratings;
 	}
 
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public double getAvgRating() {
+		return avgRating;
+	}
+
+	public void setAvgRating(double avgRating) {
+		this.avgRating = avgRating;
+	}
+
 	// calculate price after discount
 	public int getPriceAfterApplyingDiscount() {
-		int discount = (int) ((this.getpDiscount() / 100.0) * this.getpPrice());
-		return this.getpPrice() - discount;
+		int discount = (int) ((this.getDiscount() / 100.0) * this.getPrice());
+		return this.getPrice() - discount;
 	}
 
 }

@@ -49,7 +49,7 @@ public class CartController {
 				int totalPrice = 0;
 				int totalDiscoutedPrice = 0;
 				for (Cart c : carts) {
-					totalPrice += c.getProduct().getpPrice() * c.getQuantity();
+					totalPrice += c.getProduct().getPrice() * c.getQuantity();
 					totalDiscoutedPrice += c.getProduct().getPriceAfterApplyingDiscount() * c.getQuantity();
 				}
 
@@ -100,7 +100,7 @@ public class CartController {
 
 			this.cartService.saveCart(cart);
 			session.setAttribute("message",
-					new Msg(cart.getProduct().getpName() + " is added to Cart", "alert-success"));
+					new Msg(cart.getProduct().getName() + " is added to Cart", "alert-success"));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -182,7 +182,7 @@ public class CartController {
 			if (cart.getUser().getUserId() == user.getUserId()) {
 				this.cartService.removeCart(cartId);
 				session.setAttribute("message",
-						new Msg(cart.getProduct().getpName() + " is removed from Cart", "alert-success"));
+						new Msg(cart.getProduct().getName() + " is removed from Cart", "alert-success"));
 			}
 
 		} catch (Exception e) {

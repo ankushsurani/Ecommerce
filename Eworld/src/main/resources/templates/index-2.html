@@ -21,12 +21,12 @@
 								<div class="col-lg-6 col-md-12">
 									<div class="banner-content text-white">
 										<div class="line"></div>
-										<span class="sub-title" th:text="${product.value.pBrandName}"></span>
-										<h1 th:text="${product.value.pName}"></h1>
+										<span class="sub-title" th:text="${product.value.brandName}"></span>
+										<h1 th:text="${product.value.name}"></h1>
 										<p>
 											<span style="font-weight: bold;">Just <i
 												class="fa-solid fa-indian-rupee-sign"></i></span><span
-												style="font-weight: bold;" th:text="${product.value.pPrice}"></span>
+												style="font-weight: bold;" th:text="${product.value.price}"></span>
 										</p>
 										<div class="btn-box">
 											<a href="products-right-sidebar-2.html" class="default-btn">SEE
@@ -75,7 +75,7 @@
 
 
 		<!-- Start Products Area -->
-		<section class="products-area pt-100 pb-70">
+		<section class="products-area pb-70">
 			<div class="container">
 				<div class="section-title text-start">
 					<span class="sub-title">See Our Collection</span>
@@ -126,11 +126,12 @@
 
 						<div class="products-content">
 							<h3>
-								<a href="products-type-5.html" th:text="${recentProduct.pName}"></a>
+								<a href="products-type-5.html" th:text="${recentProduct.name}"></a>
 							</h3>
 							<div class="price">
-								<i class="fa-solid fa-indian-rupee-sign text-muted text-decoration-line-through"></i>
-								<span class="old-price" th:text="${recentProduct.pPrice}"></span>
+								<i
+									class="fa-solid fa-indian-rupee-sign text-muted text-decoration-line-through"></i>
+								<span class="old-price" th:text="${recentProduct.price}"></span>
 								<i class="fa-solid fa-indian-rupee-sign"></i> <span
 									class="new-price"
 									th:text="${recentProduct.getPriceAfterApplyingDiscount}"></span>
@@ -155,13 +156,14 @@
 
 		<!-- Start Offer Area -->
 		<section class="offer-area bg-image2 ptb-100 jarallax"
+			th:style="'background-image: url(/product_img/offer-bg.jpg)'"
 			data-jarallax='{"speed": 0.3}'>
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-lg-5 col-md-6 offset-lg-7 offset-md-6">
 						<div class="offer-content-box">
-							<span class="sub-title">Limited Time Offer!</span>
-							<h2>-40% OFF</h2>
+							<span class="sub-title">Grab Whopping Discount!</span>
+							<h2>Upto 70% OFF</h2>
 							<p>Get The Best Deals Now</p>
 							<a href="products-right-sidebar.html" class="default-btn">Discover
 								Now</a>
@@ -224,12 +226,15 @@
 
 						<div class="products-content">
 							<h3>
-								<a href="products-type-5.html" th:text="${mostRatedrecentProduct.pName}"></a>
+								<a href="products-type-5.html"
+									th:text="${mostRatedrecentProduct.name}"></a>
 							</h3>
 							<div class="price">
-								<i class="fa-solid fa-indian-rupee-sign text-muted text-decoration-line-through"></i>
-								<span class="old-price" th:text="${mostRatedrecentProduct.pPrice}"></span>
-								<i class="fa-solid fa-indian-rupee-sign"></i> <span
+								<i
+									class="fa-solid fa-indian-rupee-sign text-muted text-decoration-line-through"></i>
+								<span class="old-price"
+									th:text="${mostRatedrecentProduct.price}"></span> <i
+									class="fa-solid fa-indian-rupee-sign"></i> <span
 									class="new-price"
 									th:text="${mostRatedrecentProduct.getPriceAfterApplyingDiscount}"></span>
 							</div>
@@ -357,11 +362,13 @@
 
 						<div class="products-content">
 							<h3>
-								<a href="products-type-5.html" th:text="${highSellingProduct.pName}"></a>
+								<a href="products-type-5.html"
+									th:text="${highSellingProduct.name}"></a>
 							</h3>
 							<div class="price">
-								<i class="fa-solid fa-indian-rupee-sign text-muted text-decoration-line-through"></i>
-								<span class="old-price" th:text="${highSellingProduct.pPrice}"></span>
+								<i
+									class="fa-solid fa-indian-rupee-sign text-muted text-decoration-line-through"></i>
+								<span class="old-price" th:text="${highSellingProduct.price}"></span>
 								<i class="fa-solid fa-indian-rupee-sign"></i> <span
 									class="new-price"
 									th:text="${highSellingProduct.getPriceAfterApplyingDiscount}"></span>

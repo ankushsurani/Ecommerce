@@ -78,7 +78,7 @@ public class OrderController {
 				int totalPrice = 0;
 				int totalDiscoutedPrice = 0;
 				for (Cart c : carts) {
-					totalPrice += c.getProduct().getpPrice() * c.getQuantity();
+					totalPrice += c.getProduct().getPrice() * c.getQuantity();
 					totalDiscoutedPrice += c.getProduct().getPriceAfterApplyingDiscount() * c.getQuantity();
 				}
 
