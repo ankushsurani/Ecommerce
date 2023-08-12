@@ -10,7 +10,7 @@
 
 	<!-- Start Main Banner Area -->
 	<section>
-		<div class="home-slides-two owl-carousel owl-theme">
+		<div class="home-slides owl-carousel owl-theme">
 			<div th:each="product : ${highPriorityProducts.entrySet()}"
 				class="main-banner"
 				th:style="'background-image: url(/product_img/' + ${product.key} + ')'">
@@ -79,9 +79,9 @@
 			<div class="container">
 				<div class="section-title text-start">
 					<span class="sub-title">See Our Collection</span>
-					<h2>Recent Products</h2>
-					<a href="products-right-sidebar.html" class="default-btn">Shop
-						More</a>
+					<h2>Latest Products</h2>
+					<a th:href="@{/product/page=0?sort=latest}"
+						class="default-btn">Shop More</a>
 				</div>
 
 				<div class="products-slides owl-carousel owl-theme">
@@ -90,7 +90,7 @@
 						<div class="products-image">
 							<a href="products-type-5.html"> <img style="height: 45vh;"
 								th:src="@{'/product_img/' + ${recentProduct.productImages[0].productPic}}"
-								alt="image"> <img
+								alt="image"> <img style="height: 45vh;"
 								th:src="@{'/product_img/' + ${recentProduct.productImages[1].productPic}}"
 								class="hover-image" alt="image">
 							</a>
@@ -136,10 +136,18 @@
 									class="new-price"
 									th:text="${recentProduct.getPriceAfterApplyingDiscount}"></span>
 							</div>
+
 							<div class="star-rating">
-								<i class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
-									class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
-									class='bx bxs-star'></i>
+								<span th:each="i : ${#numbers.sequence(1, 5)}"> <i
+									th:if="${recentProduct.avgRating >= i}"
+									th:class="'bx bxs-star'"></i> <i
+									th:unless="${recentProduct.avgRating >= i}"
+									th:if="${recentProduct.avgRating >= i - 0.5}"
+									th:class="'bx bxs-star-half'"></i> <i
+									th:unless="${recentProduct.avgRating >= i || recentProduct.avgRating >= i - 0.5}"
+									th:class="'bx bx-star'"></i>
+								</span> <span class="text-dark fw-bold"
+									th:text="${recentProduct.avgRating}"></span>
 							</div>
 							<a href="#" class="add-to-cart">Add to Cart</a>
 						</div>
@@ -165,8 +173,8 @@
 							<span class="sub-title">Grab Whopping Discount!</span>
 							<h2>Upto 70% OFF</h2>
 							<p>Get The Best Deals Now</p>
-							<a href="products-right-sidebar.html" class="default-btn">Discover
-								Now</a>
+							<a th:href="@{/product/page=0?sort=highDiscount}"
+								class="default-btn">Discover Now</a>
 						</div>
 					</div>
 				</div>
@@ -179,9 +187,9 @@
 			<div class="container">
 				<div class="section-title text-start">
 					<span class="sub-title">See Our Collection</span>
-					<h2>Popular Products</h2>
-					<a href="products-right-sidebar.html" class="default-btn">Shop
-						More</a>
+					<h2>Top Rated Products</h2>
+					<a th:href="@{/product/page=0?sort=rating}"
+						class="default-btn">Shop More</a>
 				</div>
 
 				<div class="products-slides owl-carousel owl-theme">
@@ -190,7 +198,7 @@
 						<div class="products-image">
 							<a href="products-type-5.html"> <img style="height: 45vh;"
 								th:src="@{'/product_img/' + ${mostRatedrecentProduct.productImages[0].productPic}}"
-								alt="image"> <img
+								alt="image"> <img style="height: 45vh;"
 								th:src="@{'/product_img/' + ${mostRatedrecentProduct.productImages[1].productPic}}"
 								class="hover-image" alt="image">
 							</a>
@@ -239,9 +247,16 @@
 									th:text="${mostRatedrecentProduct.getPriceAfterApplyingDiscount}"></span>
 							</div>
 							<div class="star-rating">
-								<i class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
-									class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
-									class='bx bxs-star'></i>
+								<span th:each="i : ${#numbers.sequence(1, 5)}"> <i
+									th:if="${mostRatedrecentProduct.avgRating >= i}"
+									th:class="'bx bxs-star'"></i> <i
+									th:unless="${mostRatedrecentProduct.avgRating >= i}"
+									th:if="${mostRatedrecentProduct.avgRating >= i - 0.5}"
+									th:class="'bx bxs-star-half'"></i> <i
+									th:unless="${mostRatedrecentProduct.avgRating >= i || mostRatedrecentProduct.avgRating >= i - 0.5}"
+									th:class="'bx bx-star'"></i>
+								</span> <span class="text-dark fw-bold"
+									th:text="${mostRatedrecentProduct.avgRating}"></span>
 							</div>
 							<a href="#" class="add-to-cart">Add to Cart</a>
 						</div>
@@ -315,9 +330,9 @@
 			<div class="container">
 				<div class="section-title text-start">
 					<span class="sub-title">See Our Collection</span>
-					<h2>Best Selling Products</h2>
-					<a href="products-right-sidebar.html" class="default-btn">Shop
-						More</a>
+					<h2>Popular Products</h2>
+					<a th:href="@{/product/page=0?sort=popularity}"
+						class="default-btn">Shop More</a>
 				</div>
 
 				<div class="products-slides owl-carousel owl-theme">
@@ -326,7 +341,7 @@
 						<div class="products-image">
 							<a href="products-type-5.html"> <img style="height: 45vh;"
 								th:src="@{'/product_img/' + ${highSellingProduct.productImages[0].productPic}}"
-								alt="image"> <img
+								alt="image"> <img style="height: 45vh;"
 								th:src="@{'/product_img/' + ${highSellingProduct.productImages[1].productPic}}"
 								class="hover-image" alt="image">
 							</a>
@@ -374,9 +389,16 @@
 									th:text="${highSellingProduct.getPriceAfterApplyingDiscount}"></span>
 							</div>
 							<div class="star-rating">
-								<i class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
-									class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
-									class='bx bxs-star'></i>
+								<span th:each="i : ${#numbers.sequence(1, 5)}"> <i
+									th:if="${highSellingProduct.avgRating >= i}"
+									th:class="'bx bxs-star'"></i> <i
+									th:unless="${highSellingProduct.avgRating >= i}"
+									th:if="${highSellingProduct.avgRating >= i - 0.5}"
+									th:class="'bx bxs-star-half'"></i> <i
+									th:unless="${highSellingProduct.avgRating >= i || highSellingProduct.avgRating >= i - 0.5}"
+									th:class="'bx bx-star'"></i>
+								</span> <span class="text-dark fw-bold"
+									th:text="${highSellingProduct.avgRating}"></span>
 							</div>
 							<a href="#" class="add-to-cart">Add to Cart</a>
 						</div>

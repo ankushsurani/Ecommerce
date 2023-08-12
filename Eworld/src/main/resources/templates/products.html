@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="bs::layout(~{::section})">
+<head>
+
+</head>
+<body>
+
+	<!-- Start Products Area -->
+	<section class="products-area pt-100 pb-70">
+		<div class="container">
+			<div class="products-filter-options">
+				<div class="row align-items-center">
+					<div class="col-lg-4 col-md-4">
+						<div class="d-lg-flex d-md-flex align-items-center">
+							<span class="sub-title"><a href="#" data-bs-toggle="modal"
+								data-bs-target="#productsFilterModal"><i
+									class='bx bx-filter-alt'></i> Filter</a></span> <span
+								class="sub-title d-none d-lg-block d-md-block">View:</span>
+
+							<div class="view-list-row d-none d-lg-block d-md-block">
+								<div class="view-column">
+									<a href="#" class="icon-view-two"> <span></span> <span></span>
+									</a> <a href="#" class="icon-view-three active"> <span></span>
+										<span></span> <span></span>
+									</a> <a href="#" class="icon-view-four"> <span></span> <span></span>
+										<span></span> <span></span>
+									</a> <a href="#" class="view-grid-switch"> <span></span> <span></span>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-4 col-md-4">
+						<p>Showing 1 - <span th:text="${#lists.size(products)}"></span> of <span th:text="${numberOfProducts}"></span></p>
+					</div>
+
+					<div class="col-lg-4 col-md-4">
+						<div class="products-ordering-list">
+							<select>
+								<option>Sort by Price: Low to High</option>
+								<option>Default Sorting</option>
+								<option>Sort by Popularity</option>
+								<option>Sort by Average Rating</option>
+								<option>Sort by Latest</option>
+								<option>Sort by Price: High to Low</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="products-collections-filter" class="row">
+				<div class="col-lg-4 col-md-6 col-sm-6 products-col-item"
+					th:each="product : ${products}">
+					<div class="single-productsBox">
+						<div class="products-image">
+							<a href="#"> <img style="height: 60vh;"
+								th:src="@{'/product_img/' + ${product.productImages[0].productPic}}"
+								class="main-image" alt="image"> <img style="height: 60vh;"
+								th:src="@{'/product_img/' + ${product.productImages[1].productPic}}"
+								class="hover-image" alt="image">
+							</a>
+
+							<div class="products-button">
+								<ul>
+									<li>
+										<div class="wishlist-btn">
+											<a href="#"> <i class='bx bx-heart'></i> <span
+												class="tooltip-label">Add to Wishlist</span>
+											</a>
+										</div>
+									</li>
+									<li>
+										<div class="compare-btn">
+											<a href="#"> <i class='bx bx-refresh'></i> <span
+												class="tooltip-label">Compare</span>
+											</a>
+										</div>
+									</li>
+									<li>
+										<div class="quick-view-btn">
+											<a href="#" data-bs-toggle="modal"
+												data-bs-target="#productsQuickView"> <i
+												class='bx bx-search-alt'></i> <span class="tooltip-label">Quick
+													View</span>
+											</a>
+										</div>
+									</li>
+								</ul>
+							</div>
+
+							<div class="new-tag">New!</div>
+						</div>
+
+						<div class="products-content">
+							<span class="category" th:text="${product.category.title}"></span>
+							<h3>
+								<a href="#" th:text="${product.name}"> Long Sleeve Leopard T-Shirt</a>
+							</h3>
+							<div class="star-rating">
+								<span th:each="i : ${#numbers.sequence(1, 5)}"> <i
+									th:if="${product.avgRating >= i}"
+									th:class="'bx bxs-star'"></i> <i
+									th:unless="${product.avgRating >= i}"
+									th:if="${product.avgRating >= i - 0.5}"
+									th:class="'bx bxs-star-half'"></i> <i
+									th:unless="${product.avgRating >= i || product.avgRating >= i - 0.5}"
+									th:class="'bx bx-star'"></i>
+								</span> <span class="text-dark fw-bold"
+									th:text="${product.avgRating}"></span>
+							</div>
+							<div class="price">
+								<i
+									class="fa-solid fa-indian-rupee-sign text-muted text-decoration-line-through"></i>
+								<span class="old-price" th:text="${product.price}"></span>
+								<i class="fa-solid fa-indian-rupee-sign"></i> <span
+									class="new-price"
+									th:text="${product.getPriceAfterApplyingDiscount}"></span>
+							</div>
+							<a href="#" class="add-to-cart">Add to Cart</a>
+						</div>
+
+						<span class="products-discount"> <span th:text="${product.discount} + '% OFF'"></span> 
+						</span>
+					</div>
+				</div>
+
+
+			</div>
+
+			<div class="pagination-area text-center">
+				<a href="#" class="prev page-numbers"><i
+					class='bx bx-chevron-left'></i></a> <span class="page-numbers current"
+					aria-current="page">1</span> <a href="#" class="page-numbers">2</a>
+				<a href="#" class="page-numbers">3</a> <a href="#"
+					class="page-numbers">4</a> <a href="#" class="page-numbers">5</a> <a
+					href="#" class="next page-numbers"><i
+					class='bx bx-chevron-right'></i></a>
+			</div>
+		</div>
+	</section>
+	<!-- End Products Area -->
+
+</body>
+</html>

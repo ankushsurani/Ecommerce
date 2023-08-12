@@ -23,11 +23,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.eworld.entities.Category;
-import com.eworld.entities.DeliveryStatus;
 import com.eworld.entities.Order;
 import com.eworld.entities.Product;
 import com.eworld.entities.ProductImage;
 import com.eworld.entities.User;
+import com.eworld.enumstype.DeliveryStatus;
 import com.eworld.helper.FileImageUpload;
 import com.eworld.helper.Msg;
 import com.eworld.services.CategoryService;
@@ -78,7 +78,7 @@ public class AdminDashboardController {
 			List<Category> categories = this.categoryService.getAllCategories();
 			model.addAttribute("categories", categories);
 
-			List<Product> products = this.productService.getAllProducts();
+			List<Product> products = this.productService.getAllProducts(0,12);
 			model.addAttribute("products", products);
 
 			model.addAttribute("product", new Product());
@@ -125,7 +125,7 @@ public class AdminDashboardController {
 				List<User> users = this.userService.getAllUser();
 				model.addAttribute("users", users);
 
-				List<Product> products = this.productService.getAllProducts();
+				List<Product> products = this.productService.getAllProducts(0,12);
 				model.addAttribute("products", products);
 
 				List<Category> categories = this.categoryService.getAllCategories();

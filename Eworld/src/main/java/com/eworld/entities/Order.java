@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.eworld.enumstype.DeliveryStatus;
+
 @Entity
 @Table(name = "orders")
 public class Order {

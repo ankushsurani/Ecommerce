@@ -64,6 +64,8 @@ public class HomeController {
 
 	@Value("${spring.application.name}")
 	private String appName;
+	
+	private int pageSize = 12;
 
 	@ModelAttribute
 	public void currentUser(Principal principal, Model model) {
@@ -113,13 +115,13 @@ public class HomeController {
 
 			List<Category> highPriorityCategories = this.categoryPriorityService.getHighPrioCategories();
 
-			List<Product> recentProducts = this.productService.get10RecentProducts(0, 10);
+			List<Product> recentProducts = this.productService.getLatestProducts(0, this.pageSize);
 
-			List<Product> highSellingProducts = this.orderService.getTopSellingProductsInLast15Days(0, 10).toList();
+			List<Product> mostRatedRecentProducts = this.productService.getMostRatedProducts(0, this.pageSize);
 
-			List<Product> mostRatedRecentProducts = this.productService.getMostRatedProductsOfRecentDates();
+			List<Product> highSellingProducts = this.orderService.getPopularProducts(0, this.pageSize);
 
-			List<Product> productsByHighDiscount = this.productService.getProductsByHighDiscount(0, 10);
+			List<Product> productsByHighDiscount = this.productService.getProductsByHighDiscount(0, this.pageSize);
 
 			model.addAttribute("highPriorityProducts", highPriorityProducts)
 					.addAttribute("highPriorityCategories", highPriorityCategories)

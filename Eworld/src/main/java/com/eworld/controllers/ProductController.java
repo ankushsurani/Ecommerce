@@ -11,12 +11,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.eworld.entities.Cart;
 import com.eworld.entities.Product;
 import com.eworld.entities.User;
 import com.eworld.helper.Msg;
 import com.eworld.services.CartService;
+import com.eworld.services.OrderService;
 import com.eworld.services.ProductService;
 import com.eworld.services.UserService;
 
@@ -32,6 +34,11 @@ public class ProductController {
 	@Autowired
 	private CartService cartService;
 
+	@Autowired
+	private OrderService orderService;
+	
+	private int pageSize = 12;
+
 	@ModelAttribute
 	public void currentUser(Principal principal, Model model) {
 		if (principal != null) {
@@ -43,21 +50,35 @@ public class ProductController {
 		}
 	}
 
-	@GetMapping("/product/{pId}")
-	public String getProduct(@PathVariable("pId") int pId, Model model, HttpSession session) {
+	@GetMapping("/product/page={pageNum}")
+	public String filterProducts(@RequestParam(name = "sort", required = false) String sort,
+			@PathVariable("pageNum") int pageNum, Model model) {
 
-		try {
-
-			Product product = this.productService.getProduct(pId);
-			model.addAttribute("product", product);
-			model.addAttribute("title", product.getName());
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
+		List<Product> products = null;
+		
+		if (sort != null) {
+			switch (sort) {
+			case "latest": {
+				products = this.productService.getLatestProducts(pageNum, this.pageSize);
+				break;
+			}
+			case "rating":
+				products = this.productService.getMostRatedProducts(pageNum, this.pageSize);
+				break;
+			case "popularity":
+				products = this.orderService.getPopularProducts(pageNum, this.pageSize);
+				break;
+			case "highDiscount":
+				products = this.productService.getProductsByHighDiscount(0, this.pageSize);
+				break;
+			}
+		} else {
+			products = this.productService.getAllProducts(pageNum, this.pageSize);
 		}
+		
+		model.addAttribute("products", products);
 
-		return "product_details";
+		return "products";
 	}
 
 }

@@ -1,11 +1,11 @@
 package com.eworld.services;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,8 +24,9 @@ public class ProductService {
 		this.productRepository.save(product);
 	}
 
-	public List<Product> getAllProducts() {
-		return this.productRepository.findAll().stream().map(product -> {
+	public List<Product> getAllProducts(int pageNum, int pageSize) {
+		Pageable pageable = PageRequest.of(pageNum, pageSize);
+		return this.productRepository.findAll(pageable).stream().map(product -> {
 			product.setAvgRating(getAverageRatingForProduct(product.getId()));
 			return product;
 		}).collect(Collectors.toList());
@@ -51,20 +52,28 @@ public class ProductService {
 		}).collect(Collectors.toList());
 	}
 
-	public List<Product> get10RecentProducts(int page, int size) {
+	public List<Product> getLatestProducts(int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
-		return this.productRepository.find10RecentProducts(pageable).toList().stream().map(product -> {
+		return this.productRepository.findLatestProducts(pageable).toList().stream().map(product -> {
 			product.setAvgRating(getAverageRatingForProduct(product.getId()));
 			return product;
 		}).collect(Collectors.toList());
 	}
 
-	public List<Product> getMostRatedProductsOfRecentDates() {
-		LocalDateTime cutoffDate = LocalDateTime.now().minusDays(30);
-		return productRepository.findMostRatedProductsOfRecentDates(cutoffDate).stream().map(product -> {
-			product.setAvgRating(getAverageRatingForProduct(product.getId()));
-			return product;
-		}).collect(Collectors.toList());
+	public List<Product> getMostRatedProducts(int pageNum, int pageSize) {
+		List<Product> products = getAllProducts(pageNum, pageSize);
+
+		List<Product> sortedProducts = new ArrayList<>();
+		for (Product product : products) {
+			Double avgRating = getAverageRatingForProduct(product.getId());
+			product.setAvgRating(avgRating);
+			sortedProducts.add(product);
+		}
+
+		// Sort the products based on average ratings
+		sortedProducts.sort(Comparator.comparing(Product::getAvgRating).reversed());
+
+		return sortedProducts;
 	}
 
 	public Double getAverageRatingForProduct(int productId) {
@@ -81,7 +90,7 @@ public class ProductService {
 
 	public List<Product> getProductsByHighDiscount(int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
-		return productRepository.findAllByOrderByDiscountDesc(pageable).toList().stream().map(product -> {
+		return productRepository.findAllByOrderByDiscountDesc(pageable).stream().map(product -> {
 			product.setAvgRating(getAverageRatingForProduct(product.getId()));
 			return product;
 		}).collect(Collectors.toList());

@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.eworld.entities.Address;
 import com.eworld.entities.Cart;
-import com.eworld.entities.DeliveryStatus;
 import com.eworld.entities.Order;
 import com.eworld.entities.Payment;
 import com.eworld.entities.User;
+import com.eworld.enumstype.DeliveryStatus;
 import com.eworld.helper.Msg;
 import com.eworld.services.AddressService;
 import com.eworld.services.CartService;
