@@ -23,7 +23,7 @@ public class OrderService {
 		this.orderRepository.save(order);
 	}
 
-	public Order findById(int orderId) {
+	public Order findById(String orderId) {
 		return this.orderRepository.findById(orderId).get();
 	}
 

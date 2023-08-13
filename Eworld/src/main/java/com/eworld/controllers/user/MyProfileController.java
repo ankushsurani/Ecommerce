@@ -4,9 +4,6 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Random;
 
-import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -27,6 +24,9 @@ import com.eworld.helper.Msg;
 import com.eworld.services.AddressService;
 import com.eworld.services.CartService;
 import com.eworld.services.UserService;
+
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/user")
@@ -144,7 +144,7 @@ public class MyProfileController {
 
 	// edit address
 	@PostMapping("/edit-address/{addressId}")
-	public String editAddress(@PathVariable("addressId") int addressId, Model model, Principal principal,
+	public String editAddress(@PathVariable("addressId") String addressId, Model model, Principal principal,
 			HttpSession session) {
 		model.addAttribute("title", "Edit Address - Eworld");
 
@@ -171,7 +171,7 @@ public class MyProfileController {
 
 	// delete address
 	@PostMapping("/delete-address/{addressId}")
-	public String deleteAddress(@PathVariable("addressId") int addressId, Model model, HttpSession session) {
+	public String deleteAddress(@PathVariable("addressId") String addressId, Model model, HttpSession session) {
 		model.addAttribute("title", "Delete Address - Eworld");
 
 		try {
@@ -196,7 +196,7 @@ public class MyProfileController {
 
 		try {
 
-			User oldUser = this.userService.getUserById(user.getUserId());
+			User oldUser = this.userService.getUserById(user.getId());
 
 			if (user.getFullName() != null) {
 				oldUser.setFullName(user.getFullName());
@@ -229,7 +229,7 @@ public class MyProfileController {
 				return "redirect:/user/profile";
 			}
 
-			User oldUser = this.userService.getUserById(user.getUserId());
+			User oldUser = this.userService.getUserById(user.getId());
 
 			oldUser.setMobilenum(user.getMobilenum());
 

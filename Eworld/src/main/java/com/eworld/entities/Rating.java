@@ -2,18 +2,21 @@ package com.eworld.entities;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Rating {
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@GeneratedValue(generator = "custom-uuid-generator")
+	@GenericGenerator(name = "custom-uuid-generator", strategy = "com.eworld.helper.CustomUUIDGenerator")
+	private String id;
 
 	// rating value is between 1 and 5
 	private int value;
@@ -32,7 +35,7 @@ public class Rating {
 		super();
 	}
 
-	public Rating(Long id, int value, LocalDateTime ratedDate, Product product, User user) {
+	public Rating(String id, int value, LocalDateTime ratedDate, Product product, User user) {
 		super();
 		this.id = id;
 		this.value = value;
@@ -41,11 +44,11 @@ public class Rating {
 		this.user = user;
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

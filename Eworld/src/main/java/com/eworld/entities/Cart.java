@@ -2,9 +2,10 @@ package com.eworld.entities;
 
 import java.util.Date;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -13,8 +14,9 @@ import jakarta.persistence.ManyToOne;
 public class Cart {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int cartId;
+	@GeneratedValue(generator = "custom-uuid-generator")
+	@GenericGenerator(name = "custom-uuid-generator", strategy = "com.eworld.helper.CustomUUIDGenerator")
+	private String id;
 
 	private Date createdDate;
 
@@ -32,9 +34,9 @@ public class Cart {
 		super();
 	}
 
-	public Cart(int cartId, Date createdDate, Product product, User user, int quantity) {
+	public Cart(String id, Date createdDate, Product product, User user, int quantity) {
 		super();
-		this.cartId = cartId;
+		this.id = id;
 		this.createdDate = createdDate;
 		this.product = product;
 		this.user = user;
@@ -49,12 +51,12 @@ public class Cart {
 		this.quantity = quantity;
 	}
 
-	public int getCartId() {
-		return cartId;
+	public String getId() {
+		return id;
 	}
 
-	public void setCartId(int cartId) {
-		this.cartId = cartId;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public Date getCreatedDate() {

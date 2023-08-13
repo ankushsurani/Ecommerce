@@ -1,18 +1,13 @@
 package com.eworld.controllers.admin;
 
-import java.awt.print.Pageable;
 import java.security.Principal;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,6 +32,9 @@ import com.eworld.services.OrderService;
 import com.eworld.services.ProductImageService;
 import com.eworld.services.ProductService;
 import com.eworld.services.UserService;
+
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/admin")
@@ -73,7 +71,7 @@ public class AdminDashboardController {
 		model.addAttribute("title", "Dashboard - Eworld");
 
 		try {
-			
+
 //			Pageable pageable = PageRequest.of(0, 12);
 
 			List<User> users = this.userService.getAllUser();
@@ -116,7 +114,7 @@ public class AdminDashboardController {
 
 	@PostMapping("/add-product")
 	public String addProduct(@Valid @ModelAttribute("product") Product product, BindingResult result,
-			@RequestParam("catId") int catId, @RequestParam("product_images") List<MultipartFile> files,
+			@RequestParam("catId") String catId, @RequestParam("product_images") List<MultipartFile> files,
 			HttpSession session, Model model) {
 
 		model.addAttribute("title", "Add product - Eworld");
@@ -198,7 +196,7 @@ public class AdminDashboardController {
 
 	// change order status
 	@PostMapping("/change-status/{orderId}")
-	public String changeOrderStatus(@PathVariable("orderId") int orderId, @RequestParam("status") String status,
+	public String changeOrderStatus(@PathVariable("orderId") String orderId, @RequestParam("status") String status,
 			@RequestParam(name = "deliveryDate", required = false) String deliveryDate, Model model,
 			HttpSession session) throws ParseException {
 		model.addAttribute("title", "Change Status - Eworld");

@@ -12,9 +12,9 @@ import org.springframework.stereotype.Repository;
 import com.eworld.entities.Product;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Integer> {
+public interface ProductRepository extends JpaRepository<Product, String> {
 
-	public List<Product> findByCategory_id(int category_id);
+	public List<Product> findByCategory_id(String category_id);  //remove when update project
 
 	// search
 	public List<Product> findByNameContaining(String name);

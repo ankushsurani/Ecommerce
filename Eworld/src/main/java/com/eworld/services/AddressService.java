@@ -23,7 +23,7 @@ public class AddressService {
 		return this.addressRepository.findByUser(user);
 	}
 
-	public Address getAddressById(int addressId) {
+	public Address getAddressById(String addressId) {
 		return this.addressRepository.findById(addressId).get();
 	}
 

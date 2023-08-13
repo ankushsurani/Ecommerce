@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.eworld.entities.CategoryPriority;
 
 @Repository
-public interface CategoryPriorityRepository extends JpaRepository<CategoryPriority, Integer>{
+public interface CategoryPriorityRepository extends JpaRepository<CategoryPriority, String>{
 
 }

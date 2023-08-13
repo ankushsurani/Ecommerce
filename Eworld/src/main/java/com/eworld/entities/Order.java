@@ -2,25 +2,27 @@ package com.eworld.entities;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import com.eworld.enumstype.DeliveryStatus;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
-import com.eworld.enumstype.DeliveryStatus;
 
 @Entity
 @Table(name = "orders")
 public class Order {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int order_id;
+	@GeneratedValue(generator = "custom-uuid-generator")
+	@GenericGenerator(name = "custom-uuid-generator", strategy = "com.eworld.helper.CustomUUIDGenerator")
+	private String id;
 
 	private LocalDateTime createdDate;
 
@@ -51,10 +53,10 @@ public class Order {
 		super();
 	}
 
-	public Order(int order_id, LocalDateTime createdDate, LocalDateTime deliveryDate, DeliveryStatus deliveryStatus,
+	public Order(String id, LocalDateTime createdDate, LocalDateTime deliveryDate, DeliveryStatus deliveryStatus,
 			String paymentType, int totalPayment, Address address, Product product, int quantity, User user) {
 		super();
-		this.order_id = order_id;
+		this.id = id;
 		this.createdDate = createdDate;
 		this.deliveryDate = deliveryDate;
 		this.deliveryStatus = deliveryStatus;
@@ -80,12 +82,12 @@ public class Order {
 		this.user = user;
 	}
 
-	public int getOrder_id() {
-		return order_id;
+	public String getId() {
+		return id;
 	}
 
-	public void setOrder_id(int order_id) {
-		this.order_id = order_id;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public LocalDateTime getCreatedDate() {

@@ -1,21 +1,23 @@
 package com.eworld.entities;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 public class Address {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	@GeneratedValue(generator = "custom-uuid-generator")
+	@GenericGenerator(name = "custom-uuid-generator", strategy = "com.eworld.helper.CustomUUIDGenerator")
+	private String id;
 
 	@Size(min = 3, max = 50)
 	private String name;
@@ -46,8 +48,8 @@ public class Address {
 		super();
 	}
 
-	public Address(int id, String name, String mobilenum, String pincode, String fullAddress, String state, String city,
-			String addressType, User user) {
+	public Address(String id, String name, String mobilenum, String pincode, String fullAddress, String state,
+			String city, String addressType, User user) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -60,11 +62,11 @@ public class Address {
 		this.user = user;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

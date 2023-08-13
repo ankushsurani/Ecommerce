@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,15 +16,13 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-import org.hibernate.annotations.GenericGenerator;
-
 @Entity
 public class User {
 
 	@Id
 	@GeneratedValue(generator = "custom-uuid-generator")
 	@GenericGenerator(name = "custom-uuid-generator", strategy = "com.eworld.helper.CustomUUIDGenerator")
-	private String userId;
+	private String id;
 
 	@Size(min = 3, max = 100, message = "Name must have 3 to 100 characters")
 	private String fullName;
@@ -56,10 +56,10 @@ public class User {
 		super();
 	}
 
-	public User(String userId, String fullName, String email, String password, String mobilenum, String gender,
+	public User(String id, String fullName, String email, String password, String mobilenum, String gender,
 			String profilePic, String role, boolean status) {
 		super();
-		this.userId = userId;
+		this.id = id;
 		this.fullName = fullName;
 		this.email = email;
 		this.password = password;
@@ -83,12 +83,12 @@ public class User {
 		this.status = status;
 	}
 
-	public String getUserId() {
-		return userId;
+	public String getId() {
+		return id;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getFullName() {
@@ -181,7 +181,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", fullName=" + fullName + ", email=" + email + ", password=" + password
+		return "User [userId=" + id + ", fullName=" + fullName + ", email=" + email + ", password=" + password
 				+ ", mobilenum=" + mobilenum + ", gender=" + gender + ", profilePic=" + profilePic + ", role=" + role
 				+ ", status=" + status + ", emailVerification=" + emailVerification + ", creationDateTime="
 				+ creationDateTime + "]";

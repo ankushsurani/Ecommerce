@@ -4,28 +4,29 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 public class Product {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	@GeneratedValue(generator = "custom-uuid-generator")
+	@GenericGenerator(name = "custom-uuid-generator", strategy = "com.eworld.helper.CustomUUIDGenerator")
+	private String id;
 
 	@NotBlank
 	@Size(min = 3, max = 100)
@@ -58,7 +59,7 @@ public class Product {
 
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 	private List<Rating> ratings = new ArrayList<>();
-	
+
 	private double avgRating = 0.0;
 
 	@ManyToOne
@@ -84,7 +85,7 @@ public class Product {
 		this.category = category;
 	}
 
-	public Product(int id, String name, String brandName, String description, int price, int discount, int quantity,
+	public Product(String id, String name, String brandName, String description, int price, int discount, int quantity,
 			LocalDateTime addedDate, List<ProductImage> productImages, List<Rating> ratings, Category category) {
 		super();
 		this.id = id;
@@ -100,11 +101,11 @@ public class Product {
 		this.category = category;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

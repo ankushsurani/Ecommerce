@@ -3,11 +3,8 @@ package com.eworld.controllers.user;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-import jakarta.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +32,8 @@ import com.eworld.services.PaymentService;
 import com.eworld.services.UserService;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/user")
@@ -101,7 +100,7 @@ public class OrderController {
 	}
 
 	@PostMapping("/submit-order")
-	public String submitOrder(@RequestParam("orderAddress") int AddressId,
+	public String submitOrder(@RequestParam("orderAddress") String AddressId,
 			@RequestParam("paymentOption") String paymentOption, @RequestParam("orderAmount") int orderAmount,
 			Principal principal, Model model, HttpSession session) {
 		model.addAttribute("title", "Submit Order - Eworld");
@@ -110,7 +109,7 @@ public class OrderController {
 
 			Address address = this.addressService.getAddressById(AddressId);
 
-			User user = this.userService.getUserById(address.getUser().getUserId());
+			User user = this.userService.getUserById(address.getUser().getId());
 
 			List<Cart> carts = this.cartService.findByUser(user);
 
@@ -131,7 +130,7 @@ public class OrderController {
 
 				if (paymentOption.equals("Cash On Delivery")) {
 					order.setDeliveryStatus(DeliveryStatus.AWAITINGPICKUP);
-					this.cartService.removeCart(cart.getCartId());
+					this.cartService.removeCart(cart.getId());
 				}
 
 				else {
@@ -235,7 +234,7 @@ public class OrderController {
 
 				this.paymentService.savePayment(payment);
 
-				Order order = this.orderService.findById(payment.getOrder().getOrder_id());
+				Order order = this.orderService.findById(payment.getOrder().getId());
 				order.setDeliveryStatus(DeliveryStatus.AWAITINGPICKUP);
 				this.orderService.saveOrder(order);
 			}
@@ -245,7 +244,7 @@ public class OrderController {
 			User user = this.userService.findByEmail(principal.getName());
 			List<Cart> carts = this.cartService.findByUser(user);
 			for (Cart cart : carts) {
-				this.cartService.removeCart(cart.getCartId());
+				this.cartService.removeCart(cart.getId());
 			}
 
 			session.setAttribute("message", new Msg("Your Order Is Send !! Continue Shopping...", "alert-success"));

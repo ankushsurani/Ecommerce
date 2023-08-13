@@ -3,10 +3,11 @@ package com.eworld.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
@@ -14,15 +15,16 @@ import jakarta.persistence.OneToMany;
 public class Category {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	@GeneratedValue(generator = "custom-uuid-generator")
+	@GenericGenerator(name = "custom-uuid-generator", strategy = "com.eworld.helper.CustomUUIDGenerator")
+	private String id;
 
 	private String title;
-	
+
 	private String cachyTitle;
 
 	private String description;
-	
+
 	private String categoryImage;
 
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
@@ -32,7 +34,8 @@ public class Category {
 		super();
 	}
 
-	public Category(int id, String title, String cachyTitle, String description, String categoryImage, List<Product> products) {
+	public Category(String id, String title, String cachyTitle, String description, String categoryImage,
+			List<Product> products) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -51,11 +54,11 @@ public class Category {
 		this.products = products;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

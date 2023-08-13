@@ -1,8 +1,9 @@
 package com.eworld.entities;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
@@ -13,8 +14,9 @@ import jakarta.persistence.Table;
 public class Payment {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	@GeneratedValue(generator = "custom-uuid-generator")
+	@GenericGenerator(name = "custom-uuid-generator", strategy = "com.eworld.helper.CustomUUIDGenerator")
+	private String id;
 
 	private String rzporderId;
 
@@ -34,7 +36,7 @@ public class Payment {
 		super();
 	}
 
-	public Payment(long id, String rzporderId, int amount, String receipt, String status, Order order,
+	public Payment(String id, String rzporderId, int amount, String receipt, String status, Order order,
 			String paymentId) {
 		super();
 		this.id = id;
@@ -56,11 +58,11 @@ public class Payment {
 		this.paymentId = paymentId;
 	}
 
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

@@ -22,7 +22,7 @@ public class CategoryService {
 		return this.categoryRepository.findAll();
 	}
 
-	public Category getCategory(int catId) {
+	public Category getCategory(String catId) {
 		return this.categoryRepository.findById(catId).get();
 	}
 

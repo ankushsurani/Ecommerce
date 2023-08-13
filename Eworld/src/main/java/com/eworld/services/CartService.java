@@ -28,11 +28,11 @@ public class CartService {
 		return this.cartRepository.findByUser(user);
 	}
 
-	public Cart getCart(int cartId) {
+	public Cart getCart(String cartId) {
 		return this.cartRepository.findById(cartId).get();
 	}
 
-	public void removeCart(int cartId) {
+	public void removeCart(String cartId) {
 		this.cartRepository.deleteById(cartId);
 	}
 

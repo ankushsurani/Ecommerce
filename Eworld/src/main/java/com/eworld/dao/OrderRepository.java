@@ -15,7 +15,7 @@ import com.eworld.entities.User;
 import com.eworld.enumstype.DeliveryStatus;
 
 @Repository
-public interface OrderRepository extends JpaRepository<Order, Integer> {
+public interface OrderRepository extends JpaRepository<Order, String> {
 
 	@Query("select o from Order o where o.deliveryStatus =:s")
 	public List<Order> getOrderByStatus(@Param("s") String status);

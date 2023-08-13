@@ -1,13 +1,9 @@
 package com.eworld.services;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -31,11 +27,11 @@ public class ProductService {
 		return this.productRepository.findAll(pageable);
 	}
 
-	public List<Product> getProductByCategory(int category_id) {
+	public List<Product> getProductByCategory(String category_id) {
 		return this.productRepository.findByCategory_id(category_id);
 	}
 
-	public Product getProduct(int id) {
+	public Product getProduct(String id) {
 		return this.productRepository.findById(id).get();
 	}
 
@@ -58,32 +54,31 @@ public class ProductService {
 	}
 
 	public Page<Product> getFilteredAndSortedProducts(FilterRequest filterRequest, Pageable pageable) {
-		return productRepository.filterAndSortProducts(filterRequest.getCategoryId(),
-				filterRequest.getMinPrice(), filterRequest.getMaxPrice(), filterRequest.getBrandName(),
-				filterRequest.getSortBy(), pageable);
+		return productRepository.filterAndSortProducts(filterRequest.getCategoryId(), filterRequest.getMinPrice(),
+				filterRequest.getMaxPrice(), filterRequest.getBrandName(), filterRequest.getSortBy(), pageable);
 	}
-	
-	public boolean rateProduct(int productId, Rating rating) {
+
+	public boolean rateProduct(String productId, Rating rating) {
 		boolean flag = false;
-		
+
 		try {
-			
+
 			Product product = this.productRepository.findById(productId).get();
 			List<Rating> ratings = product.getRatings();
 			ratings.add(rating);
-			
+
 			double sumOfRatings = ratings.stream().mapToInt(Rating::getValue).sum();
 			Double avgRating = sumOfRatings / ratings.size();
 			product.setAvgRating(avgRating);
-			
+
 			this.productRepository.save(product);
-			
+
 			flag = true;
-			
+
 		} catch (Exception e) {
 			System.out.println("Something Went Wrong");
 		}
-		
+
 		return flag;
 	}
 

@@ -1,9 +1,10 @@
 package com.eworld.entities;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
@@ -12,33 +13,34 @@ import jakarta.persistence.OneToOne;
 public class CategoryPriority {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int categoryPriorityId;
-	
+	@GeneratedValue(generator = "custom-uuid-generator")
+	@GenericGenerator(name = "custom-uuid-generator", strategy = "com.eworld.helper.CustomUUIDGenerator")
+	private String id;
+
 	@Column(name = "is_high_priority")
 	private boolean highPriority;
-	
+
 	@OneToOne
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "category_id")
 	private Category category;
 
 	public CategoryPriority() {
 		super();
 	}
 
-	public CategoryPriority(int categoryPriorityId, boolean highPriority, Category category) {
+	public CategoryPriority(String id, boolean highPriority, Category category) {
 		super();
-		this.categoryPriorityId = categoryPriorityId;
+		this.id = id;
 		this.highPriority = highPriority;
 		this.category = category;
 	}
 
-	public int getCategoryPriorityId() {
-		return categoryPriorityId;
+	public String getId() {
+		return id;
 	}
 
-	public void setCategoryPriorityId(int categoryPriorityId) {
-		this.categoryPriorityId = categoryPriorityId;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public boolean isHighPriority() {
@@ -56,5 +58,5 @@ public class CategoryPriority {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
-	
+
 }

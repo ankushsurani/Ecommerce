@@ -4,8 +4,6 @@ import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
-import jakarta.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +19,8 @@ import com.eworld.helper.Msg;
 import com.eworld.services.CartService;
 import com.eworld.services.ProductService;
 import com.eworld.services.UserService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/user")
@@ -69,7 +69,7 @@ public class CartController {
 	}
 
 	@GetMapping("/add-to-cart/{productId}")
-	public String addToCart(@PathVariable("productId") int productId, Principal principal, HttpSession session,
+	public String addToCart(@PathVariable("productId") String productId, Principal principal, HttpSession session,
 			Model model) {
 		model.addAttribute("title", "Add CartItem - Eworld");
 
@@ -113,7 +113,7 @@ public class CartController {
 
 	// decrese quantity
 	@GetMapping("/decrease-quantity/{cartId}")
-	public String decreaseQuantity(@PathVariable("cartId") int cartId, Principal principal, Model model,
+	public String decreaseQuantity(@PathVariable("cartId") String cartId, Principal principal, Model model,
 			HttpSession session) {
 		model.addAttribute("title", "Decrease Item - Eworld");
 
@@ -123,7 +123,7 @@ public class CartController {
 
 			Cart cart = this.cartService.getCart(cartId);
 
-			if (cart.getUser().getUserId() == user.getUserId()) {
+			if (cart.getUser().getId().equals(user.getId())) {
 				if (cart.getQuantity() > 1) {
 					cart.setQuantity(cart.getQuantity() - 1);
 					this.cartService.saveCart(cart);
@@ -142,7 +142,7 @@ public class CartController {
 
 	// increse quantity
 	@GetMapping("/increase-quantity/{cartId}")
-	public String increseQuantity(@PathVariable("cartId") int cartId, Principal principal, Model model,
+	public String increseQuantity(@PathVariable("cartId") String cartId, Principal principal, Model model,
 			HttpSession session) {
 		model.addAttribute("title", "Increase Item - Eworld");
 
@@ -152,7 +152,7 @@ public class CartController {
 
 			Cart cart = this.cartService.getCart(cartId);
 
-			if (cart.getUser().getUserId() == user.getUserId()) {
+			if (cart.getUser().getId().equals(user.getId())) {
 				if (cart.getQuantity() < 5) {
 					cart.setQuantity(cart.getQuantity() + 1);
 					this.cartService.saveCart(cart);
@@ -169,7 +169,7 @@ public class CartController {
 
 	// remove cart item
 	@GetMapping("/remove-cart-item/{cartId}")
-	public String removeCart(@PathVariable("cartId") int cartId, Principal principal, HttpSession session,
+	public String removeCart(@PathVariable("cartId") String cartId, Principal principal, HttpSession session,
 			Model model) {
 		model.addAttribute("title", "Remove Item - Eworld");
 
@@ -179,7 +179,7 @@ public class CartController {
 
 			Cart cart = this.cartService.getCart(cartId);
 
-			if (cart.getUser().getUserId() == user.getUserId()) {
+			if (cart.getUser().getId().equals(user.getId())) {
 				this.cartService.removeCart(cartId);
 				session.setAttribute("message",
 						new Msg(cart.getProduct().getName() + " is removed from Cart", "alert-success"));

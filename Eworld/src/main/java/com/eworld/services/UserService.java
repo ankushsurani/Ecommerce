@@ -30,7 +30,7 @@ public class UserService {
 	}
 
 	public User getUserById(String userId) {
-		return this.userRepository.findByUserId(userId);
+		return this.userRepository.findById(userId).get();
 	}
 
 	public User getUserByEmailVerification(String emailVerification) {
