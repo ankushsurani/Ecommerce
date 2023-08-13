@@ -6,11 +6,10 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -34,6 +33,9 @@ import com.eworld.services.OrderService;
 import com.eworld.services.ProductPriorityService;
 import com.eworld.services.ProductService;
 import com.eworld.services.UserService;
+
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class HomeController {
@@ -64,7 +66,7 @@ public class HomeController {
 
 	@Value("${spring.application.name}")
 	private String appName;
-	
+
 	private int pageSize = 12;
 
 	@ModelAttribute
@@ -111,13 +113,15 @@ public class HomeController {
 
 		try {
 
+			Pageable pageable = PageRequest.of(0, this.pageSize);
+
 			Map<String, Product> highPriorityProducts = this.productPriorityService.getHighPriorityProducts();
 
 			List<Category> highPriorityCategories = this.categoryPriorityService.getHighPrioCategories();
 
 			List<Product> recentProducts = this.productService.getLatestProducts(0, this.pageSize);
 
-			List<Product> mostRatedRecentProducts = this.productService.getMostRatedProducts(0, this.pageSize);
+			List<Product> mostRatedRecentProducts = this.productService.getMostRatedProducts(pageable);
 
 			List<Product> highSellingProducts = this.orderService.getPopularProducts(0, this.pageSize);
 
@@ -130,10 +134,6 @@ public class HomeController {
 					.addAttribute("mostRatedRecentProducts", mostRatedRecentProducts)
 					.addAttribute("productsByHighDiscount", productsByHighDiscount);
 
-			/*
-			 * params category, recent products, high discounted product, popular product,
-			 * best selling product
-			 */
 
 		} catch (Exception e) {
 			e.printStackTrace();

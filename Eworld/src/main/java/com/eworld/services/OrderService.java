@@ -1,7 +1,6 @@
 package com.eworld.services;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -19,9 +18,6 @@ public class OrderService {
 
 	@Autowired
 	private OrderRepository orderRepository;
-
-	@Autowired
-	private ProductService productService;
 
 	public void saveOrder(Order order) {
 		this.orderRepository.save(order);
@@ -49,10 +45,7 @@ public class OrderService {
 
 	public List<Product> getPopularProducts(int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
-		return orderRepository.findTopSellingProducts(pageable).stream().map(product -> {
-			product.setAvgRating(this.productService.getAverageRatingForProduct(product.getId()));
-			return product;
-		}).collect(Collectors.toList());
+		return orderRepository.findTopSellingProducts(pageable).toList();
 	}
 
 	public boolean hasUserOrderedProduct(User user, Product product) {

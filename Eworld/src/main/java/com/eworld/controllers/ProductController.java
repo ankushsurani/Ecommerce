@@ -3,9 +3,10 @@ package com.eworld.controllers;
 import java.security.Principal;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.eworld.entities.Cart;
 import com.eworld.entities.Product;
 import com.eworld.entities.User;
-import com.eworld.helper.Msg;
+import com.eworld.helper.FilterRequest;
 import com.eworld.services.CartService;
-import com.eworld.services.OrderService;
 import com.eworld.services.ProductService;
 import com.eworld.services.UserService;
 
@@ -34,9 +34,6 @@ public class ProductController {
 	@Autowired
 	private CartService cartService;
 
-	@Autowired
-	private OrderService orderService;
-	
 	private int pageSize = 12;
 
 	@ModelAttribute
@@ -51,32 +48,28 @@ public class ProductController {
 	}
 
 	@GetMapping("/product/page={pageNum}")
-	public String filterProducts(@RequestParam(name = "sort", required = false) String sort,
-			@PathVariable("pageNum") int pageNum, Model model) {
+	public String filterProducts(@PathVariable("pageNum") int pageNum,
+			@RequestParam(name = "sortBy", required = false) String sortBy,
+			@RequestParam(name = "categoryId", required = false) Integer categoryId,
+			@RequestParam(name = "minPrice", required = false) Integer minPrice,
+			@RequestParam(name = "maxPrice", required = false) Integer maxPrice,
+			@RequestParam(name = "brandName", required = false) String brandName, Model model) {
 
-		List<Product> products = null;
-		
-		if (sort != null) {
-			switch (sort) {
-			case "latest": {
-				products = this.productService.getLatestProducts(pageNum, this.pageSize);
-				break;
-			}
-			case "rating":
-				products = this.productService.getMostRatedProducts(pageNum, this.pageSize);
-				break;
-			case "popularity":
-				products = this.orderService.getPopularProducts(pageNum, this.pageSize);
-				break;
-			case "highDiscount":
-				products = this.productService.getProductsByHighDiscount(0, this.pageSize);
-				break;
-			}
-		} else {
-			products = this.productService.getAllProducts(pageNum, this.pageSize);
+		try {
+
+			FilterRequest filterRequest = new FilterRequest(sortBy, categoryId, minPrice, maxPrice, brandName);
+
+			System.out.println(filterRequest);
+
+			Pageable pageable = PageRequest.of(pageNum, this.pageSize);
+
+			Page<Product> products = productService.getFilteredAndSortedProducts(filterRequest, pageable);
+
+			model.addAttribute("products", products.getContent());
+
+		} catch (Exception e) {
+			System.out.println("Something Went Wrong");
 		}
-		
-		model.addAttribute("products", products);
 
 		return "products";
 	}

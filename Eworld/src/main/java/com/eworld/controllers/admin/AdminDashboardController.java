@@ -1,16 +1,18 @@
 package com.eworld.controllers.admin;
 
+import java.awt.print.Pageable;
 import java.security.Principal;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -71,6 +73,8 @@ public class AdminDashboardController {
 		model.addAttribute("title", "Dashboard - Eworld");
 
 		try {
+			
+//			Pageable pageable = PageRequest.of(0, 12);
 
 			List<User> users = this.userService.getAllUser();
 			model.addAttribute("users", users);
@@ -78,8 +82,8 @@ public class AdminDashboardController {
 			List<Category> categories = this.categoryService.getAllCategories();
 			model.addAttribute("categories", categories);
 
-			List<Product> products = this.productService.getAllProducts(0,12);
-			model.addAttribute("products", products);
+//			List<Product> products = this.productService.getAllProducts(pageable);
+//			model.addAttribute("products", products);
 
 			model.addAttribute("product", new Product());
 
@@ -125,8 +129,8 @@ public class AdminDashboardController {
 				List<User> users = this.userService.getAllUser();
 				model.addAttribute("users", users);
 
-				List<Product> products = this.productService.getAllProducts(0,12);
-				model.addAttribute("products", products);
+//				List<Product> products = this.productService.getAllProducts(0,12);
+//				model.addAttribute("products", products);
 
 				List<Category> categories = this.categoryService.getAllCategories();
 				model.addAttribute("categories", categories);

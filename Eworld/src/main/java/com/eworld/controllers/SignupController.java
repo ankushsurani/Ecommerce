@@ -5,10 +5,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,6 +23,9 @@ import com.eworld.helper.Msg;
 import com.eworld.services.CartService;
 import com.eworld.services.UserService;
 
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
+
 @Controller
 public class SignupController {
 
@@ -41,7 +40,7 @@ public class SignupController {
 
 	@Autowired
 	private EmailService emailService;
-	
+
 	@Value("${spring.application.name}")
 	private String appName;
 
@@ -54,7 +53,7 @@ public class SignupController {
 			List<Cart> carts = this.cartService.findByUser(user);
 			model.addAttribute("cart", carts);
 		}
-		
+
 		model.addAttribute("appName", this.appName);
 		model.addAttribute("subPageName", "Signup");
 		model.addAttribute("pageName", "My Account");
