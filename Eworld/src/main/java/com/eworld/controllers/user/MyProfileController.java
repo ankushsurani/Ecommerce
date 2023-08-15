@@ -25,8 +25,8 @@ import com.eworld.services.AddressService;
 import com.eworld.services.CartService;
 import com.eworld.services.UserService;
 
-import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/user")

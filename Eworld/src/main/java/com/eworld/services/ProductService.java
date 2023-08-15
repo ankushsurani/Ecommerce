@@ -3,9 +3,8 @@ package com.eworld.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import com.eworld.dao.ProductRepository;
@@ -23,39 +22,21 @@ public class ProductService {
 		this.productRepository.save(product);
 	}
 
-	public Page<Product> getAllProducts(Pageable pageable) {
-		return this.productRepository.findAll(pageable);
-	}
-
-	public List<Product> getProductByCategory(String category_id) {
-		return this.productRepository.findByCategory_id(category_id);
-	}
-
 	public Product getProduct(String id) {
 		return this.productRepository.findById(id).get();
+	}
+	
+	public List<String> getAllBrandName(String categoryId){
+		return this.productRepository.getAllBrandName(categoryId);
 	}
 
 	public List<Product> getBypNameContaining(String productName) {
 		return this.productRepository.findByNameContaining(productName);
 	}
 
-	public List<Product> getLatestProducts(int page, int size) {
-		Pageable pageable = PageRequest.of(page, size);
-		return this.productRepository.findLatestProducts(pageable).toList();
-	}
-
-	public List<Product> getMostRatedProducts(Pageable pageable) {
-		return this.productRepository.findAllByOrderByAvgRatingDesc(pageable).toList();
-	}
-
-	public List<Product> getProductsByHighDiscount(int page, int size) {
-		Pageable pageable = PageRequest.of(page, size);
-		return productRepository.findAllByOrderByDiscountDesc(pageable).toList();
-	}
-
-	public Page<Product> getFilteredAndSortedProducts(FilterRequest filterRequest, Pageable pageable) {
+	public Slice<Product> getFilteredAndSortedProducts(FilterRequest filterRequest, Pageable pageable) {
 		return productRepository.filterAndSortProducts(filterRequest.getCategoryId(), filterRequest.getMinPrice(),
-				filterRequest.getMaxPrice(), filterRequest.getBrandName(), filterRequest.getSortBy(), pageable);
+				filterRequest.getMaxPrice(), filterRequest.getBrandName(), filterRequest.getSortType(), pageable);
 	}
 
 	public boolean rateProduct(String productId, Rating rating) {

@@ -408,7 +408,7 @@
     });
     
     // Nice Select JS
-    $('select').niceSelect();
+    //$('select').niceSelect();
 
     // Blog Slides
     $('.blog-slides').owlCarousel({

@@ -1,43 +1,50 @@
 package com.eworld.helper;
 
+import java.util.List;
+
 public class FilterRequest {
 
-	private String sortBy;
+	private String sortType;
 
-	private Integer categoryId;
+	private String categoryId;
 
 	private Integer minPrice;
 
 	private Integer maxPrice;
 
-	private String brandName;
+	private List<String> brandName;
 
 	public FilterRequest() {
 		super();
 	}
 
-	public FilterRequest(String sortBy, Integer categoryId, Integer minPrice, Integer maxPrice, String brandName) {
+	public FilterRequest(String sortType, String categoryId, Integer minPrice, Integer maxPrice, List<String> brandName) {
 		super();
-		this.sortBy = sortBy;
+		this.sortType = sortType;
 		this.categoryId = categoryId;
 		this.minPrice = minPrice;
 		this.maxPrice = maxPrice;
 		this.brandName = brandName;
 	}
 
-	public String getSortBy() {
-		return sortBy;
+	public FilterRequest(String sortType) {
+		super();
+		this.sortType = sortType;
 	}
 
-	public void setSortBy(String sortBy) {
-		this.sortBy = sortBy;
+	public String getSortType() {
+		return sortType;
 	}
 
-	public Integer getCategoryId() {
+	public void setSortType(String sortType) {
+		this.sortType = sortType;
+	}
+
+	public String getCategoryId() {
 		return categoryId;
 	}
 
-	public void setCategoryId(Integer categoryId) {
+	public void setCategoryId(String categoryId) {
 		this.categoryId = categoryId;
 	}
 
@@ -57,17 +64,17 @@ public class FilterRequest {
 		this.maxPrice = maxPrice;
 	}
 
-	public String getBrandName() {
+	public List<String> getBrandName() {
 		return brandName;
 	}
 
-	public void setBrandName(String brandName) {
+	public void setBrandName(List<String> brandName) {
 		this.brandName = brandName;
 	}
 
 	@Override
 	public String toString() {
-		return "FilterRequest [sortBy=" + sortBy + ", categoryId=" + categoryId + ", minPrice=" + minPrice
+		return "FilterRequest [sortType=" + sortType + ", categoryId=" + categoryId + ", minPrice=" + minPrice
 				+ ", maxPrice=" + maxPrice + ", brandName=" + brandName + "]";
 	}
 

@@ -33,8 +33,8 @@ import com.eworld.services.ProductImageService;
 import com.eworld.services.ProductService;
 import com.eworld.services.UserService;
 
-import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/admin")
