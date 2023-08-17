@@ -33,19 +33,23 @@
 					</div>
 
 					<div class="col-lg-4 col-md-4">
-						<p>Showing 1 - <span th:text="${#lists.size(products)}"></span></p>
+						<p>
+							Showing 1 - <span th:text="${#lists.size(products)}"></span>
+						</p>
 					</div>
 
 					<div class="col-lg-4 col-md-4">
 						<div class="products-ordering-list">
 							<select class="form-select" id="sortingDropdown">
-							    <option value="default">Default Sorting</option>
-							    <option value="Price:LowToHigh">Sort by Price: Low to High</option>
-							    <option value="Price:HighToLow">Sort by Price: High to Low</option>
-							    <option value="Latest">Sort by Latest</option>
-							    <option value="Rating">Sort by High Rating</option>
-							    <option value="Popularity">Sort by Popularity</option>
-							    <option value="HighDiscount">Sort by High Discount</option>
+								<option value="default">Default Sorting</option>
+								<option value="Price:LowToHigh">Sort by Price: Low to
+									High</option>
+								<option value="Price:HighToLow">Sort by Price: High to
+									Low</option>
+								<option value="Latest">Sort by Latest</option>
+								<option value="Rating">Sort by High Rating</option>
+								<option value="Popularity">Sort by Popularity</option>
+								<option value="HighDiscount">Sort by High Discount</option>
 							</select>
 						</div>
 					</div>
@@ -53,6 +57,7 @@
 			</div>
 
 			<div id="products-collections-filter" class="row">
+			<i class="text-center fs-3" th:if="${products == null or products.isEmpty()}">No Products Found For this Filter</i>
 				<div class="col-lg-4 col-md-6 col-sm-6 products-col-item"
 					th:each="product : ${products}">
 					<div class="single-productsBox">
@@ -98,32 +103,32 @@
 						<div class="products-content">
 							<span class="category" th:text="${product.category.title}"></span>
 							<h3>
-								<a href="#" th:text="${product.name}"> Long Sleeve Leopard T-Shirt</a>
+								<a href="#" th:text="${product.name}"> Long Sleeve Leopard
+									T-Shirt</a>
 							</h3>
 							<div class="star-rating">
 								<span th:each="i : ${#numbers.sequence(1, 5)}"> <i
-									th:if="${product.avgRating >= i}"
-									th:class="'bx bxs-star'"></i> <i
-									th:unless="${product.avgRating >= i}"
+									th:if="${product.avgRating >= i}" th:class="'bx bxs-star'"></i>
+									<i th:unless="${product.avgRating >= i}"
 									th:if="${product.avgRating >= i - 0.5}"
 									th:class="'bx bxs-star-half'"></i> <i
 									th:unless="${product.avgRating >= i || product.avgRating >= i - 0.5}"
 									th:class="'bx bx-star'"></i>
-								</span> <span class="text-dark fw-bold"
-									th:text="${product.avgRating}"></span>
+								</span> <span class="text-dark fw-bold" th:text="${product.avgRating}"></span>
 							</div>
 							<div class="price">
 								<i
 									class="fa-solid fa-indian-rupee-sign text-muted text-decoration-line-through"></i>
-								<span class="old-price" th:text="${product.price}"></span>
-								<i class="fa-solid fa-indian-rupee-sign"></i> <span
+								<span class="old-price" th:text="${product.price}"></span> <i
+									class="fa-solid fa-indian-rupee-sign"></i> <span
 									class="new-price"
 									th:text="${product.getPriceAfterApplyingDiscount}"></span>
 							</div>
 							<a href="#" class="add-to-cart">Add to Cart</a>
 						</div>
 
-						<span class="products-discount"> <span th:text="${product.discount} + '% OFF'"></span> 
+						<span class="products-discount"> <span
+							th:text="${product.discount} + '% OFF'"></span>
 						</span>
 					</div>
 				</div>
@@ -131,45 +136,119 @@
 
 			</div>
 
-			<div class="pagination-area text-center">
-				<a href="#" class="prev page-numbers"><i
-					class='bx bx-chevron-left'></i></a> <span class="page-numbers current"
-					aria-current="page">1</span> <a href="#" class="page-numbers">2</a>
-				<a href="#" class="page-numbers">3</a> <a href="#"
-					class="page-numbers">4</a> <a href="#" class="page-numbers">5</a> <a
-					href="#" class="next page-numbers"><i
-					class='bx bx-chevron-right'></i></a>
+			<div th:unless="${products == null or products.isEmpty()}" class="pagination-area text-center">
+				<a id="prev-button" href="javascript:void(0);"
+					onclick="decreasePage()" class="prev page-numbers me-2"> <i style="font-family: monospace;"><i
+						class='bx bx-chevron-left'></i><span th:text="PREV"></span></i></a>
+				 
+				 <a id="next-button" href="javascript:void(0);"
+					onclick="increasePage()" class="next page-numbers ms-2"> <i style="font-family: monospace;"><span
+						th:text="NEXT"></span><i class='bx bx-chevron-right'></i></i></a>
+						
+				<div id="hasNextPageData" th:attr="data-hasNextPage=${hasNextPage}"
+					style="display: none;"></div>
 			</div>
 		</div>
 
 
 		<script>
-		    $(document).ready(function() {
-		        // Listen for change event on the sorting dropdown
-		        $('#sortingDropdown').on('change', function() {
-		            var selectedOption = $(this).val();
-		            var currentUrl = window.location.href;
-		
-		            // Remove existing "sort" parameter if present
-		            var updatedUrl = currentUrl.replace(/[\?&]sortType=[^&]+/, "");
-		
-		            // Append the selected option as a new "sort" parameter
-		            selectedOption != "default" ? (updatedUrl += (updatedUrl.indexOf("?") !== -1 ? "&" : "?") + "sortType=" + selectedOption) : updatedUrl;
-		
-		            // Navigate to the updated URL
-		            window.location.href = updatedUrl;
-		        });
-		
-		        // Highlight the selected option on page load
-		        var selectedSortType = getUrlParameter('sortType');
-		        $('#sortingDropdown option[value="' + selectedSortType + '"]').prop('selected', true);
-		    });
-		
-		    // Function to get URL parameter value
-		    function getUrlParameter(name) {
-		        var urlParams = new URLSearchParams(window.location.search);
-		        return urlParams.get(name);
-		    }
+			$(document)
+					.ready(
+							function() {
+								// Listen for change event on the sorting dropdown
+								$('#sortingDropdown')
+										.on(
+												'change',
+												function() {
+													var selectedOption = $(this)
+															.val();
+													var currentUrl = window.location.href;
+
+													// Remove existing "sort" parameter if present
+													var updatedUrl = currentUrl
+															.replace(
+																	/[\?&]sortType=[^&]+/,
+																	"");
+
+													// Append the selected option as a new "sort" parameter
+													selectedOption != "default" ? (updatedUrl += (updatedUrl
+															.indexOf("?") !== -1 ? "&"
+															: "?")
+															+ "sortType="
+															+ selectedOption)
+															: updatedUrl;
+
+													// Update "page" parameter to 0
+													updatedUrl = updatedUrl
+															.replace(
+																	/page=\d+/,
+																	"page=0");
+
+													// Navigate to the updated URL
+													window.location.href = updatedUrl;
+												});
+
+								// Highlight the selected option on page load
+								var selectedSortType = getUrlParameter('sortType');
+								$(
+										'#sortingDropdown option[value="'
+												+ selectedSortType + '"]')
+										.prop('selected', true);
+							});
+
+			// Function to get URL parameter value
+			function getUrlParameter(name) {
+				var urlParams = new URLSearchParams(window.location.search);
+				return urlParams.get(name);
+			}
+
+			//next page
+			function increasePage() {
+				var currentUrl = window.location.href;
+				var currentPage = parseInt(currentUrl.match(/page=(\d+)/)[1]);
+
+				var hasNextPageData = document
+						.getElementById('hasNextPageData');
+				var hasNextPageValue = hasNextPageData
+						.getAttribute('data-hasNextPage');
+				var hasNextPage = hasNextPageValue === 'true'; // Convert the string to a boolean
+
+				if (hasNextPage) {
+					var updatedUrl = currentUrl.replace(/(page=)(\d+)/,
+							function(match, prefix, page) {
+								var nextPage = parseInt(page) + 1;
+								return prefix + nextPage;
+							});
+
+					window.location.href = updatedUrl;
+				} else {
+					var nextButton = document.getElementById('next-button');
+					nextButton.classList.add('disabled');
+					nextButton.setAttribute('disabled', 'disabled');
+				}
+			}
+
+			//prev page
+			function decreasePage() {
+				var currentUrl = window.location.href;
+				var currentPage = parseInt(currentUrl.match(/page=(\d+)/)[1]);
+
+				if (currentPage > 0) {
+					var updatedUrl = currentUrl.replace(/(page=)(\d+)/,
+							function(match, prefix, page) {
+								var prevPage = parseInt(page) - 1;
+								return prefix + prevPage;
+							});
+
+					window.location.href = updatedUrl;
+				} else {
+					// Disable the "Previous" button or handle it as needed
+					// For example, add the 'disabled' class to the button
+					var prevButton = document.getElementById('prev-button'); // Replace with your button ID
+					prevButton.classList.add('disabled text-muted');
+					prevButton.setAttribute('disabled', 'disabled');
+				}
+			}
 		</script>
 
 

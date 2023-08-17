@@ -12,13 +12,13 @@ public class FilterRequest {
 
 	private Integer maxPrice;
 
-	private List<String> brandName;
+	private String brandName;
 
 	public FilterRequest() {
 		super();
 	}
 
-	public FilterRequest(String sortType, String categoryId, Integer minPrice, Integer maxPrice, List<String> brandName) {
+	public FilterRequest(String sortType, String categoryId, Integer minPrice, Integer maxPrice, String brandName) {
 		super();
 		this.sortType = sortType;
 		this.categoryId = categoryId;
@@ -64,11 +64,11 @@ public class FilterRequest {
 		this.maxPrice = maxPrice;
 	}
 
-	public List<String> getBrandName() {
+	public String getBrandName() {
 		return brandName;
 	}
 
-	public void setBrandName(List<String> brandName) {
+	public void setBrandName(String brandName) {
 		this.brandName = brandName;
 	}
 

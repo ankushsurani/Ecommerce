@@ -7952,7 +7952,7 @@ Woocommerce Widget Sidebar CSS
 }
 
 .woocommerce-widget-area .price-list-widget .collection-filter-by-price .irs--flat .irs-min::before, .woocommerce-widget-area .price-list-widget .collection-filter-by-price .irs--flat .irs-max::before {
-  content: '$';
+  content: '\20B9';
   position: absolute;
   left: 3px;
   top: 0.5px;

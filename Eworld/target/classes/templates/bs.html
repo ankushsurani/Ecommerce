@@ -1930,23 +1930,51 @@
 				<div class="modal-body">
 					<div class="woocommerce-widget-area">
 						<div class="woocommerce-widget filter-list-widget">
-							<h3 th:classappend="${param.size() == 0} ? 'd-none' : ''" class="woocommerce-widget-title">Current Selection</h3>
+							<h3 th:classappend="${param.size() == 0} ? 'd-none' : ''"
+								class="woocommerce-widget-title">Current Selection</h3>
 
 							<div class="selected-filters-wrap-list">
 								<ul>
-									<li th:if="${param.sortType} != null"><a href="#"><span
-											th:if="${'Sort By : ' + param.sortType}"></span><i
-											class='bx bx-x'></i></a></li>
-									<li th:if="${param.brandName} != null"><a href="#"><span
-											th:text="${'Brand : ' + #strings.capitalize(param.brandName)}"></span><i
-											class='bx bx-x'></i></a></li>
-									<li th:if="${param.categoryId} != null"><a href="#"><span
-											th:text="${'Category : ' + #strings.capitalize(param.categoryId)}"></span><i
-											class='bx bx-x'></i></a></li>
+									<li th:if="${param.sortType != null}">
+									    <a style="cursor: pointer;" onclick="removeParamFromUrl('sortType')">
+									        <span th:text="${'Sort By : ' + param.sortType}"></span>
+									        <i class='bx bx-x'></i>
+									    </a>
+									</li>
+
+									<li th:if="${param.brandName != null}">
+										<a style="cursor: pointer;" onclick="removeParamFromUrl('brandName')">
+											<span th:text="${'Brand : ' + #strings.capitalize(param.brandName)}"></span>
+											<i class='bx bx-x'></i>
+										 </a>
+									</li>
+
+									<li th:if="${param.categoryId != null}">
+										<a style="cursor: pointer;" onclick="removeParamFromUrl('categoryId')">
+											<span th:text="${'Category : ' + #strings.capitalize(param.categoryId)}"></span>
+											<i class='bx bx-x'></i>
+										</a>
+									</li>
+									
+									<li th:if="${param.minPrice != null}">
+										<a style="cursor: pointer;" onclick="removeParamFromUrl('minPrice')">
+											<span th:text="${'Minimum Price : ' + param.minPrice}"></span>
+											<i class='bx bx-x'></i>
+										</a>
+									</li>
+									
+									<li th:if="${param.maxPrice != null}">
+										<a style="cursor: pointer;" onclick="removeParamFromUrl('maxPrice')">
+											<span th:text="${'Maximum Price : ' + param.maxPrice}"></span>
+											<i class='bx bx-x'></i>
+										</a>
+									</li>
 								</ul>
 
-								<a th:href="@{/product/page=1}" th:classappend="${param.size() == 0} ? 'd-none' : ''" class="delete-selected-filters"><i
-									class='bx bx-trash'></i> <span>Clear All</span></a>
+								<a th:href="@{/product/page=0}"
+									th:classappend="${param.size() == 0} ? 'd-none' : ''"
+									class="delete-selected-filters"><i class='bx bx-trash'></i>
+									<span>Clear All</span></a>
 							</div>
 						</div>
 
@@ -1955,9 +1983,8 @@
 
 							<ul class="collections-list-row"
 								th:each="category : ${categories}">
-								<li><a
-									th:text="${category.title}" th:data-categoryId="${category.id}"
-									href="javascript:void(0);"
+								<li><a th:text="${category.title}"
+									th:data-categoryId="${category.id}" href="javascript:void(0);"
 									onclick="updateUrlWithCategoryId(this)"></a></li>
 							</ul>
 						</div>
@@ -1966,9 +1993,24 @@
 							<h3 class="woocommerce-widget-title">Price</h3>
 
 							<div class="collection-filter-by-price">
-								<input class="js-range-of-price" type="text" data-min="0"
-									data-max="500000" name="filter_by_price" data-step="10">
+								<div class="form-group row">
+									<div class="col">
+										<input class="form-control" id="minPrice" type="number"
+											name="minPrice" placeholder="&#x20B9; Min">
+									</div>
+									<div class="col">
+										<input class="form-control" id="maxPrice" type="number"
+											name="maxPrice" placeholder="&#x20B9; Max">
+									</div>
+									<div class="col">
+										<button class="form-control btn btn-outline-dark"
+											id="filterButton" disabled>Filter</button>
+									</div>
+								</div>
 							</div>
+
+
+
 						</div>
 
 						<div class="woocommerce-widget brands-list-widget">
@@ -1978,26 +2020,18 @@
 								th:each="allBrandNm : ${allBrandName}">
 								<li class="active"><a href="#" th:text="${allBrandNm}"></a></li>
 							</ul> -->
-							
-							<ul class="brands-list-row" th:each="allBrandNm : ${allBrandName}">
-							    <li class="active">
-							        <a href="javascript:void(0);" th:text="${allBrandNm}" th:data-brandName="${allBrandNm}" onclick="updateUrlWithBrandName(this)"></a>
-							    </li>
+
+							<ul class="brands-list-row"
+								th:each="allBrandNm : ${allBrandName}">
+								<li><a th:text="${allBrandNm}"
+									th:data-brandname="${allBrandNm}"
+									href="javascript:void(0);"
+									onclick="updateUrlWithBrandName(this)"></a></li>
 							</ul>
-							
+
 						</div>
 
-						<div class="woocommerce-widget aside-trending-widget">
-							<div class="aside-trending-products">
-								<img src="/assets/img/offer-bg.jpg" alt="image">
-
-								<div class="category">
-									<h3>Top Trending</h3>
-									<span>Spring/Summer 2021 Collection</span>
-								</div>
-								<a href="#" class="link-btn"></a>
-							</div>
-						</div>
+						
 					</div>
 				</div>
 			</div>
@@ -2149,6 +2183,7 @@
 	<script src="/assets/js/main.js"></script>
 
 	<script th:src="@{/js/normal.js}"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 	<!-- font awesome -->
 	<script src="https://kit.fontawesome.com/ea10794980.js"
@@ -2156,8 +2191,6 @@
 
 
 	<script>
-
-
 		//open modal while reload
 		$(document).ready(function() {
 			// Check modal state and open it if necessary
@@ -2165,23 +2198,27 @@
 			if (modalState === 'open') {
 				$('#productsFilterModal').modal('show');
 			}
-	
+
 			// Store the modal state in localStorage
 			$('#productsFilterModal').on('shown.bs.modal', function() {
 				localStorage.setItem('productsFilterModalState', 'open');
 			});
-	
+
 			$('#productsFilterModal').on('hidden.bs.modal', function() {
 				localStorage.setItem('productsFilterModalState', 'closed');
 			});
 		});
-	
-	
+
+		//update url while change category
 		function updateUrlWithCategoryId(link) {
 			var categoryId = link.getAttribute('data-categoryId');
 			var currentUrl = window.location.href;
 			var updatedUrl = updateQueryStringParameter(currentUrl,
 					'categoryId', categoryId);
+			
+			// Update "page" parameter to 0
+            updatedUrl = updatedUrl.replace(/page=\d+/, "page=0");
+			
 			window.location.href = updatedUrl;
 		}
 
@@ -2194,43 +2231,153 @@
 				return uri + separator + key + '=' + value;
 			}
 		}
+
+		// Add active
+		document
+				.addEventListener(
+						'DOMContentLoaded',
+						function() {
+							/* in current category */
+							var selectedCategoryId = getUrlParameter('categoryId');
+							var categoryLinks = document
+									.querySelectorAll('.collections-list-row li a');
+
+							categoryLinks
+									.forEach(function(link) {
+										if (link
+												.getAttribute('data-categoryId') === selectedCategoryId) {
+											link.closest('li').classList
+													.add('active');
+										}
+									});
+							
+							/* in current brand Name */
+							var selectedBrandName = getUrlParameter('brandName');
+							var brandNameLinks = document
+									.querySelectorAll('.brands-list-row li a');
+
+							brandNameLinks
+									.forEach(function(brandLink) {
+										if (brandLink
+												.getAttribute('data-brandName') === selectedBrandName) {
+											brandLink.closest('li').classList
+													.add('active');
+										}
+									});
+						});
+
+		function getUrlParameter(name) {
+			var urlParams = new URLSearchParams(window.location.search);
+			return urlParams.get(name);
+		}
+
+		//changing brandName param url add
+		function updateUrlWithBrandName(element) {
+			var selectedBrandName = $(element).data('brandname'); // Note: Use 'brandname' in lowercase
+			var currentUrl = window.location.href;
+
+			// Check if brandName parameter already exists in the URL
+			if (currentUrl.indexOf('brandName=') === -1) {
+				// BrandName parameter doesn't exist, start with '?' symbol
+				var separator = currentUrl.indexOf('?') !== -1 ? '&' : '?';
+				var updatedUrl = currentUrl + separator + 'brandName='
+						+ encodeURIComponent(selectedBrandName);
+			} else {
+				// BrandName parameter already exists, update its value
+				var updatedUrl = currentUrl.replace(/(brandName=)[^&]+/, '$1'
+						+ encodeURIComponent(selectedBrandName));
+			}
+			
+			// Update "page" parameter to 0
+            updatedUrl = updatedUrl.replace(/page=\d+/, "page=0");
+
+			// Navigate to the updated URL
+			window.location.href = updatedUrl;
+		}
 		
-		// Add active in current category
-	    document.addEventListener('DOMContentLoaded', function() {
-	        var selectedCategoryId = getUrlParameter('categoryId');
-	        var categoryLinks = document.querySelectorAll('.collections-list-row li a');
+		function removeParamFromUrl(paramName) {
+		    var currentUrl = window.location.href;
 
-	        categoryLinks.forEach(function(link) {
-	            if (link.getAttribute('data-categoryId') === selectedCategoryId) {
-	                link.closest('li').classList.add('active');
-	            }
-	        });
-	    });
+		    // Remove the specified parameter from the URL
+		    var updatedUrl = currentUrl.replace(new RegExp('[?&]' + paramName + '=[^&]+'), '');
 
-	    function getUrlParameter(name) {
-	        var urlParams = new URLSearchParams(window.location.search);
-	        return urlParams.get(name);
+		    // Check if there are any remaining parameters
+		    if (updatedUrl.indexOf('?') === -1) {
+		        // No parameters remaining, remove any trailing '&' characters
+		        updatedUrl = updatedUrl.replace('&', '?');
+		    }
+
+		    // Navigate to the updated URL
+		    window.location.href = updatedUrl;
+		}
+
+		
+		//change min max price in filter
+		 document.addEventListener("DOMContentLoaded", function() {
+		    var filterButton = document.getElementById("filterButton");
+		    filterButton.addEventListener("click", function() {
+		        updatePriceParams();
+		    });
+		
+		    // Function to get URL parameter value
+		    function getUrlParameter(name) {
+		        var urlParams = new URLSearchParams(window.location.search);
+		        return urlParams.get(name);
+		    }
+		
+		    // Initialize input fields with URL parameter values
+		    var minPriceInput = document.getElementById("minPrice");
+		    var maxPriceInput = document.getElementById("maxPrice");
+		
+		    var minPriceParam = getUrlParameter("minPrice");
+		    var maxPriceParam = getUrlParameter("maxPrice");
+		
+		    if (minPriceParam !== null) {
+		        minPriceInput.value = minPriceParam;
+		    }
+		    if (maxPriceParam !== null) {
+		        maxPriceInput.value = maxPriceParam;
+		    }
+		
+		    function updatePriceParams() {
+		        var minPrice = minPriceInput.value;
+		        var maxPrice = maxPriceInput.value;
+		
+		        var currentUrl = window.location.href;
+		        var updatedUrl = currentUrl.replace(/[\?&]minPrice=[^&]+/g, "").replace(/[\?&]maxPrice=[^&]+/g, "");
+		
+		        if (!isNaN(minPrice) && minPrice !== "") {
+		            updatedUrl += (updatedUrl.indexOf("?") !== -1 ? "&" : "?") + "minPrice=" + minPrice;
+		        }
+		        if (!isNaN(maxPrice) && maxPrice !== "") {
+		            updatedUrl += (updatedUrl.indexOf("?") !== -1 ? "&" : "?") + "maxPrice=" + maxPrice;
+		        }
+		
+		        window.location.href = updatedUrl;
+		    }
+		});
+		
+		
+		//if no input then filter price button disable
+		var minPriceInput = document.getElementById("minPrice");
+	    var maxPriceInput = document.getElementById("maxPrice");
+	    var filterButton = document.getElementById("filterButton");
+	
+	    // Add input event listeners to the input fields
+	    minPriceInput.addEventListener("input", updateFilterButton);
+	    maxPriceInput.addEventListener("input", updateFilterButton);
+	
+	    // Function to enable/disable the Filter button based on input values
+	    function updateFilterButton() {
+	        if (minPriceInput.value !== "" || maxPriceInput.value !== "") {
+	            filterButton.removeAttribute("disabled");
+	        } else {
+	            filterButton.setAttribute("disabled", "disabled");
+	        }
 	    }
-	    
-	    
-	    
-	    //changing brandName param url add
-	    function updateUrlWithBrandName(element) {
-        var selectedBrandName = $(element).data('brandname');  // Note: Use 'brandname' in lowercase
-        var currentUrl = window.location.href;
 
-        // Check if brandName parameter already exists in the URL
-        if (currentUrl.indexOf('brandName=') === -1) {
-            // BrandName parameter doesn't exist, start with '?' symbol
-            var updatedUrl = currentUrl + (currentUrl.indexOf('?') !== -1 ? '&' : '?') + 'brandName=' + selectedBrandName;
-        } else {
-            // BrandName parameter already exists, add as additional parameter
-            var updatedUrl = currentUrl + '&' + 'brandName=' + selectedBrandName;
-        }
 
-        // Navigate to the updated URL
-        window.location.href = updatedUrl;
-    }
+
 	</script>
 
 

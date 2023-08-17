@@ -31,22 +31,20 @@ public interface ProductRepository extends JpaRepository<Product, String> {
 	List<String> getAllBrandName(String categoryId);
 
 	@Query("SELECT p FROM Product p WHERE (:categoryId IS NULL OR p.category.id = :categoryId)"
-	        + " AND (:minPrice IS NULL OR p.price >= :minPrice)"
-	        + " AND (:maxPrice IS NULL OR p.price <= :maxPrice)"
-	        + " AND (:brandNames IS NULL OR p.brandName IN :brandNames)"
-	        + " ORDER BY "
-	        + " CASE WHEN :sortType = 'Popularity' THEN (SELECT COUNT(o) FROM Order o WHERE o.product = p AND o.deliveryStatus = 'SUCCESSFULLY_DELIVERED') END DESC, "
-	        + " CASE WHEN :sortType = 'Rating' THEN p.avgRating END DESC, "
-	        + " CASE WHEN :sortType = 'Latest' THEN p.addedDate END DESC, "
-	        + " CASE WHEN :sortType = 'HighDiscount' THEN p.discount END DESC, "
-	        + " CASE WHEN :sortType = 'Price:HighToLow' THEN p.price END DESC, "
-	        + " CASE WHEN :sortType = 'Price:LowToHigh' THEN p.price END ASC")
+			+ " AND (:minPrice IS NULL OR p.price >= :minPrice)" + " AND (:maxPrice IS NULL OR p.price <= :maxPrice)"
+			+ " AND (:brandName IS NULL OR p.brandName = :brandName)" + " ORDER BY "
+			+ " CASE WHEN :sortType = 'Popularity' THEN (SELECT COUNT(o) FROM Order o WHERE o.product = p AND o.deliveryStatus = 'SUCCESSFULLY_DELIVERED') END DESC, "
+			+ " CASE WHEN :sortType = 'Rating' THEN p.avgRating END DESC, "
+			+ " CASE WHEN :sortType = 'Latest' THEN p.addedDate END DESC, "
+			+ " CASE WHEN :sortType = 'HighDiscount' THEN p.discount END DESC, "
+			+ " CASE WHEN :sortType = 'Price:HighToLow' THEN p.price END DESC, "
+			+ " CASE WHEN :sortType = 'Price:LowToHigh' THEN p.price END ASC")
 	Slice<Product> filterAndSortProducts(@Param("categoryId") String categoryId,
-	                                     @Param("minPrice") Integer minPrice,
-	                                     @Param("maxPrice") Integer maxPrice,
-	                                     @Param("brandNames") List<String> brandNames,
-	                                     @Param("sortType") String sortType,
-	                                     Pageable pageable);
+							            @Param("minPrice") Integer minPrice,
+							            @Param("maxPrice") Integer maxPrice,
+							            @Param("brandName") String brandName,
+							            @Param("sortType") String sortType,
+							            Pageable pageable);
 
 
 }

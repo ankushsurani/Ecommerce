@@ -90,13 +90,13 @@ public class HomeController {
 			List<Category> highPriorityCategories = this.categoryPriorityService.getHighPrioCategories();
 
 			Slice<Product> latestProducts = this.productService
-					.getFilteredAndSortedProducts(new FilterRequest("latest"), pageable);
+					.getFilteredAndSortedProducts(new FilterRequest("Latest"), pageable);
 
 			Slice<Product> topRatedProducts = this.productService
-					.getFilteredAndSortedProducts(new FilterRequest("rating"), pageable);
+					.getFilteredAndSortedProducts(new FilterRequest("Rating"), pageable);
 
 			Slice<Product> popularProducts = this.productService
-					.getFilteredAndSortedProducts(new FilterRequest("popularity"), pageable);
+					.getFilteredAndSortedProducts(new FilterRequest("Popularity"), pageable);
 
 			model.addAttribute("highPriorityProducts", highPriorityProducts)
 					.addAttribute("highPriorityCategories", highPriorityCategories)
