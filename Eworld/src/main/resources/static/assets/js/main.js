@@ -667,3 +667,11 @@ function toggleTheme() {
     document.getElementById('slider').checked = true;
     }
 })();
+
+
+/* list active */
+$(function() {
+  for (var e = window.location, o = $(".account-menu div a").filter(function() {
+      return this.href == e
+    }).addClass("active").parent().addClass("active"); o.is("li");) o = o.parent("").addClass("show").parent("").addClass("active")
+})

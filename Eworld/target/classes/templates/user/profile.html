@@ -37,24 +37,9 @@
 
                   <div class="col-md-8 ps-0">
                     <p class="card-title" style="font-size: 13px">HELLO,</p>
-                    <h4
-                      th:if="${currentUser.surname == null && currentUser.name != null}"
-                      class="card-title text-capitalize"
-                      th:text="${currentUser.name}"
-                    ></h4>
-                    <h4
-                      th:if="${currentUser.surname != null && currentUser.name != null}"
-                      class="card-title text-capitalize"
-                      th:text="${currentUser.name + ' ' + currentUser.surname}"
-                    ></h4>
                     
-                    <h4
-                      th:if="${currentUser.name == null && currentUser.surname != null}"
-                      class="card-title text-capitalize"
-                      th:text="${currentUser.surname}"
-                    ></h4>
-                    
-                    <h4 th:if="${currentUser.name == null && currentUser.surname == null}">USER</h4>
+                    <h4 class="card-title text-capitalize"
+                      th:text="${currentUser.fullName}"></h4>
                     
                   </div>
                 </div>
@@ -135,15 +120,13 @@
                 
                 	<form th:action="@{/user/update-name}" method="post">
                 	
-                		<input type="hidden" name="userId" th:value="${currentUser.userId}">
+                		<input type="hidden" name="userId" th:value="${currentUser.id}">
                 	
                 		<div class="row mb-4">
 						  <div class="col">
-						    <input type="text" name="name" th:value="${currentUser.name != null} ? ${currentUser.name} : ''" class="form-control" placeholder="First name" aria-label="First name">
+						    <input type="text" name="name" th:value="${currentUser.fullName != null} ? ${currentUser.fullName} : ''" class="form-control" placeholder="First name" aria-label="First name">
 						  </div>
-						  <div class="col">
-						    <input type="text" name="surname" th:value="${currentUser.surname != null} ? ${currentUser.surname} : ''" class="form-control" placeholder="Last name" aria-label="Last name">
-						  </div>
+						  
 						  <div class="col" style="display: none;" id="name-save">
 						  <button type="submit" class="btn btn-primary" style="width: 150px;">SAVE</button>
 						  </div>
@@ -174,7 +157,7 @@
 				    	</div>
 				    	
 				    	<div class="col ms-0 ps-0">
-				    	<form th:action="@{'/user/change-password/'+${currentUser.userId}}" method="post">
+				    	<form th:action="@{'/user/change-password/'+${currentUser.id}}" method="post">
 				    
 					    	<button class="ms-3 btn fw-bold text-primary" style="border: none;">
 						    Change Password
@@ -196,7 +179,7 @@
 				
 				<form th:action="@{/user/update-mobile}" method="post">
 				
-				<input type="hidden" name="userId" th:value="${currentUser.userId}">
+				<input type="hidden" name="userId" th:value="${currentUser.id}">
 				
 					<div class="row mb-4">
 					<div class="col">

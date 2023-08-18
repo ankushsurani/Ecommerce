@@ -2,7 +2,12 @@ package com.eworld.controllers.user;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,15 +23,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.eworld.entities.Address;
 import com.eworld.entities.Cart;
+import com.eworld.entities.Product;
 import com.eworld.entities.User;
 import com.eworld.helper.EmailService;
 import com.eworld.helper.Msg;
 import com.eworld.services.AddressService;
 import com.eworld.services.CartService;
+import com.eworld.services.OrderService;
 import com.eworld.services.UserService;
-
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/user")
@@ -43,6 +47,9 @@ public class MyProfileController {
 
 	@Autowired
 	private EmailService emailService;
+	
+	@Autowired
+	private OrderService orderService;
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
@@ -61,12 +68,13 @@ public class MyProfileController {
 			model.addAttribute("currentUser", user);
 
 			List<Cart> carts = this.cartService.findByUser(user);
-			model.addAttribute("cart", carts);
+			model.addAttribute("cart", carts)
+			.addAttribute("user", user);
 		}
 	}
 
-	// show profile
-	@GetMapping("/profile")
+	// show account
+	@GetMapping("/account")
 	public String showProfile(Model model, Principal principal, HttpSession session) {
 		model.addAttribute("title", "My Profile - Eworld");
 		model.addAttribute("address", new Address());
@@ -82,9 +90,38 @@ public class MyProfileController {
 			session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
 		}
 
-		return "user/profile";
+		return "user/account/account-dashboard";
+	}
+	
+	@GetMapping("/account/orders")
+	public String accountOrders(Principal principal, Model model) {
+		Map<Product, Integer> orders = this.orderService.getOrderByUser(principal.getName());
+
+		model.addAttribute("orders", orders);
+		
+		return "user/account/account-orders";
+	}
+	
+	@GetMapping("/account/profile")
+	public String accountProfile() {
+		return "user/account/account-profile";
 	}
 
+	@GetMapping("/account/edit-profile")
+	public String accountEditProfile() {
+		return "user/account/account-edit-profile";
+	}
+	
+	@GetMapping("/account/saved-address")
+	public String savedAddress() {
+		return "user/account/account-saved-address";
+	}
+	
+	@GetMapping("/account/wishlist")
+	public String wishlist() {
+		return "user/account/wishlist";
+	}
+	
 	// add address
 	@PostMapping("/add-address")
 	public String addAddress(@Valid @ModelAttribute("address") Address address, BindingResult result, Model model,
@@ -121,7 +158,7 @@ public class MyProfileController {
 				if (result.hasErrors()) {
 					model.addAttribute("address", address);
 					session.setAttribute("message", new Msg("Please Fill Valid Address Details", "alert-success"));
-					return "redirect:/user/profile";
+					return "redirect:/user/account";
 				}
 
 				User user = this.userService.findByEmail(principal.getName());
@@ -136,7 +173,7 @@ public class MyProfileController {
 				session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
 			}
 
-			return "redirect:/user/profile";
+			return "redirect:/user/account";
 
 		}
 
@@ -166,7 +203,7 @@ public class MyProfileController {
 			session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
 		}
 
-		return "user/profile";
+		return "user/account";
 	}
 
 	// delete address
@@ -186,7 +223,7 @@ public class MyProfileController {
 			session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
 		}
 
-		return "redirect:/user/profile";
+		return "redirect:/user/account";
 	}
 
 	// update user name details
@@ -212,7 +249,7 @@ public class MyProfileController {
 			session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
 		}
 
-		return "redirect:/user/profile";
+		return "redirect:/user/account";
 
 	}
 
@@ -226,7 +263,7 @@ public class MyProfileController {
 
 			if (result.hasErrors()) {
 				session.setAttribute("message", new Msg("Plese Enter Valid 10 Digits Mobile Number", "alert-danger"));
-				return "redirect:/user/profile";
+				return "redirect:/user/account";
 			}
 
 			User oldUser = this.userService.getUserById(user.getId());
@@ -240,7 +277,7 @@ public class MyProfileController {
 			session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
 		}
 
-		return "redirect:/user/profile";
+		return "redirect:/user/account";
 
 	}
 
@@ -524,7 +561,7 @@ public class MyProfileController {
 
 						session.setAttribute("message",
 								new Msg("Your Password Has Been Successfully Changed", "alert-success"));
-						return "redirect:/user/profile";
+						return "redirect:/user/account";
 					} else {
 						session.setAttribute("message", new Msg("Please Enter Valid OTP", "alert-danger"));
 						model.addAttribute("otp", sendedOtp);
@@ -546,7 +583,7 @@ public class MyProfileController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
-			return "redirect:/user/profile";
+			return "redirect:/user/account";
 		}
 
 	}

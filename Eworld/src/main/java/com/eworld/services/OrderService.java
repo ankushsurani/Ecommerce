@@ -1,6 +1,8 @@
 package com.eworld.services;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -39,8 +41,10 @@ public class OrderService {
 		return orderRepository.findOrdersByStatuses(statuses);
 	}
 
-	public List<Order> getOrderByUser(User user) {
-		return this.orderRepository.findAllByUser(user);
+	public Map<Product, Integer> getOrderByUser(String email) {
+		List<Object[]> orders = this.orderRepository.findProductAndQuantitiesByEmail(email);
+		
+		return orders.stream().collect(Collectors.toMap(obj -> (Product) obj[0], obj -> (Integer) obj[1]));
 	}
 
 	public List<Product> getPopularProducts(int page, int size) {

@@ -23,7 +23,8 @@ public interface OrderRepository extends JpaRepository<Order, String> {
 	@Query("SELECT o FROM Order o WHERE o.deliveryStatus IN (:statuses)")
 	List<Order> findOrdersByStatuses(@Param("statuses") List<DeliveryStatus> statuses);
 
-	public List<Order> findAllByUser(User user);
+	@Query("SELECT o.product, o.quantity FROM Order o WHERE o.user.email = :email ORDER BY o.createdDate ASC")
+	List<Object[]> findProductAndQuantitiesByEmail(@Param("email") String email);
 
 	@Query("SELECT p FROM Product p JOIN Order o ON p = o.product GROUP BY p ORDER BY SUM(o.quantity) DESC")
 	Page<Product> findTopSellingProducts(Pageable pageable);

@@ -61,10 +61,10 @@
 							<div class="content text-white">
 								<span th:text="${category.cachyTitle}"></span>
 								<h3 th:text="${category.title}"></h3>
-								<a href="products-right-sidebar.html" class="default-btn">Discover
+								<a th:href="@{'/product/page=0?categoryId=' + ${category.id}}" class="default-btn">Discover
 									Now</a>
 							</div>
-							<a href="products-right-sidebar.html" class="link-btn"></a>
+							<a th:href="@{'/product/page=0?categoryId=' + ${category.id}}" class="link-btn"></a>
 						</div>
 					</div>
 				</div>
