@@ -1,5 +1,21 @@
 package com.eworld.enumstype;
 
 public enum DeliveryStatus {
-    PENDING, SUCCESS, CANCELLED, AWAITINGPAYMENT, AWAITINGPICKUP, PARTIALLYSHIPPED
+    PENDING("Pending"),
+    COMPLETED("Completed"),
+    CANCELLED("Cancelled"),
+    AWAITINGPAYMENT("Awaiting Payment"),
+    AWAITINGPICKUP("Awaiting Pickup"),
+    PARTIALLYSHIPPED("Partially Shipped");
+    
+    private final String status;
+
+	private DeliveryStatus(String status) {
+		this.status = status;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+	
 }

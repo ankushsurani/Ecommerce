@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.eworld.dto.AccountOrderDto;
 import com.eworld.entities.Address;
 import com.eworld.entities.Cart;
 import com.eworld.entities.Order;
 import com.eworld.entities.Payment;
+import com.eworld.entities.Product;
 import com.eworld.entities.User;
 import com.eworld.enumstype.DeliveryStatus;
 import com.eworld.helper.Msg;
@@ -126,7 +128,7 @@ public class OrderController {
 				order.setQuantity(cart.getQuantity());
 				order.setUser(user);
 				order.setPaymentType(paymentOption);
-				order.setTotalPayment(orderAmount);
+				order.setFinalPrice(orderAmount);
 
 				if (paymentOption.equals("Cash On Delivery")) {
 					order.setDeliveryStatus(DeliveryStatus.AWAITINGPICKUP);
@@ -264,9 +266,7 @@ public class OrderController {
 
 		try {
 
-			User user = this.userService.findByEmail(principal.getName());
-
-			List<Order> orders = this.orderService.getOrderByUser(user);
+			List<AccountOrderDto> orders = this.orderService.getOrderByUser(principal.getName());
 			model.addAttribute("allorder", orders);
 
 		} catch (Exception e) {

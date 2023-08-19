@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.eworld.dto.FilterRequest;
 import com.eworld.entities.Cart;
 import com.eworld.entities.Category;
 import com.eworld.entities.Product;
 import com.eworld.entities.User;
-import com.eworld.helper.FilterRequest;
 import com.eworld.services.CartService;
 import com.eworld.services.CategoryService;
 import com.eworld.services.ProductService;

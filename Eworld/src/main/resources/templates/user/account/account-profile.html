@@ -39,33 +39,32 @@
                       <tbody>
                         <tr>
                           <td>Full Name</td>
-                          <td>Jhon Deo</td>
+                          <td th:text="${user.fullName}"></td>
                         </tr>
                         <tr>
                           <td>Mobile Number</td>
-                          <td>+99-85XXXXXXXX</td>
+                          <td th:if="${user.mobilenum != null}" th:text="${user.mobilenum}"></td>
+                          <td th:unless="${user.mobilenum != null}"><span style="opacity: 50%">Not Provided</span></td>
                         </tr>
                         <tr>
                           <td>Email ID</td>
-                          <td>name@example.com</td>
+                          <td th:text="${user.email}"></td>
                         </tr>
                         <tr>
                           <td>Gender</td>
-                          <td>Male</td>
+                          <td th:if="${user.gender != null}" th:text="${user.gender}"></td>
+                          <td th:unless="${user.gender != null}"><span style="opacity: 50%">Not Provided</span></td>
                         </tr>
                         <tr>
                           <td>DOB</td>
-                          <td>10/03/1993</td>
-                        </tr>
-                        <tr>
-                          <td>Location</td>
-                          <td>United Kingdom</td>
+                          <td th:if="${user.dob != null}" th:text="${user.dob}"></td>
+                          <td th:unless="${user.dob != null}"><span style="opacity: 50%">Not Provided</span></td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
                   <div class="">
-                      <button type="button" class="btn btn-outline-dark btn-ecomm px-5"><i class="bi bi-pencil me-2"></i>Edit</button>
+                      <a th:href="@{/user/account/edit-profile}" type="button" class="btn btn-outline-dark btn-ecomm px-5"><i class="bi bi-pencil me-2"></i>Edit</a>
                   </div>
               </div>
             </div>

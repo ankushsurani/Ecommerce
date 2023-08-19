@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.eworld.dao.OrderRepository;
+import com.eworld.dto.AccountOrderDto;
 import com.eworld.entities.Order;
 import com.eworld.entities.Product;
 import com.eworld.entities.User;
@@ -41,10 +42,8 @@ public class OrderService {
 		return orderRepository.findOrdersByStatuses(statuses);
 	}
 
-	public Map<Product, Integer> getOrderByUser(String email) {
-		List<Object[]> orders = this.orderRepository.findProductAndQuantitiesByEmail(email);
-		
-		return orders.stream().collect(Collectors.toMap(obj -> (Product) obj[0], obj -> (Integer) obj[1]));
+	public List<AccountOrderDto> getOrderByUser(String email) {
+		return this.orderRepository.findProductAndQuantitiesByEmail(email);
 	}
 
 	public List<Product> getPopularProducts(int page, int size) {
@@ -53,7 +52,7 @@ public class OrderService {
 	}
 
 	public boolean hasUserOrderedProduct(User user, Product product) {
-		return this.orderRepository.existsByUserAndProductAndDeliveryStatus(user, product, DeliveryStatus.SUCCESS);
+		return this.orderRepository.existsByUserAndProductAndDeliveryStatus(user, product, DeliveryStatus.COMPLETED);
 	}
 
 }

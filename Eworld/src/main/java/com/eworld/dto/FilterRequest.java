@@ -1,4 +1,4 @@
-package com.eworld.helper;
+package com.eworld.dto;
 
 import java.util.List;
 

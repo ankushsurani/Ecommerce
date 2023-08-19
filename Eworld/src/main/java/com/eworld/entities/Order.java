@@ -33,7 +33,7 @@ public class Order {
 
 	private String paymentType;
 
-	private int totalPayment;
+	private int finalPrice;
 
 	@ManyToOne
 	@JoinColumn(name = "address_id")
@@ -54,14 +54,14 @@ public class Order {
 	}
 
 	public Order(String id, LocalDateTime createdDate, LocalDateTime deliveryDate, DeliveryStatus deliveryStatus,
-			String paymentType, int totalPayment, Address address, Product product, int quantity, User user) {
+			String paymentType, int finalPrice, Address address, Product product, int quantity, User user) {
 		super();
 		this.id = id;
 		this.createdDate = createdDate;
 		this.deliveryDate = deliveryDate;
 		this.deliveryStatus = deliveryStatus;
 		this.paymentType = paymentType;
-		this.totalPayment = totalPayment;
+		this.finalPrice = finalPrice;
 		this.address = address;
 		this.product = product;
 		this.quantity = quantity;
@@ -69,13 +69,13 @@ public class Order {
 	}
 
 	public Order(LocalDateTime createdDate, LocalDateTime deliveryDate, DeliveryStatus deliveryStatus,
-			String paymentType, int totalPayment, Address address, Product product, int quantity, User user) {
+			String paymentType, int finalPrice, Address address, Product product, int quantity, User user) {
 		super();
 		this.createdDate = createdDate;
 		this.deliveryDate = deliveryDate;
 		this.deliveryStatus = deliveryStatus;
 		this.paymentType = paymentType;
-		this.totalPayment = totalPayment;
+		this.finalPrice = finalPrice;
 		this.address = address;
 		this.product = product;
 		this.quantity = quantity;
@@ -122,12 +122,12 @@ public class Order {
 		this.paymentType = paymentType;
 	}
 
-	public int getTotalPayment() {
-		return totalPayment;
+	public int getFinalPrice() {
+		return finalPrice;
 	}
 
-	public void setTotalPayment(int totalPayment) {
-		this.totalPayment = totalPayment;
+	public void setFinalPrice(int finalPrice) {
+		this.finalPrice = finalPrice;
 	}
 
 	public Address getAddress() {

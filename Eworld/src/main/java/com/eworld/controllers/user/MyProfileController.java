@@ -1,6 +1,8 @@
 package com.eworld.controllers.user;
 
 import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -14,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.eworld.dto.AccountOrderDto;
 import com.eworld.entities.Address;
 import com.eworld.entities.Cart;
 import com.eworld.entities.Product;
@@ -31,6 +35,7 @@ import com.eworld.services.AddressService;
 import com.eworld.services.CartService;
 import com.eworld.services.OrderService;
 import com.eworld.services.UserService;
+import com.eworld.validation.EditProfileValidation;
 
 @Controller
 @RequestMapping("/user")
@@ -65,7 +70,6 @@ public class MyProfileController {
 	public void currentUser(Principal principal, Model model) {
 		if (principal != null) {
 			User user = this.userService.findByEmail(principal.getName());
-			model.addAttribute("currentUser", user);
 
 			List<Cart> carts = this.cartService.findByUser(user);
 			model.addAttribute("cart", carts)
@@ -95,7 +99,7 @@ public class MyProfileController {
 	
 	@GetMapping("/account/orders")
 	public String accountOrders(Principal principal, Model model) {
-		Map<Product, Integer> orders = this.orderService.getOrderByUser(principal.getName());
+		List<AccountOrderDto> orders = this.orderService.getOrderByUser(principal.getName());
 
 		model.addAttribute("orders", orders);
 		
@@ -112,9 +116,78 @@ public class MyProfileController {
 		return "user/account/account-edit-profile";
 	}
 	
+	// update user account details
+	@PostMapping("/account/edit-account-details")
+	public String updateAccountDetails(@Validated(EditProfileValidation.class) @ModelAttribute("user") User user, BindingResult result, Model model, HttpSession session) {
+		model.addAttribute("title", "Update Profile - Eworld");
+
+		try {
+			
+			if (result.hasErrors()) {
+				model.addAttribute("user", user);
+				return "user/account/account-edit-profile";
+			}
+
+			User existingUser = this.userService.getUserById(user.getId());
+			
+			existingUser.setFullName(user.getFullName());
+			
+			if (user.getMobilenum() != null) {
+				existingUser.setMobilenum(user.getMobilenum());
+			}
+			if (user.getDob() != null) {
+				existingUser.setDob(user.getDob());
+			}
+			if (user.getGender() != null) {
+				existingUser.setGender(user.getGender());
+			}
+			
+			this.userService.saveUser(existingUser);
+			
+			session.setAttribute("message", new Msg("Account Details Changed Successfully", "alert-success"));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
+		}
+
+		return "redirect:/user/account/edit-profile";
+
+	}
+	
 	@GetMapping("/account/saved-address")
 	public String savedAddress() {
 		return "user/account/account-saved-address";
+	}
+	
+	// add address
+	@PostMapping("/account/add-address")
+	public String addAddress(@Valid @ModelAttribute("address") Address address, BindingResult result, Model model,
+			Principal principal, HttpSession session) {
+		
+		model.addAttribute("title", "Add Address - Eworld");
+
+			try {
+
+				if (result.hasErrors()) {
+					model.addAttribute("address", address);
+					return "redirect:/user/account/account-saved-address";
+				}
+
+				User user = this.userService.findByEmail(principal.getName());
+
+				address.setUser(user);
+				this.addressService.saveAddress(address);
+
+				session.setAttribute("message", new Msg("Address Added Successfully", "alert-success"));
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
+			}
+
+			return "redirect:/user/account/saved-address";
+
 	}
 	
 	@GetMapping("/account/wishlist")

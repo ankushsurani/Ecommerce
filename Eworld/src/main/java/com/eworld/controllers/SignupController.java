@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import com.eworld.helper.EmailService;
 import com.eworld.helper.Msg;
 import com.eworld.services.CartService;
 import com.eworld.services.UserService;
+import com.eworld.validation.SignupValidation;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -70,7 +72,7 @@ public class SignupController {
 	}
 
 	@PostMapping("/do_signup")
-	public String signupData(@Valid @ModelAttribute("user") User user, BindingResult result, Model model,
+	public String signupData(@Validated(SignupValidation.class) @ModelAttribute("user") User user, BindingResult result, Model model,
 			HttpSession session) {
 		model.addAttribute("title", "Signup - Eworld");
 

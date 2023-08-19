@@ -2,9 +2,8 @@ package com.eworld.entities;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,9 +11,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.eworld.validation.EditProfileValidation;
+import com.eworld.validation.SignupValidation;
 
 @Entity
 public class User {
@@ -24,16 +31,17 @@ public class User {
 	@GenericGenerator(name = "custom-uuid-generator", strategy = "com.eworld.helper.CustomUUIDGenerator")
 	private String id;
 
-	@Size(min = 3, max = 100, message = "Name must have 3 to 100 characters")
+	@Size(groups = {SignupValidation.class, EditProfileValidation.class}, min = 3, max = 100, message = "Name must have 3 to 100 characters")
 	private String fullName;
 
 	@Column(unique = true)
-	@Email(regexp = "^[a-z0-9](\\.?[a-z0-9]){5,}@g(oogle)?mail\\.com$")
+	@Email(groups = {SignupValidation.class}, regexp = "^[a-z0-9](\\.?[a-z0-9]){5,}@g(oogle)?mail\\.com$")
 	private String email;
 
-	@Pattern(regexp = "(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9].*[0-9])(?=.*[^a-zA-Z0-9]).{8,}", message = "Password must have 1 uppercase alphabet, 1 lowercase alphabet, 2 digits and 1 special character. Also the minimum allowed length is 8 characters")
+	@Pattern(groups = {SignupValidation.class}, regexp = "(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9].*[0-9])(?=.*[^a-zA-Z0-9]).{8,}", message = "Password must have 1 uppercase alphabet, 1 lowercase alphabet, 2 digits and 1 special character. Also the minimum allowed length is 8 characters")
 	private String password;
 
+	@Size(groups = {EditProfileValidation.class}, min = 10, max = 10, message = "Mobile Number Must have 10 Characters")
 	private String mobilenum;
 
 	private String gender;
@@ -41,6 +49,10 @@ public class User {
 	private String profilePic;
 
 	private String role;
+	
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date dob;
 
 	@Column(columnDefinition = "boolean default false")
 	private boolean status;
@@ -57,7 +69,7 @@ public class User {
 	}
 
 	public User(String id, String fullName, String email, String password, String mobilenum, String gender,
-			String profilePic, String role, boolean status) {
+			String profilePic, String role, Date dob, boolean status) {
 		super();
 		this.id = id;
 		this.fullName = fullName;
@@ -67,11 +79,12 @@ public class User {
 		this.gender = gender;
 		this.profilePic = profilePic;
 		this.role = role;
+		this.dob = dob;
 		this.status = status;
 	}
 
 	public User(String fullName, String email, String password, String mobilenum, String gender, String profilePic,
-			String role, boolean status) {
+			String role, Date dob, boolean status) {
 		super();
 		this.fullName = fullName;
 		this.email = email;
@@ -80,6 +93,7 @@ public class User {
 		this.gender = gender;
 		this.profilePic = profilePic;
 		this.role = role;
+		this.dob = dob;
 		this.status = status;
 	}
 
@@ -179,12 +193,20 @@ public class User {
 		this.creationDateTime = creationDateTime;
 	}
 
+	public Date getDob() {
+		return dob;
+	}
+
+	public void setDob(Date dob) {
+		this.dob = dob;
+	}
+
 	@Override
 	public String toString() {
-		return "User [userId=" + id + ", fullName=" + fullName + ", email=" + email + ", password=" + password
+		return "User [id=" + id + ", fullName=" + fullName + ", email=" + email + ", password=" + password
 				+ ", mobilenum=" + mobilenum + ", gender=" + gender + ", profilePic=" + profilePic + ", role=" + role
-				+ ", status=" + status + ", emailVerification=" + emailVerification + ", creationDateTime="
-				+ creationDateTime + "]";
+				+ ", dob=" + dob + ", status=" + status + ", emailVerification=" + emailVerification
+				+ ", creationDateTime=" + creationDateTime + ", address=" + address + "]";
 	}
 
 }

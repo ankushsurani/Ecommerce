@@ -8,9 +8,9 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import com.eworld.dao.ProductRepository;
+import com.eworld.dto.FilterRequest;
 import com.eworld.entities.Product;
 import com.eworld.entities.Rating;
-import com.eworld.helper.FilterRequest;
 
 @Service
 public class ProductService {
