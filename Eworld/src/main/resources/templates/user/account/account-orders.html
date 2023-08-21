@@ -9,7 +9,7 @@
 
 
 	<!--start page content-->
-	<div class="page-content">
+	<section class="page-content">
 
 
 		<!--start product details-->
@@ -32,8 +32,16 @@
 					</div>
 					<div class="col-12 col-xl-9">
 
+						<div class="d-flex justify-content-center align-items-center" style="min-height: 30vh;">
+    <h2 class="text-center" th:if="${#lists.size(orders) == 0}">Place Your first order</h2>
+</div>
+
+
 						<div class="card rounded-0 mb-3" th:each="order : ${orders}">
 							<div class="card-body">
+							
+							
+							
 								<div class="d-flex flex-column flex-xl-row gap-3">
 									<div class="product-img">
 										<img style="height: 25vh;"
@@ -84,7 +92,7 @@
 		<!--start product details-->
 
 
-	</div>
+	</section>
 	<!--end page content-->
 
 

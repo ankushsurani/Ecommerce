@@ -1,15 +1,15 @@
 package com.eworld.entities;
 
-import org.hibernate.annotations.GenericGenerator;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Address {
@@ -32,13 +32,17 @@ public class Address {
 	private String fullAddress;
 
 	@NotBlank
+	private String localityOrTown;
+
+	@NotBlank
 	private String state;
 
 	@NotBlank
 	private String city;
 
-	@NotBlank
 	private String addressType;
+
+	private Boolean active = true;
 
 	@ManyToOne
 	@JsonIgnore
@@ -48,8 +52,8 @@ public class Address {
 		super();
 	}
 
-	public Address(String id, String name, String mobilenum, String pincode, String fullAddress, String state,
-			String city, String addressType, User user) {
+	public Address(String id, String name, String mobilenum, String pincode, String fullAddress, String localityOrTown,
+			String state, String city, String addressType, Boolean active, User user) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -59,6 +63,7 @@ public class Address {
 		this.state = state;
 		this.city = city;
 		this.addressType = addressType;
+		this.active = active;
 		this.user = user;
 	}
 
@@ -102,6 +107,14 @@ public class Address {
 		this.fullAddress = fullAddress;
 	}
 
+	public String getLocalityOrTown() {
+		return localityOrTown;
+	}
+
+	public void setLocalityOrTown(String localityOrTown) {
+		this.localityOrTown = localityOrTown;
+	}
+
 	public String getState() {
 		return state;
 	}
@@ -132,6 +145,21 @@ public class Address {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public Boolean isActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+
+	@Override
+	public String toString() {
+		return "Address [id=" + id + ", name=" + name + ", mobilenum=" + mobilenum + ", pincode=" + pincode
+				+ ", fullAddress=" + fullAddress + ", localityOrTown=" + localityOrTown + ", state=" + state + ", city="
+				+ city + ", addressType=" + addressType + ", active=" + active + ", user=" + user + "]";
 	}
 
 }

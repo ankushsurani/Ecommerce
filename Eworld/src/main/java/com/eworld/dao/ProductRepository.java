@@ -26,7 +26,7 @@ public interface ProductRepository extends JpaRepository<Product, String> {
 	Page<Product> findAllByOrderByDiscountDesc(Pageable pageable);
 
 	Page<Product> findAllByOrderByAvgRatingDesc(Pageable pageable);
-	
+
 	@Query("select p.brandName from Product p WHERE (:categoryId IS NULL OR p.category.id = :categoryId) AND p.brandName IS NOT NULL")
 	List<String> getAllBrandName(String categoryId);
 
@@ -39,12 +39,8 @@ public interface ProductRepository extends JpaRepository<Product, String> {
 			+ " CASE WHEN :sortType = 'HighDiscount' THEN p.discount END DESC, "
 			+ " CASE WHEN :sortType = 'Price:HighToLow' THEN p.price END DESC, "
 			+ " CASE WHEN :sortType = 'Price:LowToHigh' THEN p.price END ASC")
-	Slice<Product> filterAndSortProducts(@Param("categoryId") String categoryId,
-							            @Param("minPrice") Integer minPrice,
-							            @Param("maxPrice") Integer maxPrice,
-							            @Param("brandName") String brandName,
-							            @Param("sortType") String sortType,
-							            Pageable pageable);
-
+	Slice<Product> filterAndSortProducts(@Param("categoryId") String categoryId, @Param("minPrice") Integer minPrice,
+			@Param("maxPrice") Integer maxPrice, @Param("brandName") String brandName,
+			@Param("sortType") String sortType, Pageable pageable);
 
 }

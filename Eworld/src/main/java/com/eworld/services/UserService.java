@@ -29,6 +29,10 @@ public class UserService {
 		return this.userRepository.findAll();
 	}
 
+	public boolean hasAnyActiveAddress(String userId) {
+		return this.userRepository.existsAddressesByIdAndAddressActiveTrue(userId);
+	}
+
 	public User getUserById(String userId) {
 		return this.userRepository.findById(userId).get();
 	}

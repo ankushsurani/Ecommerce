@@ -1,7 +1,5 @@
 package com.eworld.entities;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 public class ProductPriority {

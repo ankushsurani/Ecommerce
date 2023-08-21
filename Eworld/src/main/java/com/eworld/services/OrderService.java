@@ -1,8 +1,6 @@
 package com.eworld.services;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -11,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.eworld.dao.OrderRepository;
 import com.eworld.dto.AccountOrderDto;
+import com.eworld.entities.Address;
 import com.eworld.entities.Order;
 import com.eworld.entities.Product;
 import com.eworld.entities.User;
@@ -53,6 +52,10 @@ public class OrderService {
 
 	public boolean hasUserOrderedProduct(User user, Product product) {
 		return this.orderRepository.existsByUserAndProductAndDeliveryStatus(user, product, DeliveryStatus.COMPLETED);
+	}
+
+	public boolean anyOrderWithThisAddress(Address address, User user) {
+		return this.orderRepository.existsByAddressAndUser(address, user);
 	}
 
 }

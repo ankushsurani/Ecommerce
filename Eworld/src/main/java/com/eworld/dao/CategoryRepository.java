@@ -8,7 +8,7 @@ import com.eworld.entities.Category;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, String> {
-	
+
 	@Query("SELECT c.title FROM Category c WHERE c.id = :id")
 	public String findTitleById(String id);
 

@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.eworld.dto.AccountOrderDto;
+import com.eworld.entities.Address;
 import com.eworld.entities.Order;
 import com.eworld.entities.Product;
 import com.eworld.entities.User;
@@ -23,7 +24,7 @@ public interface OrderRepository extends JpaRepository<Order, String> {
 
 	@Query("SELECT o FROM Order o WHERE o.deliveryStatus IN (:statuses)")
 	List<Order> findOrdersByStatuses(@Param("statuses") List<DeliveryStatus> statuses);
-	
+
 	@Query("SELECT new com.eworld.dto.AccountOrderDto(o.product, o.finalPrice, o.quantity, o.deliveryStatus) FROM Order o WHERE o.user.email = :email ORDER BY o.createdDate DESC")
 	List<AccountOrderDto> findProductAndQuantitiesByEmail(@Param("email") String email);
 
@@ -31,5 +32,7 @@ public interface OrderRepository extends JpaRepository<Order, String> {
 	Page<Product> findTopSellingProducts(Pageable pageable);
 
 	boolean existsByUserAndProductAndDeliveryStatus(User user, Product product, DeliveryStatus deliveryStatus);
+
+	boolean existsByAddressAndUser(Address address, User user);
 
 }

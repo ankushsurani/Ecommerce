@@ -25,7 +25,7 @@ public class CategoryService {
 	public Category getCategory(String catId) {
 		return this.categoryRepository.findById(catId).get();
 	}
-	
+
 	public String getTitleById(String id) {
 		return this.categoryRepository.findTitleById(id);
 	}

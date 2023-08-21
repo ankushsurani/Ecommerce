@@ -16,4 +16,6 @@ public interface UserRepository extends JpaRepository<User, String> {
 
 	public List<User> findAllUserByStatusFalse();
 
+	boolean existsAddressesByIdAndAddressActiveTrue(String id);
+
 }

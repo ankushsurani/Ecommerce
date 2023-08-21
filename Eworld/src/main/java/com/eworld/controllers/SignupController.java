@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,9 +26,6 @@ import com.eworld.helper.Msg;
 import com.eworld.services.CartService;
 import com.eworld.services.UserService;
 import com.eworld.validation.SignupValidation;
-
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 @Controller
 public class SignupController {
@@ -72,8 +71,8 @@ public class SignupController {
 	}
 
 	@PostMapping("/do_signup")
-	public String signupData(@Validated(SignupValidation.class) @ModelAttribute("user") User user, BindingResult result, Model model,
-			HttpSession session) {
+	public String signupData(@Validated(SignupValidation.class) @ModelAttribute("user") User user, BindingResult result,
+			Model model, HttpSession session) {
 		model.addAttribute("title", "Signup - Eworld");
 
 		try {

@@ -1,7 +1,6 @@
 package com.eworld.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,8 +27,8 @@ public class AddressService {
 		return this.addressRepository.findById(addressId).get();
 	}
 
-	public void deleteAddress(Address address) {
-		this.addressRepository.delete(address);
+	public void deleteAddress(String addressId) {
+		this.addressRepository.deleteAddressById(addressId);
 	}
 
 }

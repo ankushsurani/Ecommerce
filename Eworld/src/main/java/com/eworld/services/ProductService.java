@@ -25,8 +25,8 @@ public class ProductService {
 	public Product getProduct(String id) {
 		return this.productRepository.findById(id).get();
 	}
-	
-	public List<String> getAllBrandName(String categoryId){
+
+	public List<String> getAllBrandName(String categoryId) {
 		return this.productRepository.getAllBrandName(categoryId);
 	}
 

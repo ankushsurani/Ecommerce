@@ -1,5 +1,6 @@
 package com.eworld.entities;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,24 +25,27 @@ import com.eworld.validation.EditProfileValidation;
 import com.eworld.validation.SignupValidation;
 
 @Entity
-public class User {
+public class User implements Serializable {
 
 	@Id
 	@GeneratedValue(generator = "custom-uuid-generator")
 	@GenericGenerator(name = "custom-uuid-generator", strategy = "com.eworld.helper.CustomUUIDGenerator")
 	private String id;
 
-	@Size(groups = {SignupValidation.class, EditProfileValidation.class}, min = 3, max = 100, message = "Name must have 3 to 100 characters")
+	@Size(groups = { SignupValidation.class,
+			EditProfileValidation.class }, min = 3, max = 100, message = "Name must have 3 to 100 characters")
 	private String fullName;
 
 	@Column(unique = true)
-	@Email(groups = {SignupValidation.class}, regexp = "^[a-z0-9](\\.?[a-z0-9]){5,}@g(oogle)?mail\\.com$")
+	@Email(groups = { SignupValidation.class }, regexp = "^[a-z0-9](\\.?[a-z0-9]){5,}@g(oogle)?mail\\.com$")
 	private String email;
 
-	@Pattern(groups = {SignupValidation.class}, regexp = "(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9].*[0-9])(?=.*[^a-zA-Z0-9]).{8,}", message = "Password must have 1 uppercase alphabet, 1 lowercase alphabet, 2 digits and 1 special character. Also the minimum allowed length is 8 characters")
+	@Pattern(groups = {
+			SignupValidation.class }, regexp = "(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9].*[0-9])(?=.*[^a-zA-Z0-9]).{8,}", message = "Password must have 1 uppercase alphabet, 1 lowercase alphabet, 2 digits and 1 special character. Also the minimum allowed length is 8 characters")
 	private String password;
 
-	@Size(groups = {EditProfileValidation.class}, min = 10, max = 10, message = "Mobile Number Must have 10 Characters")
+	@Size(groups = {
+			EditProfileValidation.class }, min = 10, max = 10, message = "Mobile Number Must have 10 Characters")
 	private String mobilenum;
 
 	private String gender;
@@ -49,10 +53,10 @@ public class User {
 	private String profilePic;
 
 	private String role;
-	
+
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date dob;
+	private Date dob;
 
 	@Column(columnDefinition = "boolean default false")
 	private boolean status;

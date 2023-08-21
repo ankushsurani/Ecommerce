@@ -37,7 +37,7 @@ public class LoginController {
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-	
+
 	@Value("${spring.application.name}")
 	private String appName;
 

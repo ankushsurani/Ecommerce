@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.eworld.entities.Rating;
 
 @Repository
-public interface RatingRepository extends JpaRepository<Rating, String>{
+public interface RatingRepository extends JpaRepository<Rating, String> {
 
 }

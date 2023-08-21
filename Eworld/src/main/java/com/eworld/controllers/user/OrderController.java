@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +25,6 @@ import com.eworld.entities.Address;
 import com.eworld.entities.Cart;
 import com.eworld.entities.Order;
 import com.eworld.entities.Payment;
-import com.eworld.entities.Product;
 import com.eworld.entities.User;
 import com.eworld.enumstype.DeliveryStatus;
 import com.eworld.helper.Msg;
@@ -34,8 +35,6 @@ import com.eworld.services.PaymentService;
 import com.eworld.services.UserService;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
-
-import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/user")

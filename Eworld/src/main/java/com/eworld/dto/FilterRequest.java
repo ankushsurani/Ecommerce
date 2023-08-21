@@ -1,7 +1,5 @@
 package com.eworld.dto;
 
-import java.util.List;
-
 public class FilterRequest {
 
 	private String sortType;

@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,8 +21,6 @@ import com.eworld.helper.Msg;
 import com.eworld.services.CartService;
 import com.eworld.services.ProductService;
 import com.eworld.services.UserService;
-
-import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/user")

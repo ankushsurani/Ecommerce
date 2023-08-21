@@ -149,6 +149,132 @@
 					style="display: none;"></div>
 			</div>
 		</div>
+		
+		
+		
+		<!-- Start Products Filter Modal Area -->
+	<div class="modal left fade productsFilterModal"
+		id="productsFilterModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<button type="button" class="close" data-bs-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true"><i class='bx bx-x'></i> Close</span>
+				</button>
+
+				<div class="modal-body">
+					<div class="woocommerce-widget-area">
+						<div class="woocommerce-widget filter-list-widget">
+							<h3 th:classappend="${param.size() == 0} ? 'd-none' : ''"
+								class="woocommerce-widget-title">Current Selection</h3>
+
+							<div class="selected-filters-wrap-list">
+								<ul>
+									<li th:if="${param.sortType != null}">
+									    <a style="cursor: pointer;" onclick="removeParamFromUrl('sortType')">
+									        <span th:text="${'Sort By : ' + param.sortType}"></span>
+									        <i class='bx bx-x'></i>
+									    </a>
+									</li>
+
+									<li th:if="${param.brandName != null}">
+										<a style="cursor: pointer;" onclick="removeParamFromUrl('brandName')">
+											<span th:text="${'Brand : ' + #strings.capitalize(param.brandName)}"></span>
+											<i class='bx bx-x'></i>
+										 </a>
+									</li>
+
+									<li th:if="${param.categoryId != null}">
+										<a style="cursor: pointer;" onclick="removeParamFromUrl('categoryId')">
+											<span th:text="${'Category : ' + #strings.capitalize(param.categoryId)}"></span>
+											<i class='bx bx-x'></i>
+										</a>
+									</li>
+									
+									<li th:if="${param.minPrice != null}">
+										<a style="cursor: pointer;" onclick="removeParamFromUrl('minPrice')">
+											<span th:text="${'Minimum Price : ' + param.minPrice}"></span>
+											<i class='bx bx-x'></i>
+										</a>
+									</li>
+									
+									<li th:if="${param.maxPrice != null}">
+										<a style="cursor: pointer;" onclick="removeParamFromUrl('maxPrice')">
+											<span th:text="${'Maximum Price : ' + param.maxPrice}"></span>
+											<i class='bx bx-x'></i>
+										</a>
+									</li>
+								</ul>
+
+								<a th:href="@{/product/page=0}"
+									th:classappend="${param.size() == 0} ? 'd-none' : ''"
+									class="delete-selected-filters"><i class='bx bx-trash'></i>
+									<span>Clear All</span></a>
+							</div>
+						</div>
+
+						<div class="woocommerce-widget collections-list-widget">
+							<h3 class="woocommerce-widget-title">Collections</h3>
+
+							<ul class="collections-list-row"
+								th:each="category : ${categories}">
+								<li><a th:text="${category.title}"
+									th:data-categoryId="${category.id}" href="javascript:void(0);"
+									onclick="updateUrlWithCategoryId(this)"></a></li>
+							</ul>
+						</div>
+
+						<div class="woocommerce-widget price-list-widget">
+							<h3 class="woocommerce-widget-title">Price</h3>
+
+							<div class="collection-filter-by-price">
+								<div class="form-group row">
+									<div class="col">
+										<input class="form-control" id="minPrice" type="number"
+											name="minPrice" placeholder="&#x20B9; Min">
+									</div>
+									<div class="col">
+										<input class="form-control" id="maxPrice" type="number"
+											name="maxPrice" placeholder="&#x20B9; Max">
+									</div>
+									<div class="col">
+										<button class="form-control btn btn-outline-dark"
+											id="filterButton" disabled>Filter</button>
+									</div>
+								</div>
+							</div>
+
+
+
+						</div>
+
+						<div class="woocommerce-widget brands-list-widget">
+							<h3 class="woocommerce-widget-title">Brands</h3>
+
+							<!-- <ul class="brands-list-row"
+								th:each="allBrandNm : ${allBrandName}">
+								<li class="active"><a href="#" th:text="${allBrandNm}"></a></li>
+							</ul> -->
+
+							<ul class="brands-list-row"
+								th:each="allBrandNm : ${allBrandName}">
+								<li><a th:text="${allBrandNm}"
+									th:data-brandname="${allBrandNm}"
+									href="javascript:void(0);"
+									onclick="updateUrlWithBrandName(this)"></a></li>
+							</ul>
+
+						</div>
+
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Products Filter Modal Area -->
+		
+		
 
 
 		<script>
