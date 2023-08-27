@@ -87,7 +87,16 @@
 									</li>
 									<li>
 										<div class="quick-view-btn">
-											<a href="#" data-bs-toggle="modal"
+											<a id="quickViewModal" href="#" data-bs-toggle="modal"
+											 th:data-productname="${product.name}"
+											 th:data-productprice="${product.price}"
+											 th:data-productpriceafterdiscount="${product.getPriceAfterApplyingDiscount}"
+											 th:data-productimageurl="@{'/product_img/' + ${product.productImages[0].productPic}}"
+											 th:data-brandname="${product.brandName}"
+											 th:data-avgrating="${product.avgRating}"
+											 th:data-quantity="${product.quantity}"
+											 th:data-category="${product.category.title}"
+											 th:data-viewfullinfourl="@{'/product/' + ${product.id}}"
 												data-bs-target="#productsQuickView"> <i
 												class='bx bx-search-alt'></i> <span class="tooltip-label">Quick
 													View</span>

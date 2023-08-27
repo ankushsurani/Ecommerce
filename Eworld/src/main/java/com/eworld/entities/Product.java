@@ -1,5 +1,6 @@
 package com.eworld.entities;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -41,6 +43,11 @@ public class Product {
 	@Column(length = 65535)
 	private String description;
 
+	@NotBlank
+	@Size(min = 10, max = 65535)
+	@Column(length = 65535, columnDefinition = "TEXT")
+	private String additionalInformation;
+
 	@Min(value = 10, message = "Price must be greater than 10")
 	@Max(value = 500000, message = "Price must be less than 500000")
 	private int price;
@@ -54,7 +61,15 @@ public class Product {
 
 	private LocalDateTime addedDate;
 
-	@OneToMany(mappedBy = "product")
+	@NotNull
+	private int estimatedDeliveryDays;
+
+	@NotBlank
+	@Size(min = 10, max = 65535)
+	@Column(length = 65535, columnDefinition = "TEXT")
+	private String warranty;
+
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 	private List<ProductImage> productImages = new ArrayList<>();
 
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
@@ -70,34 +85,45 @@ public class Product {
 		super();
 	}
 
-	public Product(String name, String brandName, String description, int price, int discount, int quantity,
-			LocalDateTime addedDate, List<ProductImage> productImages, List<Rating> ratings, Category category) {
-		super();
-		this.name = name;
-		this.brandName = brandName;
-		this.description = description;
-		this.price = price;
-		this.discount = discount;
-		this.quantity = quantity;
-		this.addedDate = addedDate;
-		this.productImages = productImages;
-		this.ratings = ratings;
-		this.category = category;
-	}
-
-	public Product(String id, String name, String brandName, String description, int price, int discount, int quantity,
-			LocalDateTime addedDate, List<ProductImage> productImages, List<Rating> ratings, Category category) {
+	public Product(String id, String name, String brandName, String description, String additionalInformation,
+			int price, int discount, int quantity, LocalDateTime addedDate, int estimatedDeliveryDays,
+			String warranty, List<ProductImage> productImages, List<Rating> ratings, double avgRating,
+			Category category) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.brandName = brandName;
 		this.description = description;
+		this.additionalInformation = additionalInformation;
 		this.price = price;
 		this.discount = discount;
 		this.quantity = quantity;
 		this.addedDate = addedDate;
+		this.estimatedDeliveryDays = estimatedDeliveryDays;
+		this.warranty = warranty;
 		this.productImages = productImages;
 		this.ratings = ratings;
+		this.avgRating = avgRating;
+		this.category = category;
+	}
+
+	public Product(String name, String brandName, String description, String additionalInformation, int price,
+			int discount, int quantity, LocalDateTime addedDate, int estimatedDeliveryDays, String warranty,
+			List<ProductImage> productImages, List<Rating> ratings, double avgRating, Category category) {
+		super();
+		this.name = name;
+		this.brandName = brandName;
+		this.description = description;
+		this.additionalInformation = additionalInformation;
+		this.price = price;
+		this.discount = discount;
+		this.quantity = quantity;
+		this.addedDate = addedDate;
+		this.estimatedDeliveryDays = estimatedDeliveryDays;
+		this.warranty = warranty;
+		this.productImages = productImages;
+		this.ratings = ratings;
+		this.avgRating = avgRating;
 		this.category = category;
 	}
 
@@ -195,6 +221,30 @@ public class Product {
 
 	public void setAvgRating(double avgRating) {
 		this.avgRating = avgRating;
+	}
+
+	public String getAdditionalInformation() {
+		return additionalInformation;
+	}
+
+	public void setAdditionalInformation(String additionalInformation) {
+		this.additionalInformation = additionalInformation;
+	}
+
+	public int getEstimatedDeliveryDays() {
+		return estimatedDeliveryDays;
+	}
+
+	public void setEstimatedDeliveryDays(int estimatedDeliveryDays) {
+		this.estimatedDeliveryDays = estimatedDeliveryDays;
+	}
+
+	public String getWarranty() {
+		return warranty;
+	}
+
+	public void setWarranty(String warranty) {
+		this.warranty = warranty;
 	}
 
 	// calculate price after discount

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="bs::layout(~{::section})">
+
+<head>
+</head>
+
+<body>
+
+	<section>
+	
+	<div th:if="${hasUserOrderedProduct == false}" class="error-area ptb-100">
+		<div class="container">
+                <div class="error-content">
+                    <img th:src="@{/images/rating_access.png}" alt="error">
+                    <h3>Haven't purchased this product?</h3>
+                    <p>Sorry! You are not allowed to review this product since you haven't bought it.</p>
+                    <a th:href="@{/}" class="default-btn">Go to Home</a>
+                </div>
+            </div>
+	</div>
+	
+		<div id="page" th:unless="${hasUserOrderedProduct == false}">
+
+
+
+			<main class="margin_main_container">
+				<div class="container margin_60_35">
+					<div class="row">
+						<div class="col-lg-8 mx-auto">
+
+
+							<div class="box_general write_review">
+
+								<!-- start messages of success and error -->
+								<div th:if="${session.message}" class="text-center">
+									<div th:classappend="${session.message.type}"
+										class="alert alert-primary" role="alert">
+										<span th:text="${session.message.content}"></span>
+									</div>
+									<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+								</div>
+								<!-- end messages of success and error -->
+
+
+								<h1>Write a review of Good Electronics</h1>
+								<div class="rating_submit">
+									<div class="form-group mt-3">
+										<div class="row">
+											<div class="col-md-9">
+												<label class="d-block">Overall rating</label> <span
+													id="ratingSection" class="rating"
+													th:data-product-id="${productId}"> <input
+													type="radio" class="rating-input" id="5_star" name="value"
+													value="5" th:checked="${rating != null && rating.value == 5}"> <label
+													for="5_star" class="rating-star"></label> <input
+													type="radio" class="rating-input" id="4_star" name="value"
+													value="4" th:checked="${rating != null && rating.value == 4}"> <label
+													for="4_star" class="rating-star"></label> <input
+													type="radio" class="rating-input" id="3_star" name="value"
+													value="3" th:checked="${rating != null && rating.value == 3}"> <label
+													for="3_star" class="rating-star"></label> <input
+													type="radio" class="rating-input" id="2_star" name="value"
+													value="2" th:checked="${rating != null && rating.value == 2}"> <label
+													for="2_star" class="rating-star"></label> <input
+													type="radio" class="rating-input" id="1_star" name="value"
+													value="1" th:checked="${rating != null && rating.value == 1}"> <label
+													for="1_star" class="rating-star"></label>
+												</span>
+											</div>
+
+											<div class="col-md-3">
+												<div id="messageContainer" class="form-group mt-3"></div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+
+								<form
+									th:action="@{'/user/add-review/add-review-process/' + ${productId}}"
+									method="post">
+									<!-- /rating_submit -->
+									<div class="form-group mt-3">
+										<input name="id" th:value="${productReview.id}" hidden="">
+									
+										<label>Title</label> <input class="form-control" type="text"
+										th:value="${productReview.title}"
+											name="title"
+											placeholder="If you could say it in one sentence, what would you say?">
+									</div>
+									<div class="form-group mt-3">
+										<label>Description</label>
+										<textarea class="form-control" name="description"
+											style="height: 180px;"
+											placeholder="Write your review to help others for Buy perfect product for them">[[${productReview.description}]]</textarea>
+									</div>
+
+									<div class="form-group mt-3">
+										<button
+											 id="submitButton"
+											type="submit" class="default-btn">Submit review</button>
+									</div>
+								</form>
+							</div>
+
+
+						</div>
+						<!-- /col -->
+
+					</div>
+					<!-- /row -->
+				</div>
+				<!-- /container -->
+			</main>
+			<!--/main-->
+
+
+		</div>
+		<!-- page -->
+
+
+
+		<script>
+		
+		
+        /* add rating */
+	    function showMessage(message, isSuccess) {
+	        var messageContainer = $("#messageContainer");
+	        messageContainer.empty(); // Clear previous content
+	        
+	        var messageDiv = $("<div>").addClass("text-" + (isSuccess ? "success" : "danger")).text(message);
+	        messageContainer.append(messageDiv);
+	        
+	        // Remove the message after 2 seconds
+	        setTimeout(function() {
+	            messageContainer.empty();
+	        }, 2000);
+	    }
+	    
+	    $(document).ready(function() {
+	        $(".rating-input").on("click", function() {
+	            var rateValue = $(this).val(); // Get the value of the clicked radio button
+	            var productId = $("#ratingSection").data("product-id");
+	
+	            $.ajax({
+	                type: "POST",
+	                url: "/user/add-review/add-rating-process/" + productId,
+	                data: {
+	                    value: rateValue
+	                },
+	                success: function(response) {
+	                    var message = 'Your rating has been saved';
+	                    showMessage(message, true);
+	                },
+	                error: function(xhr, status, error) {
+	                    var message = 'Something Went Wrong!!';
+	                    showMessage("Something Went wrong", false);
+	                }
+	            });
+	        });
+	    });
+	    
+	    
+	    
+	    
+	    
+	 // disable submit review if not rating and review
+		var titleInput = document.querySelector('input[name="title"]');
+		var descriptionInput = document.querySelector('textarea[name="description"]');
+		
+		// Add event listeners to the form input fields
+		titleInput.addEventListener('input', updateSubmitButton);
+		descriptionInput.addEventListener('input', updateSubmitButton);
+		
+		// Function to update the submit button's disabled attribute
+		function updateSubmitButton() {
+		    // Check if any of the form input fields have a value
+		    var hasFormValues = titleInput.value.trim().length >= 3 && descriptionInput.value.trim().length >= 5;
+		
+		    // Check if any of the rating inputs have a value
+		    var hasRatingValue = Array.from(ratingSection.querySelectorAll('.rating-input')).some(input => {
+		        return input.checked;
+		    });
+		
+		    // Enable/disable the submit button based on form values and rating values
+		    submitButton.disabled = !(hasFormValues && hasRatingValue);
+		
+		    // Add or remove the 'btn-light' class based on form values and rating values
+		    if (!(hasFormValues && hasRatingValue)) {
+		        submitButton.classList.add('btn-light');
+		    } else {
+		        submitButton.classList.remove('btn-light');
+		    }
+		}
+		
+		// Initial call to update the submit button's state
+		updateSubmitButton();
+
+
+		</script>
+
+
+	</section>
+
+</body>
+</html>

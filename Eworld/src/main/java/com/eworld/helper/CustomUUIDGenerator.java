@@ -15,6 +15,7 @@ import com.eworld.entities.Payment;
 import com.eworld.entities.Product;
 import com.eworld.entities.ProductImage;
 import com.eworld.entities.ProductPriority;
+import com.eworld.entities.ProductReview;
 import com.eworld.entities.Rating;
 import com.eworld.entities.User;
 
@@ -31,6 +32,7 @@ public class CustomUUIDGenerator implements IdentifierGenerator {
 	private static final String PRODUCTIMG_PREFIX = "PRODUCTIMG_";
 	private static final String PRODUCTPRIO_PREFIX = "PRODUCTPRIO_";
 	private static final String RATING_PREFIX = "RATING_";
+	private static final String PRODUCTREVIEW_PREFIX = "REVIEW_";
 
 	@Override
 	public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
@@ -58,6 +60,8 @@ public class CustomUUIDGenerator implements IdentifierGenerator {
 			prefix = PRODUCTPRIO_PREFIX;
 		} else if (object instanceof Rating) {
 			prefix = RATING_PREFIX;
+		} else if (object instanceof ProductReview) {
+			prefix = PRODUCTREVIEW_PREFIX;
 		}
 
 		return prefix + java.util.UUID.randomUUID().toString();

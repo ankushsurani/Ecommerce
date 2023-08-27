@@ -34,7 +34,7 @@ import com.eworld.validation.EditProfileValidation;
 
 @Controller
 @RequestMapping("/user/account")
-public class MyProfileController {
+public class MyAccountController {
 
 	@Autowired
 	private UserService userService;

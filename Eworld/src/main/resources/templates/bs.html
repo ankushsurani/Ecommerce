@@ -1493,35 +1493,32 @@
 
 				<div class="row align-items-center">
 					<div class="col-lg-6 col-md-6">
-						<div class="products-image">
-							<img src="/assets/img/quick-view-img.jpg" alt="image">
+						<div class="products-image text-center">
+							<img id="productimageurl" style="max-height: 60vh;" src="/assets/img/quick-view-img.jpg" alt="image">
 						</div>
 					</div>
 
 					<div class="col-lg-6 col-md-6">
 						<div class="products-content">
 							<h3>
-								<a href="#">Long Sleeve Leopard T-Shirt</a>
+								<a id="productName" href="#"></a>
 							</h3>
 
 							<div class="price">
-								<span class="old-price">$210.00</span> <span class="new-price">$200.00</span>
+								<span style="opacity: 50%;">&#8377;</span><span id=productprice class="old-price"></span> <span>&#8377;</span><span id="productpriceafterdiscount" class="new-price"></span>
 							</div>
 
 							<div class="products-review">
-								<div class="rating">
-									<i class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
-										class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
-										class='bx bxs-star'></i>
+								<div class="rating text-warning" id="avgrating">
+									
 								</div>
 								<a href="#" class="rating-count">3 reviews</a>
 							</div>
 
 							<ul class="products-info">
-								<li><span>Vendor:</span> <a href="#">Lereve</a></li>
-								<li><span>Availability:</span> <a href="#">In stock (7
-										items)</a></li>
-								<li><span>Products Type:</span> <a href="#">T-Shirt</a></li>
+								<li><span>Brand:</span> <a id="brandname" href="#"></a></li>
+								<li><span>Availability: In stock (</span><a id="quantity" href="#"> </a> Items)</li>
+								<li><span>Products Type:</span> <a id="category" href="#"></a></li>
 							</ul>
 
 							<div class="products-color-switch">
@@ -1564,7 +1561,7 @@
 								<button type="submit" class="default-btn">Add to Cart</button>
 							</div>
 
-							<a href="#" class="view-full-info">View Full Info</a>
+							<a id="viewfullinfourl" href="#" class="view-full-info">View Full Info</a>
 						</div>
 					</div>
 				</div>
@@ -2071,6 +2068,51 @@
 
 
 	<script>
+	$(document).on("click", "#quickViewModal", function () {
+	     var productname = $(this).data('productname');
+	     var productprice = $(this).data('productprice');
+	     var productpriceafterdiscount = $(this).data('productpriceafterdiscount');
+	     var productimageurl = $(this).data('productimageurl');
+	     var brandname = $(this).data('brandname');
+	     var avgrating = $(this).data('avgrating');
+	     var quantity = $(this).data('quantity');
+	     var category = $(this).data('category');
+	     var viewfullinfourl = $(this).data('viewfullinfourl');
+	     
+	     
+	     $("#productsQuickView #productName").text( productname );
+	     $("#productsQuickView #productprice").text( productprice );
+	     $("#productsQuickView #productpriceafterdiscount").text( productpriceafterdiscount );
+	     $("#productsQuickView #productimageurl").attr("src", productimageurl);
+	     $("#productsQuickView #brandname").text( brandname );
+	     $("#productsQuickView #quantity").text( quantity );
+	     $("#productsQuickView #category").text( category );
+	     $("#productsQuickView #viewfullinfourl").attr("href", viewfullinfourl );
+	     
+	     
+	     	    	    
+	    	    // Clear existing stars
+	    	    $("#productsQuickView #avgrating").empty();
+
+	    	    // Generate rating stars
+	    	    var ratingStars = "";
+
+	    	    for (var i = 1; i <= 5; i++) {
+	    	        if (i <= avgrating) {
+	    	            ratingStars += '<span class="bi bi-star-fill"></span>';
+	    	        } else if (i === Math.ceil(avgrating) && avgrating % 1 >= 0.5) {
+	    	            ratingStars += '<span class="bi bi-star-half"></span>';
+	    	        } else {
+	    	            ratingStars += '<span class="bi bi-star"></span>';
+	    	        }
+	    	    }
+
+	    	    $("#productsQuickView #avgrating").html(ratingStars);
+
+	     
+	});
+	
+	
 		//open modal while reload
 		$(document).ready(function() {
     // Check modal states and open them if necessary

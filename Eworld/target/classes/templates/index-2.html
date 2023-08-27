@@ -29,7 +29,7 @@
 												style="font-weight: bold;" th:text="${product.value.price}"></span>
 										</p>
 										<div class="btn-box">
-											<a href="products-right-sidebar-2.html" class="default-btn">SEE
+											<a th:href="@{'/product/' + ${product.value.id}}" class="default-btn">SEE
 												DETAILS</a> <a href="products-right-sidebar-3.html"
 												class="optional-btn">BUY NOW</a>
 										</div>
@@ -113,7 +113,16 @@
 									</li>
 									<li>
 										<div class="quick-view-btn">
-											<a href="#" data-bs-toggle="modal"
+											<a id="quickViewModal" href="#" data-bs-toggle="modal"
+											 th:data-productname="${latestProduct.name}"
+											 th:data-productprice="${latestProduct.price}"
+											 th:data-productpriceafterdiscount="${latestProduct.getPriceAfterApplyingDiscount}"
+											 th:data-productimageurl="@{'/product_img/' + ${latestProduct.productImages[0].productPic}}"
+											 th:data-brandname="${latestProduct.brandName}"
+											 th:data-avgrating="${latestProduct.avgRating}"
+											 th:data-quantity="${latestProduct.quantity}"
+											 th:data-category="${latestProduct.category.title}"
+											 th:data-viewfullinfourl="@{'/product/' + ${latestProduct.id}}"
 												data-bs-target="#productsQuickView"> <i
 												class='bx bx-search-alt'></i> <span class="tooltip-label">Quick
 													View</span>
@@ -221,7 +230,16 @@
 									</li>
 									<li>
 										<div class="quick-view-btn">
-											<a href="#" data-bs-toggle="modal"
+											<a id="quickViewModal" href="#" data-bs-toggle="modal"
+											 th:data-productname="${topRatedProduct.name}"
+											 th:data-productprice="${topRatedProduct.price}"
+											 th:data-productpriceafterdiscount="${topRatedProduct.getPriceAfterApplyingDiscount}"
+											 th:data-productimageurl="@{'/product_img/' + ${topRatedProduct.productImages[0].productPic}}"
+											 th:data-brandname="${topRatedProduct.brandName}"
+											 th:data-avgrating="${topRatedProduct.avgRating}"
+											 th:data-quantity="${topRatedProduct.quantity}"
+											 th:data-category="${topRatedProduct.category.title}"
+											 th:data-viewfullinfourl="@{'/product/' + ${topRatedProduct.id}}"
 												data-bs-target="#productsQuickView"> <i
 												class='bx bx-search-alt'></i> <span class="tooltip-label">Quick
 													View</span>
@@ -364,7 +382,16 @@
 									</li>
 									<li>
 										<div class="quick-view-btn">
-											<a href="#" data-bs-toggle="modal"
+											<a id="quickViewModal" href="#" data-bs-toggle="modal"
+											 th:data-productname="${popularProduct.name}"
+											 th:data-productprice="${popularProduct.price}"
+											 th:data-productpriceafterdiscount="${popularProduct.getPriceAfterApplyingDiscount}"
+											 th:data-productimageurl="@{'/product_img/' + ${popularProduct.productImages[0].productPic}}"
+											 th:data-brandname="${popularProduct.brandName}"
+											 th:data-avgrating="${popularProduct.avgRating}"
+											 th:data-quantity="${popularProduct.quantity}"
+											 th:data-category="${popularProduct.category.title}"
+											 th:data-viewfullinfourl="@{'/product/' + ${popularProduct.id}}"
 												data-bs-target="#productsQuickView"> <i
 												class='bx bx-search-alt'></i> <span class="tooltip-label">Quick
 													View</span>

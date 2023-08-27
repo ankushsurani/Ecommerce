@@ -2,13 +2,17 @@ package com.eworld.entities;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Rating {
@@ -18,14 +22,16 @@ public class Rating {
 	@GenericGenerator(name = "custom-uuid-generator", strategy = "com.eworld.helper.CustomUUIDGenerator")
 	private String id;
 
-	// rating value is between 1 and 5
 	private int value;
 
 	private LocalDateTime ratedDate;
 
 	@ManyToOne
-	@JoinColumn(name = "product_id")
+	@JsonIgnore
 	private Product product;
+
+	@OneToOne(mappedBy = "rating", cascade = CascadeType.ALL)
+	private ProductReview productReview;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
@@ -35,12 +41,14 @@ public class Rating {
 		super();
 	}
 
-	public Rating(String id, int value, LocalDateTime ratedDate, Product product, User user) {
+	public Rating(String id, int value, LocalDateTime ratedDate, Product product, ProductReview productReview,
+			User user) {
 		super();
 		this.id = id;
 		this.value = value;
 		this.ratedDate = ratedDate;
 		this.product = product;
+		this.productReview = productReview;
 		this.user = user;
 	}
 
@@ -66,6 +74,14 @@ public class Rating {
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+
+	public ProductReview getProductReview() {
+		return productReview;
+	}
+
+	public void setProductReview(ProductReview productReview) {
+		this.productReview = productReview;
 	}
 
 	public User getUser() {
