@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.eworld.entities.Cart;
+import com.eworld.entities.CartItem;
 import com.eworld.entities.User;
 import com.eworld.helper.EmailService;
 import com.eworld.helper.Msg;
@@ -49,10 +49,20 @@ public class SignupController {
 	public void currentUser(Principal principal, Model model) {
 		if (principal != null) {
 			User user = this.userService.findByEmail(principal.getName());
-			model.addAttribute("currentUser", user);
 
-			List<Cart> carts = this.cartService.findByUser(user);
-			model.addAttribute("cart", carts);
+			List<CartItem> cartItems = this.cartService.findByUser(user);
+
+			int totalAmount = cartItems.stream()
+					.mapToInt(cartItem -> cartItem.getQuantity() * cartItem.getProduct().getPrice()).sum();
+
+			int totalDiscountedAmount = cartItems.stream()
+					.mapToInt(
+							cartItem -> cartItem.getQuantity() * cartItem.getProduct().getPriceAfterApplyingDiscount())
+					.sum();
+
+			model.addAttribute("currentUser", user).addAttribute("cartItems", cartItems)
+					.addAttribute("totalAmount", totalAmount)
+					.addAttribute("totalDiscountedAmount", totalDiscountedAmount);
 		}
 
 		model.addAttribute("appName", this.appName);

@@ -62,7 +62,7 @@
 					th:each="product : ${products}">
 					<div class="single-productsBox">
 						<div class="products-image">
-							<a href="#"> <img style="height: 60vh;"
+							<a th:href="@{'/product/' + ${product.id}}"> <img style="height: 60vh;"
 								th:src="@{'/product_img/' + ${product.productImages[0].productPic}}"
 								class="main-image" alt="image"> <img style="height: 60vh;"
 								th:src="@{'/product_img/' + ${product.productImages[1].productPic}}"
@@ -112,7 +112,7 @@
 						<div class="products-content">
 							<span class="category" th:text="${product.category.title}"></span>
 							<h3>
-								<a href="#" th:text="${product.name}"> Long Sleeve Leopard
+								<a th:href="@{'/product/' + ${product.id}}" th:text="${product.name}"> Long Sleeve Leopard
 									T-Shirt</a>
 							</h3>
 							<div class="star-rating">
@@ -133,7 +133,7 @@
 									class="new-price"
 									th:text="${product.getPriceAfterApplyingDiscount}"></span>
 							</div>
-							<a href="#" class="add-to-cart">Add to Cart</a>
+							<a th:href="@{'/user/cart/add-to-cart/' + ${product.id}}" class="add-to-cart">Add to Cart</a>
 						</div>
 
 						<span class="products-discount"> <span
@@ -259,11 +259,6 @@
 
 						<div class="woocommerce-widget brands-list-widget">
 							<h3 class="woocommerce-widget-title">Brands</h3>
-
-							<!-- <ul class="brands-list-row"
-								th:each="allBrandNm : ${allBrandName}">
-								<li class="active"><a href="#" th:text="${allBrandNm}"></a></li>
-							</ul> -->
 
 							<ul class="brands-list-row"
 								th:each="allBrandNm : ${allBrandName}">

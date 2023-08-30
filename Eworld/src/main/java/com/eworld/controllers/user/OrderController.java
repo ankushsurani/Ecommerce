@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.eworld.dto.AccountOrderDto;
 import com.eworld.entities.Address;
-import com.eworld.entities.Cart;
+import com.eworld.entities.CartItem;
 import com.eworld.entities.Order;
 import com.eworld.entities.Payment;
 import com.eworld.entities.User;
@@ -70,14 +70,14 @@ public class OrderController {
 			List<Address> addresses = this.addressService.getAddressByUser(user);
 			model.addAttribute("addresses", addresses);
 
-			List<Cart> carts = this.cartService.findByUser(user);
+			List<CartItem> cartItems = this.cartService.findByUser(user);
 
-			if (carts.size() == 0) {
+			if (cartItems.size() == 0) {
 				model.addAttribute("cart", 0);
 			} else {
 				int totalPrice = 0;
 				int totalDiscoutedPrice = 0;
-				for (Cart c : carts) {
+				for (CartItem c : cartItems) {
 					totalPrice += c.getProduct().getPrice() * c.getQuantity();
 					totalDiscoutedPrice += c.getProduct().getPriceAfterApplyingDiscount() * c.getQuantity();
 				}
@@ -85,7 +85,7 @@ public class OrderController {
 				model.addAttribute("totalPrice", totalPrice);
 				model.addAttribute("totalDiscountPrice", totalDiscoutedPrice);
 
-				model.addAttribute("cart", carts);
+				model.addAttribute("cart", cartItems);
 			}
 		}
 	}
@@ -112,26 +112,26 @@ public class OrderController {
 
 			User user = this.userService.getUserById(address.getUser().getId());
 
-			List<Cart> carts = this.cartService.findByUser(user);
+			List<CartItem> cartItems = this.cartService.findByUser(user);
 
 			this.paymentMode = paymentOption;
 
 			this.orders = new ArrayList<>();
 
-			for (Cart cart : carts) {
+			for (CartItem cartItem : cartItems) {
 				Order order = new Order();
 
 				order.setCreatedDate(LocalDateTime.now());
 				order.setAddress(address);
-				order.setProduct(cart.getProduct());
-				order.setQuantity(cart.getQuantity());
+				order.setProduct(cartItem.getProduct());
+				order.setQuantity(cartItem.getQuantity());
 				order.setUser(user);
 				order.setPaymentType(paymentOption);
 				order.setFinalPrice(orderAmount);
 
 				if (paymentOption.equals("Cash On Delivery")) {
 					order.setDeliveryStatus(DeliveryStatus.AWAITINGPICKUP);
-					this.cartService.removeCart(cart.getId());
+					this.cartService.removeCartItem(cartItem.getId());
 				}
 
 				else {
@@ -243,9 +243,9 @@ public class OrderController {
 			this.billVisible = false;
 
 			User user = this.userService.findByEmail(principal.getName());
-			List<Cart> carts = this.cartService.findByUser(user);
-			for (Cart cart : carts) {
-				this.cartService.removeCart(cart.getId());
+			List<CartItem> cartItems = this.cartService.findByUser(user);
+			for (CartItem cartItem : cartItems) {
+				this.cartService.removeCartItem(cartItem.getId());
 			}
 
 			session.setAttribute("message", new Msg("Your Order Is Send !! Continue Shopping...", "alert-success"));

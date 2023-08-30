@@ -8360,7 +8360,7 @@ Cart CSS
   position: relative;
 }
 
-.cart-table table tbody tr td.product-quantity .input-counter span {
+.cart-table table tbody tr td.product-quantity .input-counter a {
   position: absolute;
   top: 0;
   background-color: transparent;
@@ -8374,15 +8374,15 @@ Cart CSS
   font-size: 22px;
 }
 
-.cart-table table tbody tr td.product-quantity .input-counter span.minus-btn {
+.cart-table table tbody tr td.product-quantity .input-counter a.minus-btn {
   left: 0;
 }
 
-.cart-table table tbody tr td.product-quantity .input-counter span.plus-btn {
+.cart-table table tbody tr td.product-quantity .input-counter a.plus-btn {
   right: 0;
 }
 
-.cart-table table tbody tr td.product-quantity .input-counter span:hover {
+.cart-table table tbody tr td.product-quantity .input-counter a:hover {
   color: #f53f85;
 }
 

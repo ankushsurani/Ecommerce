@@ -43,7 +43,7 @@
 				<div class="col-lg-6 col-md-12">
 					<ul class="header-contact-info">
 						<li th:text="'Welcome to ' + ${appName}"></li>
-						<li>Call: <a href="tel:+01321654214">+01 321 654 214</a></li>
+						<li>Call: <a>+01 321 654 214</a></li>
 					</ul>
 				</div>
 
@@ -71,7 +71,7 @@
 							<div class="cart-btn">
 								<a href="#" data-bs-toggle="modal"
 									data-bs-target="#shoppingCartModal"><i
-									class='bx bx-shopping-bag'></i><span>0</span></a>
+									class='bx bx-shopping-bag'></i><span></span></a>
 							</div>
 						</div>
 					</ul>
@@ -671,7 +671,7 @@
 								<div class="cart-btn">
 									<a href="#" data-bs-toggle="modal"
 										data-bs-target="#shoppingCartModal"><i
-										class='bx bx-shopping-bag'></i><span>0</span></a>
+										class='bx bx-shopping-bag'></i><span th:text="${#lists.size(cartItems)}"></span></a>
 								</div>
 							</div>
 
@@ -1584,68 +1584,34 @@
 					<h3>My Cart (3)</h3>
 
 					<div class="products-cart-content">
-						<div class="products-cart">
+						<div class="products-cart" th:each="cartItem : ${cartItems}">
 							<div class="products-image">
-								<a href="#"><img src="/assets/img/products/img1.jpg"
+								<a th:href="@{'/product/' + ${cartItem.product.id}}"><img style="height: 10vh;"
+									th:src="@{'/product_img/' + ${cartItem.product.productImages[0].productPic}}"
 									alt="image"></a>
 							</div>
 
 							<div class="products-content">
 								<h3>
-									<a href="#">Long Sleeve Leopard T-Shirt</a>
+									<a th:href="@{'/product/' + ${cartItem.product.id}}" th:text="${cartItem.product.name}"></a>
 								</h3>
-								<span>Blue / XS</span>
+								<span th:text="${cartItem.product.brandName}">Blue / XS</span>
 								<div class="products-price">
-									<span>1</span> <span>x</span> <span class="price">$250.00</span>
+									<span th:text="${cartItem.quantity}"></span> <span>x</span> <span th:text="${'&#8377;' + cartItem.product.getPriceAfterApplyingDiscount()}" class="price"></span>
 								</div>
-								<a href="#" class="remove-btn"><i class='bx bx-trash'></i></a>
+								<a th:href="@{'/user/cart/remove-cart-item/' + ${cartItem.id}}" class="remove-btn"><i class='bx bx-trash'></i></a>
 							</div>
 						</div>
 
-						<div class="products-cart">
-							<div class="products-image">
-								<a href="#"><img src="/assets/img/products/img2.jpg"
-									alt="image"></a>
-							</div>
-
-							<div class="products-content">
-								<h3>
-									<a href="#">Causal V-Neck Soft Raglan</a>
-								</h3>
-								<span>Blue / XS</span>
-								<div class="products-price">
-									<span>1</span> <span>x</span> <span class="price">$200.00</span>
-								</div>
-								<a href="#" class="remove-btn"><i class='bx bx-trash'></i></a>
-							</div>
-						</div>
-
-						<div class="products-cart">
-							<div class="products-image">
-								<a href="#"><img src="/assets/img/products/img3.jpg"
-									alt="image"></a>
-							</div>
-
-							<div class="products-content">
-								<h3>
-									<a href="#">Hanes Men's Pullover</a>
-								</h3>
-								<span>Blue / XS</span>
-								<div class="products-price">
-									<span>1</span> <span>x</span> <span class="price">$200.00</span>
-								</div>
-								<a href="#" class="remove-btn"><i class='bx bx-trash'></i></a>
-							</div>
-						</div>
 					</div>
 
 					<div class="products-cart-subtotal">
-						<span>Subtotal</span> <span class="subtotal">$524.00</span>
+						<span>Price</span> <span class="subtotal" th:text="${'&#8377;' + totalDiscountedAmount}"></span>
 					</div>
 
 					<div class="products-cart-btn">
 						<a href="#" class="default-btn">Proceed to Checkout</a> <a
-							href="#" class="optional-btn">View Shopping Cart</a>
+							th:href="@{/user/cart}" class="optional-btn">View Shopping Cart</a>
 					</div>
 				</div>
 			</div>

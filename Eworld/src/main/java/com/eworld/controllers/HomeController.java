@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.eworld.dto.FilterRequest;
-import com.eworld.entities.Cart;
+import com.eworld.entities.CartItem;
 import com.eworld.entities.Category;
 import com.eworld.entities.Product;
 import com.eworld.entities.User;
@@ -67,10 +67,19 @@ public class HomeController {
 	public void currentUser(Principal principal, Model model) {
 		if (principal != null) {
 			User user = this.userService.findByEmail(principal.getName());
-			model.addAttribute("currentUser", user);
 
-			List<Cart> carts = this.cartService.findByUser(user);
-			model.addAttribute("cart", carts);
+			List<CartItem> cartItems = this.cartService.findByUser(user);
+
+			int totalAmount = cartItems.stream()
+					.mapToInt(cartItem -> cartItem.getQuantity() * cartItem.getProduct().getPrice()).sum();
+
+			int totalDiscountedAmount = cartItems.stream()
+					.mapToInt(
+							cartItem -> cartItem.getQuantity() * cartItem.getProduct().getPriceAfterApplyingDiscount())
+					.sum();
+
+			model.addAttribute("cartItems", cartItems).addAttribute("totalAmount", totalAmount)
+					.addAttribute("totalDiscountedAmount", totalDiscountedAmount);
 		}
 		model.addAttribute("appName", this.appName);
 		model.addAttribute("pageName", "home");

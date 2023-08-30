@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.eworld.dto.AccountOrderDto;
 import com.eworld.entities.Address;
-import com.eworld.entities.Cart;
+import com.eworld.entities.CartItem;
 import com.eworld.entities.User;
 import com.eworld.helper.Msg;
 import com.eworld.services.AddressService;
@@ -50,7 +50,7 @@ public class MyAccountController {
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-	
+
 	@Value("${spring.application.name}")
 	private String appName;
 
@@ -66,8 +66,19 @@ public class MyAccountController {
 		if (principal != null) {
 			User user = this.userService.findByEmail(principal.getName());
 
-			List<Cart> carts = this.cartService.findByUser(user);
-			model.addAttribute("cart", carts).addAttribute("user", user);
+			List<CartItem> cartItems = this.cartService.findByUser(user);
+
+			int totalAmount = cartItems.stream()
+					.mapToInt(cartItem -> cartItem.getQuantity() * cartItem.getProduct().getPrice()).sum();
+
+			int totalDiscountedAmount = cartItems.stream()
+					.mapToInt(
+							cartItem -> cartItem.getQuantity() * cartItem.getProduct().getPriceAfterApplyingDiscount())
+					.sum();
+
+			model.addAttribute("user", user).addAttribute("cartItems", cartItems)
+					.addAttribute("totalAmount", totalAmount)
+					.addAttribute("totalDiscountedAmount", totalDiscountedAmount);
 		}
 
 		User user = this.userService.findByEmail(principal.getName());
@@ -96,7 +107,7 @@ public class MyAccountController {
 			e.printStackTrace();
 			session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
 		}
-		
+
 		model.addAttribute("pageName", "Dashboard");
 
 		return "user/account/account-dashboard";
@@ -107,7 +118,7 @@ public class MyAccountController {
 		List<AccountOrderDto> orders = this.orderService.getOrderByUser(principal.getName());
 
 		model.addAttribute("orders", orders);
-		
+
 		model.addAttribute("pageName", "Orders");
 
 		return "user/account/account-orders";

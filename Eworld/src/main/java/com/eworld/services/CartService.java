@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.eworld.dao.CartRepository;
-import com.eworld.entities.Cart;
+import com.eworld.dao.CartItemRepository;
+import com.eworld.entities.CartItem;
 import com.eworld.entities.Product;
 import com.eworld.entities.User;
 
@@ -14,26 +14,26 @@ import com.eworld.entities.User;
 public class CartService {
 
 	@Autowired
-	private CartRepository cartRepository;
+	private CartItemRepository cartItemRepository;
 
-	public void saveCart(Cart cart) {
-		this.cartRepository.save(cart);
+	public void saveCartItem(CartItem cartItem) {
+		this.cartItemRepository.save(cartItem);
 	}
 
-	public Cart findByProduct(Product product) {
-		return this.cartRepository.findByProduct(product);
+	public CartItem findByProduct(Product product) {
+		return this.cartItemRepository.findByProduct(product);
 	}
 
-	public List<Cart> findByUser(User user) {
-		return this.cartRepository.findByUser(user);
+	public List<CartItem> findByUser(User user) {
+		return this.cartItemRepository.findByUser(user);
 	}
 
-	public Cart getCart(String cartId) {
-		return this.cartRepository.findById(cartId).get();
+	public CartItem getCartItem(String cartItemId) {
+		return this.cartItemRepository.findById(cartItemId).get();
 	}
 
-	public void removeCart(String cartId) {
-		this.cartRepository.deleteById(cartId);
+	public void removeCartItem(String cartId) {
+		this.cartItemRepository.deleteById(cartId);
 	}
 
 }

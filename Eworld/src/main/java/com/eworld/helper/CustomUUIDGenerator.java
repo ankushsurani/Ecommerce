@@ -7,7 +7,7 @@ import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;
 
 import com.eworld.entities.Address;
-import com.eworld.entities.Cart;
+import com.eworld.entities.CartItem;
 import com.eworld.entities.Category;
 import com.eworld.entities.CategoryPriority;
 import com.eworld.entities.Order;
@@ -42,7 +42,7 @@ public class CustomUUIDGenerator implements IdentifierGenerator {
 			prefix = USER_PREFIX;
 		} else if (object instanceof Address) {
 			prefix = ADDRESS_PREFIX;
-		} else if (object instanceof Cart) {
+		} else if (object instanceof CartItem) {
 			prefix = CART_PREFIX;
 		} else if (object instanceof Category) {
 			prefix = CATEGORY_PREFIX;

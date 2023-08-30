@@ -5,15 +5,15 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.eworld.entities.Cart;
+import com.eworld.entities.CartItem;
 import com.eworld.entities.Product;
 import com.eworld.entities.User;
 
 @Repository
-public interface CartRepository extends JpaRepository<Cart, String> {
+public interface CartItemRepository extends JpaRepository<CartItem, String> {
 
-	public Cart findByProduct(Product product);
+	public CartItem findByProduct(Product product);
 
-	public List<Cart> findByUser(User user);
+	public List<CartItem> findByUser(User user);
 
 }

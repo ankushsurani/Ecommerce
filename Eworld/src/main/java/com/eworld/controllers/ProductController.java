@@ -4,10 +4,10 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -20,11 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.eworld.dto.FilterRequest;
-import com.eworld.entities.Cart;
+import com.eworld.entities.CartItem;
 import com.eworld.entities.Category;
 import com.eworld.entities.Product;
 import com.eworld.entities.ProductReview;
-import com.eworld.entities.Rating;
 import com.eworld.entities.User;
 import com.eworld.services.CartService;
 import com.eworld.services.CategoryService;
@@ -51,7 +50,7 @@ public class ProductController {
 
 	@Autowired
 	private RatingService ratingService;
-	
+
 	@Autowired
 	private ProductReviewService productReviewService;
 
@@ -64,10 +63,20 @@ public class ProductController {
 	public void currentUser(Principal principal, Model model) {
 		if (principal != null) {
 			User user = this.userService.findByEmail(principal.getName());
-			model.addAttribute("currentUser", user);
 
-			List<Cart> carts = this.cartService.findByUser(user);
-			model.addAttribute("cart", carts);
+			List<CartItem> cartItems = this.cartService.findByUser(user);
+
+			int totalAmount = cartItems.stream()
+					.mapToInt(cartItem -> cartItem.getQuantity() * cartItem.getProduct().getPrice()).sum();
+
+			int totalDiscountedAmount = cartItems.stream()
+					.mapToInt(
+							cartItem -> cartItem.getQuantity() * cartItem.getProduct().getPriceAfterApplyingDiscount())
+					.sum();
+
+			model.addAttribute("currentUser", user).addAttribute("cartItems", cartItems)
+					.addAttribute("totalAmount", totalAmount)
+					.addAttribute("totalDiscountedAmount", totalDiscountedAmount);
 		}
 		model.addAttribute("appName", this.appName);
 
@@ -103,8 +112,7 @@ public class ProductController {
 			model.addAttribute("pageName", categoryTitle);
 
 			List<String> allBrandName = this.productService.getAllBrandName(categoryId);
-			model.addAttribute("allBrandName", allBrandName)
-			.addAttribute("subPageName", "Products");
+			model.addAttribute("allBrandName", allBrandName).addAttribute("subPageName", "Products");
 
 		} catch (Exception e) {
 			System.out.println("Something Went Wrong");
@@ -116,9 +124,11 @@ public class ProductController {
 	@GetMapping("/{productId}")
 	public String showProductDetails(@PathVariable("productId") String productId, Model model) {
 		Product product = this.productService.getProduct(productId);
-		
+
 		Pageable pageable = PageRequest.of(0, this.pageSize);
-		Page<Product> similarProducts = this.productService.getSimilarProductsByCatId(product.getCategory().getId(), pageable);
+		List<Product> similarProducts = this.productService
+				.getSimilarProductsByCatId(product.getCategory().getId(), pageable).getContent().stream()
+				.filter(produc -> !produc.getId().equals(productId)).collect(Collectors.toList());
 
 		List<String> ratingIds = this.ratingService.getRatingsIdsByProduct(product);
 		List<ProductReview> reviews = this.productReviewService.getProductReviewsByIds(ratingIds);
@@ -128,13 +138,10 @@ public class ProductController {
 		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("EEEE, MMMM dd, yyyy");
 		String formattedEstimatedDeliveryDate = estimatedDeliveryDate.format(dateFormatter);
 
-		model.addAttribute("product", product)
-			 .addAttribute("deliveryDate", formattedEstimatedDeliveryDate)
-			 .addAttribute("reviews", reviews)
-			 .addAttribute("pageName", product.getName())
-			 .addAttribute("subPageName", "Product")
-			 .addAttribute("similarProducts", similarProducts);
-		
+		model.addAttribute("product", product).addAttribute("deliveryDate", formattedEstimatedDeliveryDate)
+				.addAttribute("reviews", reviews).addAttribute("pageName", product.getName())
+				.addAttribute("subPageName", "Product").addAttribute("similarProducts", similarProducts);
+
 		return "product_details";
 	}
 

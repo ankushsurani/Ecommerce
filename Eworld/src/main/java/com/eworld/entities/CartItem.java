@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-public class Cart {
+public class CartItem {
 
 	@Id
 	@GeneratedValue(generator = "custom-uuid-generator")
@@ -30,11 +30,11 @@ public class Cart {
 
 	private int quantity;
 
-	public Cart() {
+	public CartItem() {
 		super();
 	}
 
-	public Cart(String id, Date createdDate, Product product, User user, int quantity) {
+	public CartItem(String id, Date createdDate, Product product, User user, int quantity) {
 		super();
 		this.id = id;
 		this.createdDate = createdDate;
@@ -43,7 +43,7 @@ public class Cart {
 		this.quantity = quantity;
 	}
 
-	public Cart(Date createdDate, Product product, User user, int quantity) {
+	public CartItem(Date createdDate, Product product, User user, int quantity) {
 		super();
 		this.createdDate = createdDate;
 		this.product = product;
