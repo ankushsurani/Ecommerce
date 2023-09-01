@@ -24,12 +24,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.eworld.dto.AccountOrderDto;
 import com.eworld.entities.Address;
 import com.eworld.entities.CartItem;
+import com.eworld.entities.Product;
 import com.eworld.entities.User;
+import com.eworld.entities.WishlistItem;
 import com.eworld.helper.Msg;
 import com.eworld.services.AddressService;
 import com.eworld.services.CartService;
 import com.eworld.services.OrderService;
+import com.eworld.services.ProductService;
 import com.eworld.services.UserService;
+import com.eworld.services.WishlistItemService;
 import com.eworld.validation.EditProfileValidation;
 
 @Controller
@@ -49,6 +53,12 @@ public class MyAccountController {
 	private OrderService orderService;
 
 	@Autowired
+	private ProductService productService;
+
+	@Autowired
+	private WishlistItemService wishlistItemService;
+
+	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
 	@Value("${spring.application.name}")
@@ -63,10 +73,12 @@ public class MyAccountController {
 
 	@ModelAttribute
 	public void currentUser(Principal principal, Model model) {
+		User user = null;
 		if (principal != null) {
-			User user = this.userService.findByEmail(principal.getName());
+			user = this.userService.findByEmail(principal.getName());
 
 			List<CartItem> cartItems = this.cartService.findByUser(user);
+			List<WishlistItem> wishlistItems = this.wishlistItemService.getWishlistByUser(user);
 
 			int totalAmount = cartItems.stream()
 					.mapToInt(cartItem -> cartItem.getQuantity() * cartItem.getProduct().getPrice()).sum();
@@ -77,14 +89,15 @@ public class MyAccountController {
 					.sum();
 
 			model.addAttribute("user", user).addAttribute("cartItems", cartItems)
-					.addAttribute("totalAmount", totalAmount)
+					.addAttribute("wishlistItems", wishlistItems).addAttribute("totalAmount", totalAmount)
 					.addAttribute("totalDiscountedAmount", totalDiscountedAmount);
 		}
 
-		User user = this.userService.findByEmail(principal.getName());
+		user = this.userService.findByEmail(principal.getName());
 
 		boolean haveAddress = user.getAddress().stream().anyMatch(address -> address.isActive());
 
+		model.addAttribute("loggedIn", user != null);
 		model.addAttribute("haveAddress", haveAddress);
 		model.addAttribute("appName", this.appName);
 		model.addAttribute("subPageName", "My Account");
@@ -280,6 +293,87 @@ public class MyAccountController {
 	public String wishlist(Model model) {
 		model.addAttribute("pageName", "Wishlist");
 		return "user/account/wishlist";
+	}
+
+	@GetMapping("/add-to-wishlist/{productId}")
+	public String addToWishlist(@PathVariable("productId") String productId, Principal principal, HttpSession session) {
+		try {
+
+			User user = this.userService.findByEmail(principal.getName());
+			Product product = this.productService.getProduct(productId);
+
+			boolean alreadyPresentInWishlist = this.wishlistItemService.existsByUserAndProduct(user, product);
+			if (alreadyPresentInWishlist) {
+				session.setAttribute("message",
+						new Msg(product.getName() + " - Already Present in Your Wishlist", "alert-success"));
+			} else if (!alreadyPresentInWishlist) {
+				this.wishlistItemService.addProductToWishlist(new WishlistItem(product, user));
+				session.setAttribute("message",
+						new Msg(product.getName() + " - Added to Your Wishlist", "alert-success"));
+			}
+
+		} catch (Exception e) {
+			session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
+		}
+
+		return "redirect:/user/account/wishlist";
+	}
+
+	@GetMapping("/move-to-cart/{wishlistItemId}")
+	public String moveToCart(@PathVariable("wishlistItemId") String wishlistItemId, Principal principal,
+			HttpSession session) {
+		try {
+
+			User user = this.userService.findByEmail(principal.getName());
+
+			WishlistItem wishlistItem = this.wishlistItemService.getWishlistById(wishlistItemId);
+
+			if (user.getId().equals(wishlistItem.getUser().getId())) {
+				boolean alreadyPresentInCart = this.cartService.existsByUserAndProduct(user, wishlistItem.getProduct());
+				if (alreadyPresentInCart) {
+					session.setAttribute("message", new Msg("Product is alredy present in cart", "alert-warning"));
+				} else {
+					this.cartService
+							.saveCartItem(new CartItem(new java.util.Date(), wishlistItem.getProduct(), user, 1));
+					session.setAttribute("message",
+							new Msg(wishlistItem.getProduct().getName() + " - Moved to Cart", "alert-success"));
+				}
+
+				this.wishlistItemService.removeProductFromWishlist(wishlistItem);
+
+			} else {
+				session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
+			}
+
+		} catch (Exception e) {
+			session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
+		}
+
+		return "redirect:/user/cart";
+	}
+	
+	@GetMapping("/remove-from-wishlist/{wishlistItemId}")
+	public String removeFromWishlist(@PathVariable("wishlistItemId") String wishlistItemId, Principal principal,
+			HttpSession session) {
+		try {
+			
+			User user = this.userService.findByEmail(principal.getName());
+			WishlistItem wishlistItem = this.wishlistItemService.getWishlistById(wishlistItemId);
+			
+			if (wishlistItem.getUser().getId().equals(user.getId())) {
+				this.wishlistItemService.removeProductFromWishlist(wishlistItem);
+				session.setAttribute("message",
+						new Msg(wishlistItem.getProduct().getName() + " - Removed From Your Wishlist", "alert-success"));
+			}
+			else {
+				session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
+			}
+			
+		} catch (Exception e) {
+			session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
+		}
+		
+		return "redirect:/user/account/wishlist";
 	}
 
 	// change password

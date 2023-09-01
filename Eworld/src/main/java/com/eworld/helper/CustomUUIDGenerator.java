@@ -18,6 +18,7 @@ import com.eworld.entities.ProductPriority;
 import com.eworld.entities.ProductReview;
 import com.eworld.entities.Rating;
 import com.eworld.entities.User;
+import com.eworld.entities.WishlistItem;
 
 public class CustomUUIDGenerator implements IdentifierGenerator {
 
@@ -31,8 +32,9 @@ public class CustomUUIDGenerator implements IdentifierGenerator {
 	private static final String PRODUCT_PREFIX = "PRODUCT_";
 	private static final String PRODUCTIMG_PREFIX = "PRODUCTIMG_";
 	private static final String PRODUCTPRIO_PREFIX = "PRODUCTPRIO_";
-	private static final String RATING_PREFIX = "RATING_";
+	private static final String RATING_PREFIX = "RATINGITM_";
 	private static final String PRODUCTREVIEW_PREFIX = "REVIEW_";
+	private static final String WISHLIST_PREFIX = "WISHLISTITM_";
 
 	@Override
 	public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
@@ -62,6 +64,8 @@ public class CustomUUIDGenerator implements IdentifierGenerator {
 			prefix = RATING_PREFIX;
 		} else if (object instanceof ProductReview) {
 			prefix = PRODUCTREVIEW_PREFIX;
+		} else if (object instanceof WishlistItem) {
+			prefix = WISHLIST_PREFIX;
 		}
 
 		return prefix + java.util.UUID.randomUUID().toString();

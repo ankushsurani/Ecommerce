@@ -2,6 +2,7 @@ package com.eworld.controllers;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,10 +22,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.eworld.entities.CartItem;
 import com.eworld.entities.User;
+import com.eworld.entities.WishlistItem;
 import com.eworld.helper.EmailService;
 import com.eworld.helper.Msg;
 import com.eworld.services.CartService;
 import com.eworld.services.UserService;
+import com.eworld.services.WishlistItemService;
 import com.eworld.validation.SignupValidation;
 
 @Controller
@@ -44,27 +47,36 @@ public class SignupController {
 
 	@Value("${spring.application.name}")
 	private String appName;
+	
+	@Autowired
+	private WishlistItemService wishlistItemService;
 
 	@ModelAttribute
 	public void currentUser(Principal principal, Model model) {
+		List<CartItem> cartItems = new ArrayList<>();
+		List<WishlistItem> wishlistItems = new ArrayList<>();
+		int totalAmount = 0;
+		int totalDiscountedAmount = 0;
+		User user = null;
 		if (principal != null) {
-			User user = this.userService.findByEmail(principal.getName());
+			user = this.userService.findByEmail(principal.getName());
 
-			List<CartItem> cartItems = this.cartService.findByUser(user);
+			cartItems = this.cartService.findByUser(user);
+			wishlistItems = this.wishlistItemService.getWishlistByUser(user);
 
-			int totalAmount = cartItems.stream()
+			totalAmount = cartItems.stream()
 					.mapToInt(cartItem -> cartItem.getQuantity() * cartItem.getProduct().getPrice()).sum();
 
-			int totalDiscountedAmount = cartItems.stream()
+			totalDiscountedAmount = cartItems.stream()
 					.mapToInt(
 							cartItem -> cartItem.getQuantity() * cartItem.getProduct().getPriceAfterApplyingDiscount())
 					.sum();
 
-			model.addAttribute("currentUser", user).addAttribute("cartItems", cartItems)
-					.addAttribute("totalAmount", totalAmount)
-					.addAttribute("totalDiscountedAmount", totalDiscountedAmount);
+			model.addAttribute("currentUser", user);
 		}
-
+		model.addAttribute("loggedIn", user != null).addAttribute("cartItems", cartItems)
+		.addAttribute("wishlistItems", wishlistItems)
+				.addAttribute("totalAmount", totalAmount).addAttribute("totalDiscountedAmount", totalDiscountedAmount);
 		model.addAttribute("appName", this.appName);
 		model.addAttribute("subPageName", "Signup");
 		model.addAttribute("pageName", "My Account");

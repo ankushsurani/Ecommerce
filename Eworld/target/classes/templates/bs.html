@@ -49,11 +49,15 @@
 
 				<div class="col-lg-6 col-md-12">
 					<ul class="header-top-menu">
-						<li><a th:href="@{/user/account/dashboard}"><i class='bx bxs-user'></i> My
-								Account</a></li>
+						<li><a th:href="@{/user/account/dashboard}"><i
+								class='bx bxs-user'></i> My Account</a></li>
 						<li><a href="#" data-bs-toggle="modal"
-							data-bs-target="#shoppingWishlistModal"><i
-								class='bx bx-heart'></i> Wishlist</a></li>
+							data-bs-target="#shoppingWishlistModal"><span
+								th:if="${#lists.size(wishlistItems) > 0}"> <i
+									class='bx bxs-heart text-danger'></i> Wishlist
+							</span> <span th:unless="${#lists.size(wishlistItems) > 0}"> <i
+									class='bx bx-heart'></i> Wishlist
+							</span> </a></li>
 						<li><a href="compare.html"><i class='bx bx-shuffle'></i>
 								Compare</a></li>
 						<li><a th:href="@{/login}"><i class='bx bx-log-in'></i>
@@ -1581,7 +1585,31 @@
 				</button>
 
 				<div class="modal-body">
-					<h3>My Cart (3)</h3>
+				
+				<div th:if="${!loggedIn}" class="error-area ptb-100">
+		<div class="container">
+                <div class="error-content">
+                    <img th:src="@{/images/empty-cart.webp}" alt="error">
+                    <h3 class="animate-charcter">Missing Cart items?</h3>
+                    <p>Login to see the items you added previously</p>
+                    <a th:href="@{/login}" class="default-btn"><i class='bx bx-log-in'></i> Login</a>
+                </div>
+            </div>
+	</div>
+				
+				
+				<div th:if="${loggedIn && #lists.size(cartItems) == 0}" class="error-area ptb-100">
+		<div class="container">
+                <div class="error-content">
+                    <img th:src="@{/images/empty-cart.webp}" alt="error">
+                    <h3 class="animate-charcter">Your cart is empty!</h3>
+                    <p>Add items to it now.</p>
+                    <a th:href="@{/product/page=0}" class="default-btn">Shop now</a>
+                </div>
+            </div>
+	</div>
+				<div th:if="${loggedIn && #lists.size(cartItems) > 0}">
+					<h3>My Cart (<span th:text="${#lists.size(cartItems)}"></span>)</h3>
 
 					<div class="products-cart-content">
 						<div class="products-cart" th:each="cartItem : ${cartItems}">
@@ -1614,6 +1642,7 @@
 							th:href="@{/user/cart}" class="optional-btn">View Shopping Cart</a>
 					</div>
 				</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -1630,66 +1659,34 @@
 				</button>
 
 				<div class="modal-body">
-					<h3>My Wish List (3)</h3>
+					<h3>My Wish List (<span th:text="${#lists.size(wishlistItems)}"></span>)</h3>
 
 					<div class="products-cart-content">
-						<div class="products-cart">
-							<div class="products-image">
-								<a href="#"><img src="/assets/img/products/img1.jpg"
+						<div class="products-cart" th:each="wishlistItem : ${wishlistItems}">
+							<div class="products-image d-flex justify-content-center align-items-center">
+								<a th:href="@{'/product/' + ${wishlistItem.product.id}}"><img style="height: 12vh;" th:src="@{'/product_img/' + ${wishlistItem.product.productImages[0].productPic}}"
 									alt="image"></a>
 							</div>
 
 							<div class="products-content">
 								<h3>
-									<a href="#">Long Sleeve Leopard T-Shirt</a>
+									<a th:href="@{'/product/' + ${wishlistItem.product.id}}" th:text="${wishlistItem.product.name}"></a>
 								</h3>
-								<span>Blue / XS</span>
+								<span th:text="${wishlistItem.product.brandName}"></span>
 								<div class="products-price">
-									<span>1</span> <span>x</span> <span class="price">$250.00</span>
+									<span>1</span> <span>x</span> <span class="price" th:text="${'&#8377;' + wishlistItem.product.getPriceAfterApplyingDiscount()}"></span>
 								</div>
-								<a href="#" class="remove-btn"><i class='bx bx-trash'></i></a>
+								<a th:href="@{'/user/account/remove-from-wishlist/' + ${wishlistItem.id}}" class="remove-btn"><i class='bx bx-trash'></i></a>
 							</div>
 						</div>
 
-						<div class="products-cart">
-							<div class="products-image">
-								<a href="#"><img src="/assets/img/products/img2.jpg"
-									alt="image"></a>
-							</div>
+						
 
-							<div class="products-content">
-								<h3>
-									<a href="#">Causal V-Neck Soft Raglan</a>
-								</h3>
-								<span>Blue / XS</span>
-								<div class="products-price">
-									<span>1</span> <span>x</span> <span class="price">$200.00</span>
-								</div>
-								<a href="#" class="remove-btn"><i class='bx bx-trash'></i></a>
-							</div>
-						</div>
-
-						<div class="products-cart">
-							<div class="products-image">
-								<a href="#"><img src="/assets/img/products/img3.jpg"
-									alt="image"></a>
-							</div>
-
-							<div class="products-content">
-								<h3>
-									<a href="#">Hanes Men's Pullover</a>
-								</h3>
-								<span>Blue / XS</span>
-								<div class="products-price">
-									<span>1</span> <span>x</span> <span class="price">$200.00</span>
-								</div>
-								<a href="#" class="remove-btn"><i class='bx bx-trash'></i></a>
-							</div>
-						</div>
+						
 					</div>
 
 					<div class="products-cart-btn">
-						<a href="#" class="optional-btn">View Shopping Cart</a>
+						<a th:href="@{/user/account/wishlist}" class="optional-btn">View Wishlist</a>
 					</div>
 				</div>
 			</div>

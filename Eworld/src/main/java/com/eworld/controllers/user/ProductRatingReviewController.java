@@ -23,6 +23,7 @@ import com.eworld.entities.Product;
 import com.eworld.entities.ProductReview;
 import com.eworld.entities.Rating;
 import com.eworld.entities.User;
+import com.eworld.entities.WishlistItem;
 import com.eworld.helper.Msg;
 import com.eworld.services.CartService;
 import com.eworld.services.OrderService;
@@ -30,6 +31,7 @@ import com.eworld.services.ProductReviewService;
 import com.eworld.services.ProductService;
 import com.eworld.services.RatingService;
 import com.eworld.services.UserService;
+import com.eworld.services.WishlistItemService;
 
 @Controller
 @RequestMapping("/user/add-review")
@@ -53,15 +55,20 @@ public class ProductRatingReviewController {
 	@Autowired
 	private CartService cartService;
 
+	@Autowired
+	private WishlistItemService wishlistItemService;
+
 	@Value("${spring.application.name}")
 	private String appName;
 
 	@ModelAttribute
 	private void commonDetails(Model model, Principal principal) {
+		User user = null;
 		if (principal != null) {
-			User user = this.userService.findByEmail(principal.getName());
+			user = this.userService.findByEmail(principal.getName());
 
 			List<CartItem> cartItems = this.cartService.findByUser(user);
+			List<WishlistItem> wishlistItems = this.wishlistItemService.getWishlistByUser(user);
 
 			int totalAmount = cartItems.stream()
 					.mapToInt(cartItem -> cartItem.getQuantity() * cartItem.getProduct().getPrice()).sum();
@@ -72,11 +79,11 @@ public class ProductRatingReviewController {
 					.sum();
 
 			model.addAttribute("currentUser", user).addAttribute("cartItems", cartItems)
-					.addAttribute("totalAmount", totalAmount)
+					.addAttribute("wishlistItems", wishlistItems).addAttribute("totalAmount", totalAmount)
 					.addAttribute("totalDiscountedAmount", totalDiscountedAmount);
 		}
-		model.addAttribute("appName", this.appName).addAttribute("subPageName", "Product").addAttribute("pageName",
-				"Ratings & Reviews");
+		model.addAttribute("loggedIn", user != null).addAttribute("appName", this.appName)
+				.addAttribute("subPageName", "Product").addAttribute("pageName", "Ratings & Reviews");
 	}
 
 	@GetMapping("/{productId}")

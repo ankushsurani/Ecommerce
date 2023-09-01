@@ -8,7 +8,19 @@
 
 	<!-- Start Cart Area -->
 	<section class="cart-area ptb-100">
+	
+	<div th:if="${#lists.size(cartItems) == 0}" class="error-area">
 		<div class="container">
+                <div class="error-content">
+                    <img th:src="@{/images/empty-cart.webp}" alt="error">
+                    <h3 class="animate-charcter">Your cart is empty!</h3>
+                    <p>Add items to it now.</p>
+                    <a th:href="@{/product/page=0}" class="default-btn">Shop now</a>
+                </div>
+            </div>
+	</div>
+	
+		<div th:unless="${#lists.size(cartItems) == 0}" class="container">
 
 
 			<!-- start messages of success and error -->

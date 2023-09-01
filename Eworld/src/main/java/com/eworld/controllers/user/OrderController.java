@@ -26,6 +26,7 @@ import com.eworld.entities.CartItem;
 import com.eworld.entities.Order;
 import com.eworld.entities.Payment;
 import com.eworld.entities.User;
+import com.eworld.entities.WishlistItem;
 import com.eworld.enumstype.DeliveryStatus;
 import com.eworld.helper.Msg;
 import com.eworld.services.AddressService;
@@ -33,6 +34,7 @@ import com.eworld.services.CartService;
 import com.eworld.services.OrderService;
 import com.eworld.services.PaymentService;
 import com.eworld.services.UserService;
+import com.eworld.services.WishlistItemService;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
 
@@ -55,6 +57,9 @@ public class OrderController {
 	@Autowired
 	private PaymentService paymentService;
 
+	@Autowired
+	private WishlistItemService wishlistItemService;
+
 	private String paymentMode;
 
 	private List<Order> orders;
@@ -71,6 +76,7 @@ public class OrderController {
 			model.addAttribute("addresses", addresses);
 
 			List<CartItem> cartItems = this.cartService.findByUser(user);
+			List<WishlistItem> wishlistItems = this.wishlistItemService.getWishlistByUser(user);
 
 			if (cartItems.size() == 0) {
 				model.addAttribute("cart", 0);
@@ -85,7 +91,7 @@ public class OrderController {
 				model.addAttribute("totalPrice", totalPrice);
 				model.addAttribute("totalDiscountPrice", totalDiscoutedPrice);
 
-				model.addAttribute("cart", cartItems);
+				model.addAttribute("cart", cartItems).addAttribute("wishlistItems", wishlistItems);
 			}
 		}
 	}

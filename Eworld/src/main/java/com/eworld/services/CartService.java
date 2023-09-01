@@ -35,5 +35,9 @@ public class CartService {
 	public void removeCartItem(String cartId) {
 		this.cartItemRepository.deleteById(cartId);
 	}
+	
+	public boolean existsByUserAndProduct(User user, Product product) {
+		return this.cartItemRepository.existsByUserAndProduct(user, product);
+	}
 
 }

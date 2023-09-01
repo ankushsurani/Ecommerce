@@ -8,228 +8,83 @@
 <body>
 
 
-<!--start page content-->
-<section class="page-content">
+	<!--start page content-->
+	<section class="page-content">
+
+
+		<!-- messages of success and error -->
+		<div th:if="${session.message}" class="text-center me-3">
+			<div th:classappend="${session.message.type}"
+				class="alert alert-primary" role="alert">
+				<span th:text="${session.message.content}"></span>
+			</div>
+			<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+		</div>
+		<!-- end error and success message -->
 
 
 
-   <!--start product wishlist-->
-   <section class="section-padding">
-    <div class="container">
-      <div class="d-flex align-items-center px-3 py-2 border mb-4">
-        <div class="text-start">
-          <h4 class="mb-0 h4 fw-bold">Wishlist (10 Items)</h4>
-       </div>
-       <div class="ms-auto">
-        <button type="button" class="btn btn-light btn-ecomm">Continue Shopping</button>
-       </div>
-      </div>
+		<!--start product wishlist-->
+		<section class="section-padding">
+			<div class="container">
+				<div class="d-flex align-items-center px-3 py-2 border mb-4">
+					<div class="text-start">
+						<h4 class="mb-0 h4 fw-bold">
+							Wishlist (<span th:text="${#lists.size(wishlistItems)}"></span>
+							Items)
+						</h4>
+					</div>
+					<div class="ms-auto">
+						<a th:href="@{/product/page=0}" class="btn btn-light btn-ecomm">Continue
+							Shopping</a>
+					</div>
+				</div>
 
-     <div class="similar-products">
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 g-4">
-        <div class="col">
-          <div class="card rounded-0">
-            <div class="btn-close wishlist-close position-absolute end-0 top-0"></div>
-            <a href="javascript:;">
-              <img src="assets/images/best-sellar/01.webp" alt="" class="card-img-top rounded-0">
-            </a>
-            <div class="card-body border-top text-center">
-              <p class="mb-0 product-short-name">Color Printed Kurta</p>
-              <div class="product-price d-flex align-items-center gap-2 mt-2 justify-content-center">
-                <div class="h6 fw-bold">$458</div>
-                <div class="h6 fw-light text-muted text-decoration-line-through">$2089</div>
-                <div class="h6 fw-bold text-danger">(70% off)</div>
-              </div>
-            </div>
-            <div class="card-footer bg-transparent text-center">
-              <a href="javascript:;" class="btn btn-ecomm w-100">Move to Bag</a>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card rounded-0">
-            <div class="btn-close wishlist-close position-absolute end-0 top-0"></div>
-            <a href="javascript:;">
-             <img src="assets/images/new-arrival/01.webp" alt="" class="card-img-top rounded-0">
-            </a>
-            <div class="card-body border-top text-center">
-              <p class="mb-0 product-short-name">Color Printed Kurta</p>
-              <div class="product-price d-flex align-items-center gap-2 mt-2 justify-content-center">
-                <div class="h6 fw-bold">$458</div>
-                <div class="h6 fw-light text-muted text-decoration-line-through">$2089</div>
-                <div class="h6 fw-bold text-danger">(70% off)</div>
-              </div>
-            </div>
-            <div class="card-footer bg-transparent text-center">
-              <a href="javascript:;" class="btn btn-ecomm w-100">Move to Bag</a>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card rounded-0">
-            <div class="btn-close wishlist-close position-absolute end-0 top-0"></div>
-            <a href="javascript:;">
-               <img src="assets/images/trending-product/01.webp" alt="" class="card-img-top rounded-0">
-            </a>
-            <div class="card-body border-top text-center">
-              <p class="mb-0 product-short-name">Color Printed Kurta</p>
-              <div class="product-price d-flex align-items-center gap-2 mt-2 justify-content-center">
-                <div class="h6 fw-bold">$458</div>
-                <div class="h6 fw-light text-muted text-decoration-line-through">$2089</div>
-                <div class="h6 fw-bold text-danger">(70% off)</div>
-              </div>
-            </div>
-            <div class="card-footer bg-transparent text-center">
-              <a href="javascript:;" class="btn btn-ecomm w-100">Move to Bag</a>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card rounded-0">
-            <div class="btn-close wishlist-close position-absolute end-0 top-0"></div>
-            <a href="javascript:;">
-               <img src="assets/images/best-sellar/02.webp" alt="" class="card-img-top rounded-0">
-             </a>
-            <div class="card-body border-top text-center">
-              <p class="mb-0 product-short-name">Color Printed Kurta</p>
-              <div class="product-price d-flex align-items-center gap-2 mt-2 justify-content-center">
-                <div class="h6 fw-bold">$458</div>
-                <div class="h6 fw-light text-muted text-decoration-line-through">$2089</div>
-                <div class="h6 fw-bold text-danger">(70% off)</div>
-              </div>
-            </div>
-            <div class="card-footer bg-transparent text-center">
-              <a href="javascript:;" class="btn btn-ecomm w-100">Move to Bag</a>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card rounded-0">
-            <div class="btn-close wishlist-close position-absolute end-0 top-0"></div>
-            <a href="javascript:;">
-              <img src="assets/images/new-arrival/02.webp" alt="" class="card-img-top rounded-0">
-             </a>
-            <div class="card-body border-top text-center">
-              <p class="mb-0 product-short-name">Color Printed Kurta</p>
-              <div class="product-price d-flex align-items-center gap-2 mt-2 justify-content-center">
-                <div class="h6 fw-bold">$458</div>
-                <div class="h6 fw-light text-muted text-decoration-line-through">$2089</div>
-                <div class="h6 fw-bold text-danger">(70% off)</div>
-              </div>
-            </div>
-            <div class="card-footer bg-transparent text-center">
-              <a href="javascript:;" class="btn btn-ecomm w-100">Move to Bag</a>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card rounded-0">
-            <div class="btn-close wishlist-close position-absolute end-0 top-0"></div>
-            <a href="javascript:;">
-               <img src="assets/images/featured-products/05.webp" alt="" class="card-img-top rounded-0">
-            </a>
-            <div class="card-body border-top text-center">
-              <p class="mb-0 product-short-name">Color Printed Kurta</p>
-              <div class="product-price d-flex align-items-center gap-2 mt-2 justify-content-center">
-                <div class="h6 fw-bold">$458</div>
-                <div class="h6 fw-light text-muted text-decoration-line-through">$2089</div>
-                <div class="h6 fw-bold text-danger">(70% off)</div>
-              </div>
-            </div>
-            <div class="card-footer bg-transparent text-center">
-              <a href="javascript:;" class="btn btn-ecomm w-100">Move to Bag</a>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card rounded-0">
-            <div class="btn-close wishlist-close position-absolute end-0 top-0"></div>
-            <a href="javascript:;">
-              <img src="assets/images/special-offer/03.webp" alt="" class="card-img-top rounded-0">
-            </a>
-            <div class="card-body border-top text-center">
-              <p class="mb-0 product-short-name">Color Printed Kurta</p>
-              <div class="product-price d-flex align-items-center gap-2 mt-2 justify-content-center">
-                <div class="h6 fw-bold">$458</div>
-                <div class="h6 fw-light text-muted text-decoration-line-through">$2089</div>
-                <div class="h6 fw-bold text-danger">(70% off)</div>
-              </div>
-            </div>
-            <div class="card-footer bg-transparent text-center">
-              <a href="javascript:;" class="btn btn-ecomm w-100">Move to Bag</a>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card rounded-0">
-            <div class="btn-close wishlist-close position-absolute end-0 top-0"></div>
-            <a href="javascript:;">
-              <img src="assets/images/new-arrival/05.webp" alt="" class="card-img-top rounded-0">
-            </a>
-            <div class="card-body border-top text-center">
-              <p class="mb-0 product-short-name">Color Printed Kurta</p>
-              <div class="product-price d-flex align-items-center gap-2 mt-2 justify-content-center">
-                <div class="h6 fw-bold">$458</div>
-                <div class="h6 fw-light text-muted text-decoration-line-through">$2089</div>
-                <div class="h6 fw-bold text-danger">(70% off)</div>
-              </div>
-            </div>
-            <div class="card-footer bg-transparent text-center">
-              <a href="javascript:;" class="btn btn-ecomm w-100">Move to Bag</a>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card rounded-0">
-            <div class="btn-close wishlist-close position-absolute end-0 top-0"></div>
-            <a href="javascript:;">
-              <img src="assets/images/trending-product/04.webp" alt="" class="card-img-top rounded-0">
-            </a>
-            <div class="card-body border-top text-center">
-              <p class="mb-0 product-short-name">Color Printed Kurta</p>
-              <div class="product-price d-flex align-items-center gap-2 mt-2 justify-content-center">
-                <div class="h6 fw-bold">$458</div>
-                <div class="h6 fw-light text-muted text-decoration-line-through">$2089</div>
-                <div class="h6 fw-bold text-danger">(70% off)</div>
-              </div>
-            </div>
-            <div class="card-footer bg-transparent text-center">
-              <a href="javascript:;" class="btn btn-ecomm w-100">Move to Bag</a>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card rounded-0">
-            <div class="btn-close wishlist-close position-absolute end-0 top-0"></div>
-            <a href="javascript:;">
-              <img src="assets/images/special-offer/04.webp" alt="" class="card-img-top rounded-0">
-            </a>
-            <div class="card-body border-top text-center">
-              <p class="mb-0 product-short-name">Color Printed Kurta</p>
-              <div class="product-price d-flex align-items-center gap-2 mt-2 justify-content-center">
-                <div class="h6 fw-bold">$458</div>
-                <div class="h6 fw-light text-muted text-decoration-line-through">$2089</div>
-                <div class="h6 fw-bold text-danger">(70% off)</div>
-              </div>
-            </div>
-            <div class="card-footer bg-transparent text-center">
-              <a href="javascript:;" class="btn btn-ecomm w-100">Move to Bag</a>
-            </div>
-          </div>
-        </div>
-        
-
-      </div>
-      <!--end row-->
-    </div>
-    </div>
-  </section>
-   <!--start product details-->
+				<div class="similar-products">
+					<div
+						class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-4 g-4">
+						<div class="col" th:each="wishlistItem : ${wishlistItems}">
+							<div class="card rounded-0">
+								<a th:href="@{'/user/account/remove-from-wishlist/' + ${wishlistItem.id}}"
+									class="btn-close wishlist-close position-absolute end-0 top-0"></a>
+								<a href="javascript:;">
+									<div class="d-flex justify-content-center align-items-center"
+										style="height: 300px;">
+										<img class="card-img-top rounded-0 text-center"
+											style="width: auto; max-height: 250px;"
+											th:src="@{'/product_img/' + ${wishlistItem.product.productImages[0].productPic}}"
+											alt="">
+									</div>
+								</a>
+								<div class="card-body border-top text-center" style="height: 150px;">
+									<p class="mb-0 product-short-name" th:text="${wishlistItem.product.name}">Color Printed Kurta</p>
+									<div
+										class="product-price d-flex align-items-center gap-2 mt-2 justify-content-center">
+										<div class="h6 fw-bold" th:text="${'&#8377;' + wishlistItem.product.getPriceAfterApplyingDiscount()}"></div>
+										<div
+											class="h6 fw-light text-muted text-decoration-line-through" th:text="${'&#8377;' + wishlistItem.product.price}"></div>
+										<div class="h6 fw-bold text-danger">(<span th:text="${wishlistItem.product.discount}"></span>% off)</div>
+									</div>
+								</div>
+								<div class="card-footer bg-transparent text-center">
+									<a th:href="@{'/user/account/move-to-cart/' + ${wishlistItem.id}}" class="btn btn-ecomm w-100">Move to
+										Cart</a>
+								</div>
+							</div>
+						</div>
 
 
- </section>
-  <!--end page content-->
-  
+					</div>
+					<!--end row-->
+				</div>
+			</div>
+		</section>
+		<!--start product details-->
+
+
+	</section>
+	<!--end page content-->
+
 </body>
 
 </html>

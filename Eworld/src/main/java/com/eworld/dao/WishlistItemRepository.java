@@ -5,17 +5,15 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.eworld.entities.CartItem;
 import com.eworld.entities.Product;
 import com.eworld.entities.User;
+import com.eworld.entities.WishlistItem;
 
 @Repository
-public interface CartItemRepository extends JpaRepository<CartItem, String> {
+public interface WishlistItemRepository extends JpaRepository<WishlistItem, String> {
 
-	public CartItem findByProduct(Product product);
+	public List<WishlistItem> findByUser(User user);
 
-	public List<CartItem> findByUser(User user);
-	
 	boolean existsByUserAndProduct(User user, Product product);
 
 }

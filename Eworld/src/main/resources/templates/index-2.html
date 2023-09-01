@@ -99,7 +99,7 @@
 								<ul>
 									<li>
 										<div class="wishlist-btn">
-											<a href="#"> <i class='bx bx-heart'></i> <span
+											<a th:href="@{'/user/account/add-to-wishlist/' + ${latestProduct.id}}"> <i class='bx bx-heart'></i> <span
 												class="tooltip-label">Add to Wishlist</span>
 											</a>
 										</div>
@@ -216,7 +216,7 @@
 								<ul>
 									<li>
 										<div class="wishlist-btn">
-											<a href="#"> <i class='bx bx-heart'></i> <span
+											<a th:href="@{'/user/account/add-to-wishlist/' + ${topRatedProduct.id}}"> <i class='bx bx-heart'></i> <span
 												class="tooltip-label">Add to Wishlist</span>
 											</a>
 										</div>
@@ -368,7 +368,7 @@
 								<ul>
 									<li>
 										<div class="wishlist-btn">
-											<a href="#"> <i class='bx bx-heart'></i> <span
+											<a th:href="@{'/user/account/add-to-wishlist/' + ${popularProduct.id}}"> <i class='bx bx-heart'></i> <span
 												class="tooltip-label">Add to Wishlist</span>
 											</a>
 										</div>
