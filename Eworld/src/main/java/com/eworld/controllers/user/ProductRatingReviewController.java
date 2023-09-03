@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.eworld.entities.CartItem;
+import com.eworld.entities.Category;
 import com.eworld.entities.Product;
 import com.eworld.entities.ProductReview;
 import com.eworld.entities.Rating;
@@ -26,6 +27,7 @@ import com.eworld.entities.User;
 import com.eworld.entities.WishlistItem;
 import com.eworld.helper.Msg;
 import com.eworld.services.CartService;
+import com.eworld.services.CategoryService;
 import com.eworld.services.OrderService;
 import com.eworld.services.ProductReviewService;
 import com.eworld.services.ProductService;
@@ -58,6 +60,9 @@ public class ProductRatingReviewController {
 	@Autowired
 	private WishlistItemService wishlistItemService;
 
+	@Autowired
+	private CategoryService categoryService;
+
 	@Value("${spring.application.name}")
 	private String appName;
 
@@ -82,6 +87,10 @@ public class ProductRatingReviewController {
 					.addAttribute("wishlistItems", wishlistItems).addAttribute("totalAmount", totalAmount)
 					.addAttribute("totalDiscountedAmount", totalDiscountedAmount);
 		}
+
+		List<Category> categories = this.categoryService.getAllCategories();
+		model.addAttribute("categories", categories);
+
 		model.addAttribute("loggedIn", user != null).addAttribute("appName", this.appName)
 				.addAttribute("subPageName", "Product").addAttribute("pageName", "Ratings & Reviews");
 	}

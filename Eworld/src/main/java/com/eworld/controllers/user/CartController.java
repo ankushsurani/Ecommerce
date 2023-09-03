@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.eworld.entities.CartItem;
+import com.eworld.entities.Category;
 import com.eworld.entities.Product;
 import com.eworld.entities.User;
 import com.eworld.entities.WishlistItem;
 import com.eworld.helper.Msg;
 import com.eworld.services.CartService;
+import com.eworld.services.CategoryService;
 import com.eworld.services.ProductService;
 import com.eworld.services.UserService;
 import com.eworld.services.WishlistItemService;
@@ -40,6 +42,9 @@ public class CartController {
 
 	@Autowired
 	private WishlistItemService wishlistItemService;
+
+	@Autowired
+	private CategoryService categoryService;
 
 	@Value("${spring.application.name}")
 	private String appName;
@@ -65,6 +70,9 @@ public class CartController {
 					.addAttribute("wishlistItems", wishlistItems).addAttribute("totalAmount", totalAmount)
 					.addAttribute("totalDiscountedAmount", totalDiscountedAmount);
 		}
+
+		List<Category> categories = this.categoryService.getAllCategories();
+		model.addAttribute("categories", categories);
 
 		model.addAttribute("appName", this.appName);
 		model.addAttribute("pageName", "Cart Details");

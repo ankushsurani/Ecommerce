@@ -12,6 +12,8 @@
 	<section class="page-content">
 
 
+
+
 		<!-- messages of success and error -->
 		<div th:if="${session.message}" class="text-center me-3">
 			<div th:classappend="${session.message.type}"
@@ -23,9 +25,23 @@
 		<!-- end error and success message -->
 
 
+		<div th:if="${#lists.size(wishlistItems) == 0}" class="error-area">
+			<div class="container">
+				<div class="error-content">
+					<img th:src="@{/images/Add-to-Wishlist.png}" alt="error">
+					<h3 class="animate-charcter">Your Wishlist is empty!</h3>
+					<p>Explore our wide range of products and discover great deals
+						for all your shopping needs.</p>
+					<a th:href="@{/product/page=0}" class="default-btn">Shop now</a>
+				</div>
+			</div>
+		</div>
+
+
 
 		<!--start product wishlist-->
-		<section class="section-padding">
+		<section th:unless="${#lists.size(wishlistItems) == 0}"
+			class="section-padding">
 			<div class="container">
 				<div class="d-flex align-items-center px-3 py-2 border mb-4">
 					<div class="text-start">
@@ -45,7 +61,8 @@
 						class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-4 g-4">
 						<div class="col" th:each="wishlistItem : ${wishlistItems}">
 							<div class="card rounded-0">
-								<a th:href="@{'/user/account/remove-from-wishlist/' + ${wishlistItem.id}}"
+								<a
+									th:href="@{'/user/account/remove-from-wishlist/' + ${wishlistItem.id}}"
 									class="btn-close wishlist-close position-absolute end-0 top-0"></a>
 								<a href="javascript:;">
 									<div class="d-flex justify-content-center align-items-center"
@@ -56,19 +73,27 @@
 											alt="">
 									</div>
 								</a>
-								<div class="card-body border-top text-center" style="height: 150px;">
-									<p class="mb-0 product-short-name" th:text="${wishlistItem.product.name}">Color Printed Kurta</p>
+								<div class="card-body border-top text-center"
+									style="height: 150px;">
+									<p class="mb-0 product-short-name"
+										th:text="${wishlistItem.product.name}">Color Printed Kurta</p>
 									<div
 										class="product-price d-flex align-items-center gap-2 mt-2 justify-content-center">
-										<div class="h6 fw-bold" th:text="${'&#8377;' + wishlistItem.product.getPriceAfterApplyingDiscount()}"></div>
+										<div class="h6 fw-bold"
+											th:text="${'&#8377;' + wishlistItem.product.getPriceAfterApplyingDiscount()}"></div>
 										<div
-											class="h6 fw-light text-muted text-decoration-line-through" th:text="${'&#8377;' + wishlistItem.product.price}"></div>
-										<div class="h6 fw-bold text-danger">(<span th:text="${wishlistItem.product.discount}"></span>% off)</div>
+											class="h6 fw-light text-muted text-decoration-line-through"
+											th:text="${'&#8377;' + wishlistItem.product.price}"></div>
+										<div class="h6 fw-bold text-danger">
+											(<span th:text="${wishlistItem.product.discount}"></span>%
+											off)
+										</div>
 									</div>
 								</div>
 								<div class="card-footer bg-transparent text-center">
-									<a th:href="@{'/user/account/move-to-cart/' + ${wishlistItem.id}}" class="btn btn-ecomm w-100">Move to
-										Cart</a>
+									<a
+										th:href="@{'/user/account/move-to-cart/' + ${wishlistItem.id}}"
+										class="btn btn-ecomm w-100">Move to Cart</a>
 								</div>
 							</div>
 						</div>

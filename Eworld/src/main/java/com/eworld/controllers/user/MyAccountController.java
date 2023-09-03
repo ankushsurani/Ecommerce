@@ -24,12 +24,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.eworld.dto.AccountOrderDto;
 import com.eworld.entities.Address;
 import com.eworld.entities.CartItem;
+import com.eworld.entities.Category;
 import com.eworld.entities.Product;
 import com.eworld.entities.User;
 import com.eworld.entities.WishlistItem;
 import com.eworld.helper.Msg;
 import com.eworld.services.AddressService;
 import com.eworld.services.CartService;
+import com.eworld.services.CategoryService;
 import com.eworld.services.OrderService;
 import com.eworld.services.ProductService;
 import com.eworld.services.UserService;
@@ -57,6 +59,9 @@ public class MyAccountController {
 
 	@Autowired
 	private WishlistItemService wishlistItemService;
+
+	@Autowired
+	private CategoryService categoryService;
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
@@ -96,6 +101,9 @@ public class MyAccountController {
 		user = this.userService.findByEmail(principal.getName());
 
 		boolean haveAddress = user.getAddress().stream().anyMatch(address -> address.isActive());
+
+		List<Category> categories = this.categoryService.getAllCategories();
+		model.addAttribute("categories", categories);
 
 		model.addAttribute("loggedIn", user != null);
 		model.addAttribute("haveAddress", haveAddress);
@@ -305,7 +313,7 @@ public class MyAccountController {
 			boolean alreadyPresentInWishlist = this.wishlistItemService.existsByUserAndProduct(user, product);
 			if (alreadyPresentInWishlist) {
 				session.setAttribute("message",
-						new Msg(product.getName() + " - Already Present in Your Wishlist", "alert-success"));
+						new Msg(product.getName() + " - Already Present in Your Wishlist", "alert-warning"));
 			} else if (!alreadyPresentInWishlist) {
 				this.wishlistItemService.addProductToWishlist(new WishlistItem(product, user));
 				session.setAttribute("message",
@@ -351,28 +359,27 @@ public class MyAccountController {
 
 		return "redirect:/user/cart";
 	}
-	
+
 	@GetMapping("/remove-from-wishlist/{wishlistItemId}")
 	public String removeFromWishlist(@PathVariable("wishlistItemId") String wishlistItemId, Principal principal,
 			HttpSession session) {
 		try {
-			
+
 			User user = this.userService.findByEmail(principal.getName());
 			WishlistItem wishlistItem = this.wishlistItemService.getWishlistById(wishlistItemId);
-			
+
 			if (wishlistItem.getUser().getId().equals(user.getId())) {
 				this.wishlistItemService.removeProductFromWishlist(wishlistItem);
-				session.setAttribute("message",
-						new Msg(wishlistItem.getProduct().getName() + " - Removed From Your Wishlist", "alert-success"));
-			}
-			else {
+				session.setAttribute("message", new Msg(
+						wishlistItem.getProduct().getName() + " - Removed From Your Wishlist", "alert-success"));
+			} else {
 				session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
 			}
-			
+
 		} catch (Exception e) {
 			session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
 		}
-		
+
 		return "redirect:/user/account/wishlist";
 	}
 

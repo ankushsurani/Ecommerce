@@ -56,7 +56,7 @@ public class ProductController {
 
 	@Autowired
 	private ProductReviewService productReviewService;
-	
+
 	@Autowired
 	private WishlistItemService wishlistItemService;
 
@@ -90,8 +90,8 @@ public class ProductController {
 			model.addAttribute("currentUser", user);
 		}
 		model.addAttribute("loggedIn", user != null).addAttribute("cartItems", cartItems)
-		.addAttribute("wishlistItems", wishlistItems)
-				.addAttribute("totalAmount", totalAmount).addAttribute("totalDiscountedAmount", totalDiscountedAmount);
+				.addAttribute("wishlistItems", wishlistItems).addAttribute("totalAmount", totalAmount)
+				.addAttribute("totalDiscountedAmount", totalDiscountedAmount);
 		model.addAttribute("appName", this.appName);
 
 		List<Category> categories = this.categoryService.getAllCategories();

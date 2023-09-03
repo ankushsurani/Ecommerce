@@ -21,11 +21,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.eworld.entities.CartItem;
+import com.eworld.entities.Category;
 import com.eworld.entities.User;
 import com.eworld.entities.WishlistItem;
 import com.eworld.helper.EmailService;
 import com.eworld.helper.Msg;
 import com.eworld.services.CartService;
+import com.eworld.services.CategoryService;
 import com.eworld.services.UserService;
 import com.eworld.services.WishlistItemService;
 import com.eworld.validation.SignupValidation;
@@ -45,9 +47,12 @@ public class SignupController {
 	@Autowired
 	private EmailService emailService;
 
+	@Autowired
+	private CategoryService categoryService;
+
 	@Value("${spring.application.name}")
 	private String appName;
-	
+
 	@Autowired
 	private WishlistItemService wishlistItemService;
 
@@ -74,9 +79,12 @@ public class SignupController {
 
 			model.addAttribute("currentUser", user);
 		}
+
+		List<Category> categories = this.categoryService.getAllCategories();
+
 		model.addAttribute("loggedIn", user != null).addAttribute("cartItems", cartItems)
-		.addAttribute("wishlistItems", wishlistItems)
-				.addAttribute("totalAmount", totalAmount).addAttribute("totalDiscountedAmount", totalDiscountedAmount);
+				.addAttribute("wishlistItems", wishlistItems).addAttribute("totalAmount", totalAmount)
+				.addAttribute("totalDiscountedAmount", totalDiscountedAmount).addAttribute("categories", categories);
 		model.addAttribute("appName", this.appName);
 		model.addAttribute("subPageName", "Signup");
 		model.addAttribute("pageName", "My Account");

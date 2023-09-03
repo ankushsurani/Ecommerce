@@ -23,7 +23,8 @@
 <link rel="stylesheet" href="/assets/css/dark.css">
 <link rel="stylesheet" href="/assets/css/responsive.css">
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -54,11 +55,11 @@
 						<li><a href="#" data-bs-toggle="modal"
 							data-bs-target="#shoppingWishlistModal"><span
 								th:if="${#lists.size(wishlistItems) > 0}"> <i
-									class='bx bxs-heart text-danger'></i> Wishlist
+									class='bx bxs-heart' style="color: #F53F85;"></i> Wishlist
 							</span> <span th:unless="${#lists.size(wishlistItems) > 0}"> <i
 									class='bx bx-heart'></i> Wishlist
 							</span> </a></li>
-						<li><a href="compare.html"><i class='bx bx-shuffle'></i>
+						<li><a th:href="@{/user/product-compare}"><i class='bx bx-shuffle'></i>
 								Compare</a></li>
 						<li><a th:href="@{/login}"><i class='bx bx-log-in'></i>
 								Login</a></li>
@@ -114,554 +115,47 @@
 						<ul class="navbar-nav">
 							<li class="nav-item"><a th:href="@{/}" class="nav-link">Home</a></li>
 
-							<li class="nav-item megamenu"><a href="#" class="nav-link">Shop
-									<i class='bx bx-chevron-down'></i>
-							</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item">
-										<div class="container">
-											<div class="row">
-												<div class="col">
-													<h6 class="submenu-title">Shop Styles</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="products-left-sidebar.html">Left
-																Sidebar</a></li>
-
-														<li><a
-															href="products-left-sidebar-with-categories.html">Left
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-right-sidebar.html">Right
-																Sidebar</a></li>
-
-														<li><a
-															href="products-right-sidebar-with-categories.html">Right
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-one-row.html">1 Products
-																Per Row</a></li>
-
-														<li><a href="products-without-sidebar.html">Without
-																Sidebar</a></li>
-
-														<li><a href="products-sidebar-fullwidth.html">With
-																Sidebar Full Width</a></li>
-													</ul>
-												</div>
-
-												<div class="col">
-													<h6 class="submenu-title">Shop Styles 2</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="products-left-sidebar-2.html">Left
-																Sidebar</a></li>
-
-														<li><a
-															href="products-left-sidebar-with-categories-2.html">Left
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-right-sidebar-2.html">Right
-																Sidebar</a></li>
-
-														<li><a
-															href="products-right-sidebar-with-categories-2.html">Right
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-one-row-2.html">1 Products
-																Per Row</a></li>
-
-														<li><a href="products-without-sidebar-2.html">Without
-																Sidebar</a></li>
-
-														<li><a href="products-sidebar-fullwidth-2.html">With
-																Sidebar Full Width</a></li>
-													</ul>
-												</div>
-
-												<div class="col">
-													<h6 class="submenu-title">Shop Styles 3</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="products-left-sidebar-3.html">Left
-																Sidebar</a></li>
-
-														<li><a
-															href="products-left-sidebar-with-categories-3.html">Left
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-right-sidebar-3.html">Right
-																Sidebar</a></li>
-
-														<li><a
-															href="products-right-sidebar-with-categories-3.html">Right
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-one-row-3.html">1 Products
-																Per Row</a></li>
-
-														<li><a href="products-without-sidebar-3.html">Without
-																Sidebar</a></li>
-
-														<li><a href="products-sidebar-fullwidth-3.html">With
-																Sidebar Full Width</a></li>
-													</ul>
-												</div>
-
-												<div class="col">
-													<h6 class="submenu-title">Product Pages</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="products-type-1.html">Default Style</a></li>
-
-														<li><a href="products-type-2.html">Thumbs List</a></li>
-
-														<li><a href="products-type-3.html">Grid Style</a></li>
-
-														<li><a href="products-type-4.html">Sticky Details</a></li>
-
-														<li><a href="products-type-5.html">Slider Image</a></li>
-
-														<li><a href="cart.html">Cart</a></li>
-
-														<li><a href="checkout.html">Checkout</a></li>
-													</ul>
-												</div>
-											</div>
-
-											<div class="brand-slides owl-carousel owl-theme">
-												<div class="brand-item">
-													<a href="#"><img src="/assets/img/brand/img1.png"
-														alt="image"></a>
-												</div>
-
-												<div class="brand-item">
-													<a href="#"><img src="/assets/img/brand/img2.png"
-														alt="image"></a>
-												</div>
-
-												<div class="brand-item">
-													<a href="#"><img src="/assets/img/brand/img3.png"
-														alt="image"></a>
-												</div>
-
-												<div class="brand-item">
-													<a href="#"><img src="/assets/img/brand/img4.png"
-														alt="image"></a>
-												</div>
-
-												<div class="brand-item">
-													<a href="#"><img src="/assets/img/brand/img5.png"
-														alt="image"></a>
-												</div>
-
-												<div class="brand-item">
-													<a href="#"><img src="/assets/img/brand/img6.png"
-														alt="image"></a>
-												</div>
-											</div>
-										</div>
-									</li>
-								</ul></li>
-
-							<li class="nav-item megamenu"><a href="#"
-								class="nav-link active">Pages <i class='bx bx-chevron-down'></i></a>
-								<ul class="dropdown-menu">
-									<li class="nav-item">
-										<div class="container">
-											<div class="row">
-												<div class="col">
-													<h6 class="submenu-title">Pages</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="about.html">About Us</a></li>
-
-														<li><a href="customer-service.html">Customer
-																Service</a></li>
-
-														<li><a href="login.html">Login</a></li>
-
-														<li><a href="signup.html">Signup</a></li>
-
-														<li><a href="faqs.html">FAQ's</a></li>
-
-														<li><a href="error-404.html">404 Error</a></li>
-
-														<li><a href="coming-soon.html">Coming Soon</a></li>
-
-														<li><a href="track-order.html">Tracking Order</a></li>
-
-														<li><a href="contact.html">Contact Us</a></li>
-													</ul>
-												</div>
-
-												<div class="col">
-													<h6 class="submenu-title">Gallery</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="gallery-1.html">Grid (2 in Row)</a></li>
-
-														<li><a href="gallery-2.html">Grid (3 in Row)</a></li>
-
-														<li><a href="gallery-3.html">Grid Full Width (3
-																in Row)</a></li>
-
-														<li><a href="gallery-4.html">Grid Full Width (4
-																in Row)</a></li>
-
-														<li><a href="gallery-5.html">Masonry (3 in Row)</a></li>
-
-														<li><a href="gallery-6.html">Masonry (4 in Row)</a></li>
-													</ul>
-
-													<h6 class="submenu-title">My Account</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="login.html">Login</a></li>
-
-														<li><a href="signup.html" class="active">Signup</a></li>
-													</ul>
-												</div>
-
-												<div class="col">
-													<h6 class="submenu-title">Categories</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="categories-1.html">Categories (2 in
-																Row)</a></li>
-
-														<li><a href="categories-2.html">Categories
-																Fullwidth</a></li>
-
-														<li><a href="categories-3.html">Categories (1 in
-																Row)</a></li>
-
-														<li><a href="categories-4.html">Categories Full
-																Width (3 in Row)</a></li>
-													</ul>
-
-													<h6 class="submenu-title">Lookbook</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="lookbook-1.html">Grid (3 in Row)</a></li>
-
-														<li><a href="lookbook-2.html">Grid Full Width (4
-																in Row)</a></li>
-
-														<li><a href="lookbook-3.html">Masonry (3 in Row)</a></li>
-													</ul>
-												</div>
-
-												<div class="col">
-													<h6 class="submenu-title">Shop</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="cart.html">Cart</a></li>
-
-														<li><a href="checkout.html">Cehckout</a></li>
-
-														<li><a href="compare.html">Compare</a></li>
-
-														<li><a href="login.html">My Account</a></li>
-
-														<li><a href="sizing-guide.html">Sizing Guide</a></li>
-
-														<li><a href="track-order.html">Tracking Order</a></li>
-
-														<li><a href="customer-service.html">Customer
-																Service</a></li>
-
-														<li><a href="contact.html">Contact Us</a></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-									</li>
-								</ul></li>
-
-							<li class="nav-item megamenu"><a href="#" class="nav-link">Women's
-									<i class='bx bx-chevron-down'></i>
-							</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item">
-										<div class="container">
-											<div class="row">
-												<div class="col">
-													<h6 class="submenu-title">Shop Styles</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="products-left-sidebar.html">Left
-																Sidebar</a></li>
-
-														<li><a
-															href="products-left-sidebar-with-categories.html">Left
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-right-sidebar.html">Right
-																Sidebar</a></li>
-
-														<li><a
-															href="products-right-sidebar-with-categories.html">Right
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-one-row.html">1 Products
-																Per Row</a></li>
-
-														<li><a href="products-without-sidebar.html">Without
-																Sidebar</a></li>
-
-														<li><a href="products-sidebar-fullwidth.html">With
-																Sidebar Full Width</a></li>
-													</ul>
-												</div>
-
-												<div class="col">
-													<h6 class="submenu-title">Shop Styles 2</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="products-left-sidebar-2.html">Left
-																Sidebar</a></li>
-
-														<li><a
-															href="products-left-sidebar-with-categories-2.html">Left
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-right-sidebar-2.html">Right
-																Sidebar</a></li>
-
-														<li><a
-															href="products-right-sidebar-with-categories-2.html">Right
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-one-row-2.html">1 Products
-																Per Row</a></li>
-
-														<li><a href="products-without-sidebar-2.html">Without
-																Sidebar</a></li>
-
-														<li><a href="products-sidebar-fullwidth-2.html">With
-																Sidebar Full Width</a></li>
-													</ul>
-												</div>
-
-												<div class="col">
-													<h6 class="submenu-title">Shop Styles 3</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="products-left-sidebar-3.html">Left
-																Sidebar</a></li>
-
-														<li><a
-															href="products-left-sidebar-with-categories-3.html">Left
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-right-sidebar-3.html">Right
-																Sidebar</a></li>
-
-														<li><a
-															href="products-right-sidebar-with-categories-3.html">Right
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-one-row-3.html">1 Products
-																Per Row</a></li>
-
-														<li><a href="products-without-sidebar-3.html">Without
-																Sidebar</a></li>
-
-														<li><a href="products-sidebar-fullwidth-3.html">With
-																Sidebar Full Width</a></li>
-													</ul>
-												</div>
-
-												<div class="col">
-													<ul class="megamenu-submenu">
-														<li>
-															<div class="aside-trending-products">
-																<img src="/assets/img/categories/img1.jpg" alt="image">
-
-																<div class="category">
-																	<h4>Top Trending</h4>
-																</div>
-
-																<a href="#" class="link-btn"></a>
-															</div>
-
-															<div class="aside-trending-products">
-																<img src="/assets/img/categories/img2.jpg" alt="image">
-
-																<div class="category">
-																	<h4>Popular Products</h4>
-																</div>
-
-																<a href="#" class="link-btn"></a>
-															</div>
-														</li>
-													</ul>
-												</div>
-											</div>
-										</div>
-									</li>
-								</ul></li>
-
-							<li class="nav-item megamenu"><a href="#" class="nav-link">Men's
-									<i class='bx bx-chevron-down'></i>
-							</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item">
-										<div class="container">
-											<div class="row">
-												<div class="col">
-													<h6 class="submenu-title">Shop Styles</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="products-left-sidebar.html">Left
-																Sidebar</a></li>
-
-														<li><a
-															href="products-left-sidebar-with-categories.html">Left
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-right-sidebar.html">Right
-																Sidebar</a></li>
-
-														<li><a
-															href="products-right-sidebar-with-categories.html">Right
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-one-row.html">1 Products
-																Per Row</a></li>
-
-														<li><a href="products-without-sidebar.html">Without
-																Sidebar</a></li>
-
-														<li><a href="products-sidebar-fullwidth.html">With
-																Sidebar Full Width</a></li>
-													</ul>
-												</div>
-
-												<div class="col">
-													<h6 class="submenu-title">Shop Styles 2</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="products-left-sidebar-2.html">Left
-																Sidebar</a></li>
-
-														<li><a
-															href="products-left-sidebar-with-categories-2.html">Left
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-right-sidebar-2.html">Right
-																Sidebar</a></li>
-
-														<li><a
-															href="products-right-sidebar-with-categories-2.html">Right
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-one-row-2.html">1 Products
-																Per Row</a></li>
-
-														<li><a href="products-without-sidebar-2.html">Without
-																Sidebar</a></li>
-
-														<li><a href="products-sidebar-fullwidth-2.html">With
-																Sidebar Full Width</a></li>
-													</ul>
-												</div>
-
-												<div class="col">
-													<h6 class="submenu-title">Shop Styles 3</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="products-left-sidebar-3.html">Left
-																Sidebar</a></li>
-
-														<li><a
-															href="products-left-sidebar-with-categories-3.html">Left
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-right-sidebar-3.html">Right
-																Sidebar</a></li>
-
-														<li><a
-															href="products-right-sidebar-with-categories-3.html">Right
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-one-row-3.html">1 Products
-																Per Row</a></li>
-
-														<li><a href="products-without-sidebar-3.html">Without
-																Sidebar</a></li>
-
-														<li><a href="products-sidebar-fullwidth-3.html">With
-																Sidebar Full Width</a></li>
-													</ul>
-												</div>
-
-												<div class="col">
-													<ul class="megamenu-submenu">
-														<li>
-															<div class="aside-trending-products">
-																<img src="/assets/img/categories/img2.jpg" alt="image">
-
-																<div class="category">
-																	<h4>Popular Products</h4>
-																</div>
-
-																<a href="#" class="link-btn"></a>
-															</div>
-
-															<div class="aside-trending-products">
-																<img src="/assets/img/categories/img1.jpg" alt="image">
-
-																<div class="category">
-																	<h4>Top Trending</h4>
-																</div>
-
-																<a href="#" class="link-btn"></a>
-															</div>
-														</li>
-													</ul>
-												</div>
-											</div>
-										</div>
-									</li>
-								</ul></li>
-
-							<li class="nav-item"><a href="#" class="nav-link">Blog <i
+							<li class="nav-item megamenu"><a
+								th:href="@{/product/page=0}" class="nav-link">Shop </a></li>
+
+							<li class="nav-item megamenu"><a th:href="@{/product/page=0}"
+								class="nav-link active">Categories <i
 									class='bx bx-chevron-down'></i></a>
 								<ul class="dropdown-menu">
-									<li class="nav-item"><a href="blog-1.html"
-										class="nav-link">Grid (2 in Row)</a></li>
+									<li class="nav-item">
+										<div class="container">
+											<div class="row"
+												th:each="row, rowIndex : ${#numbers.sequence(0, (#lists.size(categories) / 4))}">
+												<!-- Calculate the index range for this row -->
+												<th:block
+													th:with="startIndex=${row * 4}, endIndex=${(row + 1) * 4}">
+													<div class="col col-md-3"
+														th:each="category, iterStat : ${categories}"
+														th:if="${iterStat.index >= startIndex and iterStat.index < endIndex}">
+														<ul class="megamenu-submenu">
+															<li><a
+																th:href="@{'/product/page=0?categoryId=' + ${category.id}}"
+																th:text="${category.title}"></a></li>
+														</ul>
+													</div>
+												</th:block>
+											</div>
 
-									<li class="nav-item"><a href="blog-2.html"
-										class="nav-link">Grid (3 in Row)</a></li>
-
-									<li class="nav-item"><a href="blog-3.html"
-										class="nav-link">Grid (4 in Row)</a></li>
-
-									<li class="nav-item"><a href="blog-4.html"
-										class="nav-link">Grid (Full Width)</a></li>
-
-									<li class="nav-item"><a href="blog-5.html"
-										class="nav-link">Right Sidebar</a></li>
-
-									<li class="nav-item"><a href="blog-6.html"
-										class="nav-link">Masonry (3 in Row)</a></li>
-
-									<li class="nav-item"><a href="#" class="nav-link">Single
-											Post <i class='bx bx-chevron-right'></i>
-									</a>
-										<ul class="dropdown-menu">
-											<li class="nav-item"><a href="single-blog-1.html"
-												class="nav-link">Default</a></li>
-
-											<li class="nav-item"><a href="single-blog-2.html"
-												class="nav-link">With Video</a></li>
-
-											<li class="nav-item"><a href="single-blog-3.html"
-												class="nav-link">With Image Slider</a></li>
-										</ul></li>
+										</div>
+									</li>
 								</ul></li>
+
+							<li class="nav-item megamenu"><a
+								th:href="@{/product/page=0?categoryId=103}" class="nav-link">Women's
+
+							</a></li>
+
+							<li class="nav-item megamenu"><a
+								th:href="@{/product/page=0?categoryId=102}" class="nav-link">Men's
+
+							</a></li>
+
+
 						</ul>
 
 						<div class="others-option">
@@ -675,7 +169,8 @@
 								<div class="cart-btn">
 									<a href="#" data-bs-toggle="modal"
 										data-bs-target="#shoppingCartModal"><i
-										class='bx bx-shopping-bag'></i><span th:text="${#lists.size(cartItems)}"></span></a>
+										class='bx bx-shopping-bag'></i><span
+										th:text="${#lists.size(cartItems)}"></span></a>
 								</div>
 							</div>
 
@@ -707,573 +202,49 @@
 
 					<div class="collapse navbar-collapse mean-menu">
 						<ul class="navbar-nav">
-							<li class="nav-item"><a href="#" class="nav-link">Home <i
+							<li class="nav-item"><a th:href="@{/}" class="nav-link">Home</a>
+							</li>
+
+							<li class="nav-item megamenu"><a
+								th:href="@{/product/page=0}" class="nav-link">Shop </a></li>
+
+							<li class="nav-item megamenu"><a th:href="@{/product/page=0}"
+								class="nav-link active">Categories <i
 									class='bx bx-chevron-down'></i></a>
 								<ul class="dropdown-menu">
-									<li class="nav-item"><a href="index.html" class="nav-link">Home
-											1</a></li>
-
-									<li class="nav-item"><a href="index-2.html"
-										class="nav-link">Home 2</a></li>
-
-									<li class="nav-item"><a href="index-3.html"
-										class="nav-link">Home 3</a></li>
-
-									<li class="nav-item"><a href="index-4.html"
-										class="nav-link">Home 4</a></li>
-
-									<li class="nav-item"><a href="index-5.html"
-										class="nav-link">Home 5</a></li>
-								</ul></li>
-
-							<li class="nav-item megamenu"><a href="#" class="nav-link">Shop
-									<i class='bx bx-chevron-down'></i>
-							</a>
-								<ul class="dropdown-menu">
 									<li class="nav-item">
 										<div class="container">
-											<div class="row">
-												<div class="col">
-													<h6 class="submenu-title">Shop Styles</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="products-left-sidebar.html">Left
-																Sidebar</a></li>
-
-														<li><a
-															href="products-left-sidebar-with-categories.html">Left
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-right-sidebar.html">Right
-																Sidebar</a></li>
-
-														<li><a
-															href="products-right-sidebar-with-categories.html">Right
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-one-row.html">1 Products
-																Per Row</a></li>
-
-														<li><a href="products-without-sidebar.html">Without
-																Sidebar</a></li>
-
-														<li><a href="products-sidebar-fullwidth.html">With
-																Sidebar Full Width</a></li>
-													</ul>
-												</div>
-
-												<div class="col">
-													<h6 class="submenu-title">Shop Styles 2</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="products-left-sidebar-2.html">Left
-																Sidebar</a></li>
-
-														<li><a
-															href="products-left-sidebar-with-categories-2.html">Left
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-right-sidebar-2.html">Right
-																Sidebar</a></li>
-
-														<li><a
-															href="products-right-sidebar-with-categories-2.html">Right
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-one-row-2.html">1 Products
-																Per Row</a></li>
-
-														<li><a href="products-without-sidebar-2.html">Without
-																Sidebar</a></li>
-
-														<li><a href="products-sidebar-fullwidth-2.html">With
-																Sidebar Full Width</a></li>
-													</ul>
-												</div>
-
-												<div class="col">
-													<h6 class="submenu-title">Shop Styles 3</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="products-left-sidebar-3.html">Left
-																Sidebar</a></li>
-
-														<li><a
-															href="products-left-sidebar-with-categories-3.html">Left
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-right-sidebar-3.html">Right
-																Sidebar</a></li>
-
-														<li><a
-															href="products-right-sidebar-with-categories-3.html">Right
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-one-row-3.html">1 Products
-																Per Row</a></li>
-
-														<li><a href="products-without-sidebar-3.html">Without
-																Sidebar</a></li>
-
-														<li><a href="products-sidebar-fullwidth-3.html">With
-																Sidebar Full Width</a></li>
-													</ul>
-												</div>
-
-												<div class="col">
-													<h6 class="submenu-title">Product Pages</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="products-type-1.html">Default Style</a></li>
-
-														<li><a href="products-type-2.html">Thumbs List</a></li>
-
-														<li><a href="products-type-3.html">Grid Style</a></li>
-
-														<li><a href="products-type-4.html">Sticky Details</a></li>
-
-														<li><a href="products-type-5.html">Slider Image</a></li>
-
-														<li><a href="cart.html">Cart</a></li>
-
-														<li><a href="checkout.html">Checkout</a></li>
-													</ul>
-												</div>
-											</div>
-
-											<div class="brand-slides owl-carousel owl-theme">
-												<div class="brand-item">
-													<a href="#"><img src="/assets/img/brand/img1.png"
-														alt="image"></a>
-												</div>
-
-												<div class="brand-item">
-													<a href="#"><img src="/assets/img/brand/img2.png"
-														alt="image"></a>
-												</div>
-
-												<div class="brand-item">
-													<a href="#"><img src="/assets/img/brand/img3.png"
-														alt="image"></a>
-												</div>
-
-												<div class="brand-item">
-													<a href="#"><img src="/assets/img/brand/img4.png"
-														alt="image"></a>
-												</div>
-
-												<div class="brand-item">
-													<a href="#"><img src="/assets/img/brand/img5.png"
-														alt="image"></a>
-												</div>
-
-												<div class="brand-item">
-													<a href="#"><img src="/assets/img/brand/img6.png"
-														alt="image"></a>
-												</div>
+											<div class="row"
+												th:each="row, rowIndex : ${#numbers.sequence(0, (#lists.size(categories) / 4))}">
+												<!-- Calculate the index range for this row -->
+												<th:block
+													th:with="startIndex=${row * 4}, endIndex=${(row + 1) * 4}">
+													<div class="col col-md-3"
+														th:each="category, iterStat : ${categories}"
+														th:if="${iterStat.index >= startIndex and iterStat.index < endIndex}">
+														<ul class="megamenu-submenu">
+															<li><a
+																th:href="@{'/product/page=0?categoryId=' + ${category.id}}"
+																th:text="${category.title}"></a></li>
+														</ul>
+													</div>
+												</th:block>
 											</div>
 										</div>
 									</li>
 								</ul></li>
 
-							<li class="nav-item megamenu"><a href="#"
-								class="nav-link active">Pages <i class='bx bx-chevron-down'></i></a>
-								<ul class="dropdown-menu">
-									<li class="nav-item">
-										<div class="container">
-											<div class="row">
-												<div class="col">
-													<h6 class="submenu-title">Pages</h6>
+							<li class="nav-item megamenu"><a
+								th:href="@{/product/page=0?categoryId=103}" class="nav-link">Women's
 
-													<ul class="megamenu-submenu">
-														<li><a href="about.html">About Us</a></li>
+							</a></li>
 
-														<li><a href="customer-service.html">Customer
-																Service</a></li>
+							<li class="nav-item megamenu"><a
+								th:href="@{/product/page=0?categoryId=102}" class="nav-link">Men's
 
-														<li><a href="login.html">Login</a></li>
+							</a></li>
 
-														<li><a href="signup.html">Signup</a></li>
 
-														<li><a href="faqs.html">FAQ's</a></li>
-
-														<li><a href="error-404.html">404 Error</a></li>
-
-														<li><a href="coming-soon.html">Coming Soon</a></li>
-
-														<li><a href="track-order.html">Tracking Order</a></li>
-
-														<li><a href="contact.html">Contact Us</a></li>
-													</ul>
-												</div>
-
-												<div class="col">
-													<h6 class="submenu-title">Gallery</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="gallery-1.html">Grid (2 in Row)</a></li>
-
-														<li><a href="gallery-2.html">Grid (3 in Row)</a></li>
-
-														<li><a href="gallery-3.html">Grid Full Width (3
-																in Row)</a></li>
-
-														<li><a href="gallery-4.html">Grid Full Width (4
-																in Row)</a></li>
-
-														<li><a href="gallery-5.html">Masonry (3 in Row)</a></li>
-
-														<li><a href="gallery-6.html">Masonry (4 in Row)</a></li>
-													</ul>
-
-													<h6 class="submenu-title">My Account</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="login.html">Login</a></li>
-
-														<li><a href="signup.html" class="active">Signup</a></li>
-													</ul>
-												</div>
-
-												<div class="col">
-													<h6 class="submenu-title">Categories</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="categories-1.html">Categories (2 in
-																Row)</a></li>
-
-														<li><a href="categories-2.html">Categories
-																Fullwidth</a></li>
-
-														<li><a href="categories-3.html">Categories (1 in
-																Row)</a></li>
-
-														<li><a href="categories-4.html">Categories Full
-																Width (3 in Row)</a></li>
-													</ul>
-
-													<h6 class="submenu-title">Lookbook</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="lookbook-1.html">Grid (3 in Row)</a></li>
-
-														<li><a href="lookbook-2.html">Grid Full Width (4
-																in Row)</a></li>
-
-														<li><a href="lookbook-3.html">Masonry (3 in Row)</a></li>
-													</ul>
-												</div>
-
-												<div class="col">
-													<h6 class="submenu-title">Shop</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="cart.html">Cart</a></li>
-
-														<li><a href="checkout.html">Cehckout</a></li>
-
-														<li><a href="compare.html">Compare</a></li>
-
-														<li><a href="login.html">My Account</a></li>
-
-														<li><a href="sizing-guide.html">Sizing Guide</a></li>
-
-														<li><a href="track-order.html">Tracking Order</a></li>
-
-														<li><a href="customer-service.html">Customer
-																Service</a></li>
-
-														<li><a href="contact.html">Contact Us</a></li>
-													</ul>
-												</div>
-											</div>
-										</div>
-									</li>
-								</ul></li>
-
-							<li class="nav-item megamenu"><a href="#" class="nav-link">Women's
-									<i class='bx bx-chevron-down'></i>
-							</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item">
-										<div class="container">
-											<div class="row">
-												<div class="col">
-													<h6 class="submenu-title">Shop Styles</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="products-left-sidebar.html">Left
-																Sidebar</a></li>
-
-														<li><a
-															href="products-left-sidebar-with-categories.html">Left
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-right-sidebar.html">Right
-																Sidebar</a></li>
-
-														<li><a
-															href="products-right-sidebar-with-categories.html">Right
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-one-row.html">1 Products
-																Per Row</a></li>
-
-														<li><a href="products-without-sidebar.html">Without
-																Sidebar</a></li>
-
-														<li><a href="products-sidebar-fullwidth.html">With
-																Sidebar Full Width</a></li>
-													</ul>
-												</div>
-
-												<div class="col">
-													<h6 class="submenu-title">Shop Styles 2</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="products-left-sidebar-2.html">Left
-																Sidebar</a></li>
-
-														<li><a
-															href="products-left-sidebar-with-categories-2.html">Left
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-right-sidebar-2.html">Right
-																Sidebar</a></li>
-
-														<li><a
-															href="products-right-sidebar-with-categories-2.html">Right
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-one-row-2.html">1 Products
-																Per Row</a></li>
-
-														<li><a href="products-without-sidebar-2.html">Without
-																Sidebar</a></li>
-
-														<li><a href="products-sidebar-fullwidth-2.html">With
-																Sidebar Full Width</a></li>
-													</ul>
-												</div>
-
-												<div class="col">
-													<h6 class="submenu-title">Shop Styles 3</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="products-left-sidebar-3.html">Left
-																Sidebar</a></li>
-
-														<li><a
-															href="products-left-sidebar-with-categories-3.html">Left
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-right-sidebar-3.html">Right
-																Sidebar</a></li>
-
-														<li><a
-															href="products-right-sidebar-with-categories-3.html">Right
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-one-row-3.html">1 Products
-																Per Row</a></li>
-
-														<li><a href="products-without-sidebar-3.html">Without
-																Sidebar</a></li>
-
-														<li><a href="products-sidebar-fullwidth-3.html">With
-																Sidebar Full Width</a></li>
-													</ul>
-												</div>
-
-												<div class="col">
-													<ul class="megamenu-submenu">
-														<li>
-															<div class="aside-trending-products">
-																<img src="/assets/img/categories/img1.jpg" alt="image">
-
-																<div class="category">
-																	<h4>Top Trending</h4>
-																</div>
-
-																<a href="#" class="link-btn"></a>
-															</div>
-
-															<div class="aside-trending-products">
-																<img src="/assets/img/categories/img2.jpg" alt="image">
-
-																<div class="category">
-																	<h4>Popular Products</h4>
-																</div>
-
-																<a href="#" class="link-btn"></a>
-															</div>
-														</li>
-													</ul>
-												</div>
-											</div>
-										</div>
-									</li>
-								</ul></li>
-
-							<li class="nav-item megamenu"><a href="#" class="nav-link">Men's
-									<i class='bx bx-chevron-down'></i>
-							</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item">
-										<div class="container">
-											<div class="row">
-												<div class="col">
-													<h6 class="submenu-title">Shop Styles</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="products-left-sidebar.html">Left
-																Sidebar</a></li>
-
-														<li><a
-															href="products-left-sidebar-with-categories.html">Left
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-right-sidebar.html">Right
-																Sidebar</a></li>
-
-														<li><a
-															href="products-right-sidebar-with-categories.html">Right
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-one-row.html">1 Products
-																Per Row</a></li>
-
-														<li><a href="products-without-sidebar.html">Without
-																Sidebar</a></li>
-
-														<li><a href="products-sidebar-fullwidth.html">With
-																Sidebar Full Width</a></li>
-													</ul>
-												</div>
-
-												<div class="col">
-													<h6 class="submenu-title">Shop Styles 2</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="products-left-sidebar-2.html">Left
-																Sidebar</a></li>
-
-														<li><a
-															href="products-left-sidebar-with-categories-2.html">Left
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-right-sidebar-2.html">Right
-																Sidebar</a></li>
-
-														<li><a
-															href="products-right-sidebar-with-categories-2.html">Right
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-one-row-2.html">1 Products
-																Per Row</a></li>
-
-														<li><a href="products-without-sidebar-2.html">Without
-																Sidebar</a></li>
-
-														<li><a href="products-sidebar-fullwidth-2.html">With
-																Sidebar Full Width</a></li>
-													</ul>
-												</div>
-
-												<div class="col">
-													<h6 class="submenu-title">Shop Styles 3</h6>
-
-													<ul class="megamenu-submenu">
-														<li><a href="products-left-sidebar-3.html">Left
-																Sidebar</a></li>
-
-														<li><a
-															href="products-left-sidebar-with-categories-3.html">Left
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-right-sidebar-3.html">Right
-																Sidebar</a></li>
-
-														<li><a
-															href="products-right-sidebar-with-categories-3.html">Right
-																Sidebar With Categories</a></li>
-
-														<li><a href="products-one-row-3.html">1 Products
-																Per Row</a></li>
-
-														<li><a href="products-without-sidebar-3.html">Without
-																Sidebar</a></li>
-
-														<li><a href="products-sidebar-fullwidth-3.html">With
-																Sidebar Full Width</a></li>
-													</ul>
-												</div>
-
-												<div class="col">
-													<ul class="megamenu-submenu">
-														<li>
-															<div class="aside-trending-products">
-																<img src="/assets/img/categories/img2.jpg" alt="image">
-
-																<div class="category">
-																	<h4>Popular Products</h4>
-																</div>
-
-																<a href="#" class="link-btn"></a>
-															</div>
-
-															<div class="aside-trending-products">
-																<img src="/assets/img/categories/img1.jpg" alt="image">
-
-																<div class="category">
-																	<h4>Top Trending</h4>
-																</div>
-
-																<a href="#" class="link-btn"></a>
-															</div>
-														</li>
-													</ul>
-												</div>
-											</div>
-										</div>
-									</li>
-								</ul></li>
-
-							<li class="nav-item"><a href="#" class="nav-link">Blog <i
-									class='bx bx-chevron-down'></i></a>
-								<ul class="dropdown-menu">
-									<li class="nav-item"><a href="blog-1.html"
-										class="nav-link">Grid (2 in Row)</a></li>
-
-									<li class="nav-item"><a href="blog-2.html"
-										class="nav-link">Grid (3 in Row)</a></li>
-
-									<li class="nav-item"><a href="blog-3.html"
-										class="nav-link">Grid (4 in Row)</a></li>
-
-									<li class="nav-item"><a href="blog-4.html"
-										class="nav-link">Grid (Full Width)</a></li>
-
-									<li class="nav-item"><a href="blog-5.html"
-										class="nav-link">Right Sidebar</a></li>
-
-									<li class="nav-item"><a href="blog-6.html"
-										class="nav-link">Masonry (3 in Row)</a></li>
-
-									<li class="nav-item"><a href="#" class="nav-link">Single
-											Post <i class='bx bx-chevron-right'></i>
-									</a>
-										<ul class="dropdown-menu">
-											<li class="nav-item"><a href="single-blog-1.html"
-												class="nav-link">Default</a></li>
-
-											<li class="nav-item"><a href="single-blog-2.html"
-												class="nav-link">With Video</a></li>
-
-											<li class="nav-item"><a href="single-blog-3.html"
-												class="nav-link">With Image Slider</a></li>
-										</ul></li>
-								</ul></li>
 						</ul>
 
 						<div class="others-option">
@@ -1340,7 +311,7 @@
 			<div class="page-title-content">
 				<h2 th:text="${pageName}">My Account</h2>
 				<ul>
-					<li><a href="index.html">Home</a></li>
+					<li><a>Home</a></li>
 					<li th:text="${subPageName}"></li>
 				</ul>
 			</div>
@@ -1498,7 +469,8 @@
 				<div class="row align-items-center">
 					<div class="col-lg-6 col-md-6">
 						<div class="products-image text-center">
-							<img id="productimageurl" style="max-height: 60vh;" src="/assets/img/quick-view-img.jpg" alt="image">
+							<img id="productimageurl" style="max-height: 60vh;"
+								src="/assets/img/quick-view-img.jpg" alt="image">
 						</div>
 					</div>
 
@@ -1509,19 +481,20 @@
 							</h3>
 
 							<div class="price">
-								<span style="opacity: 50%;">&#8377;</span><span id=productprice class="old-price"></span> <span>&#8377;</span><span id="productpriceafterdiscount" class="new-price"></span>
+								<span style="opacity: 50%;">&#8377;</span><span id=productprice
+									class="old-price"></span> <span>&#8377;</span><span
+									id="productpriceafterdiscount" class="new-price"></span>
 							</div>
 
 							<div class="products-review">
-								<div class="rating text-warning" id="avgrating">
-									
-								</div>
+								<div class="rating text-warning" id="avgrating"></div>
 								<a href="#" class="rating-count">3 reviews</a>
 							</div>
 
 							<ul class="products-info">
 								<li><span>Brand:</span> <a id="brandname" href="#"></a></li>
-								<li><span>Availability: In stock (</span><a id="quantity" href="#"> </a> Items)</li>
+								<li><span>Availability: In stock (</span><a id="quantity"
+									href="#"> </a> Items)</li>
 								<li><span>Products Type:</span> <a id="category" href="#"></a></li>
 							</ul>
 
@@ -1565,7 +538,8 @@
 								<button type="submit" class="default-btn">Add to Cart</button>
 							</div>
 
-							<a id="viewfullinfourl" href="#" class="view-full-info">View Full Info</a>
+							<a id="viewfullinfourl" href="#" class="view-full-info">View
+								Full Info</a>
 						</div>
 					</div>
 				</div>
@@ -1585,63 +559,74 @@
 				</button>
 
 				<div class="modal-body">
-				
-				<div th:if="${!loggedIn}" class="error-area ptb-100">
-		<div class="container">
-                <div class="error-content">
-                    <img th:src="@{/images/empty-cart.webp}" alt="error">
-                    <h3 class="animate-charcter">Missing Cart items?</h3>
-                    <p>Login to see the items you added previously</p>
-                    <a th:href="@{/login}" class="default-btn"><i class='bx bx-log-in'></i> Login</a>
-                </div>
-            </div>
-	</div>
-				
-				
-				<div th:if="${loggedIn && #lists.size(cartItems) == 0}" class="error-area ptb-100">
-		<div class="container">
-                <div class="error-content">
-                    <img th:src="@{/images/empty-cart.webp}" alt="error">
-                    <h3 class="animate-charcter">Your cart is empty!</h3>
-                    <p>Add items to it now.</p>
-                    <a th:href="@{/product/page=0}" class="default-btn">Shop now</a>
-                </div>
-            </div>
-	</div>
-				<div th:if="${loggedIn && #lists.size(cartItems) > 0}">
-					<h3>My Cart (<span th:text="${#lists.size(cartItems)}"></span>)</h3>
 
-					<div class="products-cart-content">
-						<div class="products-cart" th:each="cartItem : ${cartItems}">
-							<div class="products-image">
-								<a th:href="@{'/product/' + ${cartItem.product.id}}"><img style="height: 10vh;"
-									th:src="@{'/product_img/' + ${cartItem.product.productImages[0].productPic}}"
-									alt="image"></a>
-							</div>
-
-							<div class="products-content">
-								<h3>
-									<a th:href="@{'/product/' + ${cartItem.product.id}}" th:text="${cartItem.product.name}"></a>
-								</h3>
-								<span th:text="${cartItem.product.brandName}">Blue / XS</span>
-								<div class="products-price">
-									<span th:text="${cartItem.quantity}"></span> <span>x</span> <span th:text="${'&#8377;' + cartItem.product.getPriceAfterApplyingDiscount()}" class="price"></span>
-								</div>
-								<a th:href="@{'/user/cart/remove-cart-item/' + ${cartItem.id}}" class="remove-btn"><i class='bx bx-trash'></i></a>
+					<div th:if="${!loggedIn}" class="error-area ptb-100">
+						<div class="container">
+							<div class="error-content">
+								<img th:src="@{/images/empty-cart.webp}" alt="error">
+								<h3 class="animate-charcter">Missing Cart items?</h3>
+								<p>Login to see the items you added previously</p>
+								<a th:href="@{/login}" class="default-btn"><i
+									class='bx bx-log-in'></i> Login</a>
 							</div>
 						</div>
-
 					</div>
 
-					<div class="products-cart-subtotal">
-						<span>Price</span> <span class="subtotal" th:text="${'&#8377;' + totalDiscountedAmount}"></span>
-					</div>
 
-					<div class="products-cart-btn">
-						<a href="#" class="default-btn">Proceed to Checkout</a> <a
-							th:href="@{/user/cart}" class="optional-btn">View Shopping Cart</a>
+					<div th:if="${loggedIn && #lists.size(cartItems) == 0}"
+						class="error-area ptb-100">
+						<div class="container">
+							<div class="error-content">
+								<img th:src="@{/images/empty-cart.webp}" alt="error">
+								<h3 class="animate-charcter">Your cart is empty!</h3>
+								<p>Add items to it now.</p>
+								<a th:href="@{/product/page=0}" class="default-btn">Shop now</a>
+							</div>
+						</div>
 					</div>
-				</div>
+					<div th:if="${loggedIn && #lists.size(cartItems) > 0}">
+						<h3>
+							My Cart (<span th:text="${#lists.size(cartItems)}"></span>)
+						</h3>
+
+						<div class="products-cart-content">
+							<div class="products-cart" th:each="cartItem : ${cartItems}">
+								<div class="products-image">
+									<a th:href="@{'/product/' + ${cartItem.product.id}}"><img
+										style="height: 10vh;"
+										th:src="@{'/product_img/' + ${cartItem.product.productImages[0].productPic}}"
+										alt="image"></a>
+								</div>
+
+								<div class="products-content">
+									<h3>
+										<a th:href="@{'/product/' + ${cartItem.product.id}}"
+											th:text="${cartItem.product.name}"></a>
+									</h3>
+									<span th:text="${cartItem.product.brandName}">Blue / XS</span>
+									<div class="products-price">
+										<span th:text="${cartItem.quantity}"></span> <span>x</span> <span
+											th:text="${'&#8377;' + cartItem.product.getPriceAfterApplyingDiscount()}"
+											class="price"></span>
+									</div>
+									<a th:href="@{'/user/cart/remove-cart-item/' + ${cartItem.id}}"
+										class="remove-btn"><i class='bx bx-trash'></i></a>
+								</div>
+							</div>
+
+						</div>
+
+						<div class="products-cart-subtotal">
+							<span>Price</span> <span class="subtotal"
+								th:text="${'&#8377;' + totalDiscountedAmount}"></span>
+						</div>
+
+						<div class="products-cart-btn">
+							<a href="#" class="default-btn">Proceed to Checkout</a> <a
+								th:href="@{/user/cart}" class="optional-btn">View Shopping
+								Cart</a>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -1659,34 +644,73 @@
 				</button>
 
 				<div class="modal-body">
-					<h3>My Wish List (<span th:text="${#lists.size(wishlistItems)}"></span>)</h3>
 
-					<div class="products-cart-content">
-						<div class="products-cart" th:each="wishlistItem : ${wishlistItems}">
-							<div class="products-image d-flex justify-content-center align-items-center">
-								<a th:href="@{'/product/' + ${wishlistItem.product.id}}"><img style="height: 12vh;" th:src="@{'/product_img/' + ${wishlistItem.product.productImages[0].productPic}}"
-									alt="image"></a>
-							</div>
 
-							<div class="products-content">
-								<h3>
-									<a th:href="@{'/product/' + ${wishlistItem.product.id}}" th:text="${wishlistItem.product.name}"></a>
-								</h3>
-								<span th:text="${wishlistItem.product.brandName}"></span>
-								<div class="products-price">
-									<span>1</span> <span>x</span> <span class="price" th:text="${'&#8377;' + wishlistItem.product.getPriceAfterApplyingDiscount()}"></span>
-								</div>
-								<a th:href="@{'/user/account/remove-from-wishlist/' + ${wishlistItem.id}}" class="remove-btn"><i class='bx bx-trash'></i></a>
+					<div th:if="${!loggedIn}" class="error-area ptb-100">
+						<div class="container">
+							<div class="error-content">
+								<img th:src="@{/images/Add-to-Wishlist.png}" alt="error">
+								<h3 class="animate-charcter">Missing Wishlist items?</h3>
+								<p>Login to see the items you added previously</p>
+								<a th:href="@{/login}" class="default-btn"><i
+									class='bx bx-log-in'></i> Login</a>
 							</div>
 						</div>
-
-						
-
-						
 					</div>
 
-					<div class="products-cart-btn">
-						<a th:href="@{/user/account/wishlist}" class="optional-btn">View Wishlist</a>
+
+
+					<div th:if="${loggedIn && #lists.size(wishlistItems) == 0}"
+						class="error-area ptb-100">
+						<div class="container">
+							<div class="error-content">
+								<img th:src="@{/images/Add-to-Wishlist.png}" alt="error">
+								<h3 class="animate-charcter">Your Wishlist is empty!</h3>
+								<p>Explore our wide range of products and discover great
+									deals for all your shopping needs.</p>
+								<a th:href="@{/product/page=0}" class="default-btn">Shop now</a>
+							</div>
+						</div>
+					</div>
+
+					<div th:if="${loggedIn && #lists.size(wishlistItems) > 0}">
+						<h3>
+							My Wish List (<span th:text="${#lists.size(wishlistItems)}"></span>)
+						</h3>
+
+						<div class="products-cart-content">
+							<div class="products-cart"
+								th:each="wishlistItem : ${wishlistItems}">
+								<div
+									class="products-image d-flex justify-content-center align-items-center">
+									<a th:href="@{'/product/' + ${wishlistItem.product.id}}"><img
+										style="height: 10vh;"
+										th:src="@{'/product_img/' + ${wishlistItem.product.productImages[0].productPic}}"
+										alt="image"></a>
+								</div>
+
+								<div class="products-content">
+									<h3>
+										<a th:href="@{'/product/' + ${wishlistItem.product.id}}"
+											th:text="${wishlistItem.product.name}"></a>
+									</h3>
+									<span th:text="${wishlistItem.product.brandName}"></span>
+									<div class="products-price">
+										<span>1</span> <span>x</span> <span class="price"
+											th:text="${'&#8377;' + wishlistItem.product.getPriceAfterApplyingDiscount()}"></span>
+									</div>
+									<a
+										th:href="@{'/user/account/remove-from-wishlist/' + ${wishlistItem.id}}"
+										class="remove-btn"><i class='bx bx-trash'></i></a>
+								</div>
+							</div>
+
+						</div>
+
+						<div class="products-cart-btn">
+							<a th:href="@{/user/account/wishlist}" class="optional-btn">View
+								Wishlist</a>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -1879,7 +903,7 @@
 	</div>
 	<!-- End Shipping Modal Area -->
 
-	
+
 
 	<!-- Start Footer Area -->
 	<footer class="footer-area">

@@ -106,7 +106,7 @@
 									</li>
 									<li>
 										<div class="compare-btn">
-											<a href="#"> <i class='bx bx-refresh'></i> <span
+											<a th:href="@{'/user/product-compare/add-compare-product/' + ${latestProduct.id}}"> <i class='bx bx-refresh'></i> <span
 												class="tooltip-label">Compare</span>
 											</a>
 										</div>
@@ -223,7 +223,7 @@
 									</li>
 									<li>
 										<div class="compare-btn">
-											<a href="#"> <i class='bx bx-refresh'></i> <span
+											<a th:href="@{'/user/product-compare/add-compare-product/' + ${topRatedProduct.id}}"> <i class='bx bx-refresh'></i> <span
 												class="tooltip-label">Compare</span>
 											</a>
 										</div>
@@ -375,7 +375,7 @@
 									</li>
 									<li>
 										<div class="compare-btn">
-											<a href="#"> <i class='bx bx-refresh'></i> <span
+											<a th:href="@{'/user/product-compare/add-compare-product/' + ${popularProduct.id}}"> <i class='bx bx-refresh'></i> <span
 												class="tooltip-label">Compare</span>
 											</a>
 										</div>

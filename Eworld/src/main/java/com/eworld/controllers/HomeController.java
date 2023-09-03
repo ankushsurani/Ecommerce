@@ -35,6 +35,7 @@ import com.eworld.helper.FileImageUpload;
 import com.eworld.helper.Msg;
 import com.eworld.services.CartService;
 import com.eworld.services.CategoryPriorityService;
+import com.eworld.services.CategoryService;
 import com.eworld.services.ProductPriorityService;
 import com.eworld.services.ProductService;
 import com.eworld.services.UserService;
@@ -59,8 +60,11 @@ public class HomeController {
 	private ProductPriorityService productPriorityService;
 
 	@Autowired
+	private CategoryService categoryService;
+
+	@Autowired
 	private CategoryPriorityService categoryPriorityService;
-	
+
 	@Autowired
 	private WishlistItemService wishlistItemService;
 
@@ -90,11 +94,14 @@ public class HomeController {
 							cartItem -> cartItem.getQuantity() * cartItem.getProduct().getPriceAfterApplyingDiscount())
 					.sum();
 		}
+
+		List<Category> categories = this.categoryService.getAllCategories();
+
 		model.addAttribute("loggedIn", user != null).addAttribute("cartItems", cartItems)
-		.addAttribute("wishlistItems", wishlistItems)
-				.addAttribute("totalAmount", totalAmount).addAttribute("totalDiscountedAmount", totalDiscountedAmount);
+				.addAttribute("wishlistItems", wishlistItems).addAttribute("totalAmount", totalAmount)
+				.addAttribute("totalDiscountedAmount", totalDiscountedAmount);
 		model.addAttribute("appName", this.appName);
-		model.addAttribute("pageName", "home");
+		model.addAttribute("pageName", "home").addAttribute("categories", categories);
 	}
 
 	@GetMapping("/")

@@ -114,8 +114,8 @@
 						</div>
 
 						<div class="wishlist-compare-btn">
-							<a href="#" class="optional-btn"><i class='bx bx-heart'></i>
-								Add to Wishlist</a> <a href="#" class="optional-btn"><i
+							<a th:href="@{'/user/account/add-to-wishlist/' + ${product.id}}" class="optional-btn"><i class='bx bx-heart'></i>
+								Add to Wishlist</a> <a th:href="@{'/user/product-compare/add-compare-product/' + ${product.id}}" class="optional-btn"><i
 								class='bx bx-refresh'></i> Add to Compare</a>
 						</div>
 
@@ -260,14 +260,14 @@
 								<ul>
 									<li>
 										<div class="wishlist-btn">
-											<a href="#"> <i class='bx bx-heart'></i> <span
+											<a th:href="@{'/user/account/add-to-wishlist/' + ${similarProduct.id}}"> <i class='bx bx-heart'></i> <span
 												class="tooltip-label">Add to Wishlist</span>
 											</a>
 										</div>
 									</li>
 									<li>
 										<div class="compare-btn">
-											<a href="#"> <i class='bx bx-refresh'></i> <span
+											<a th:href="@{'/user/product-compare/add-compare-product/' + ${similarProduct.id}}"> <i class='bx bx-refresh'></i> <span
 												class="tooltip-label">Compare</span>
 											</a>
 										</div>
