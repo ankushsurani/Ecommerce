@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.eworld.dto.AccountOrderDto;
 import com.eworld.entities.Address;
 import com.eworld.entities.CartItem;
+import com.eworld.entities.Category;
 import com.eworld.entities.Order;
 import com.eworld.entities.Payment;
 import com.eworld.entities.User;
@@ -31,6 +33,7 @@ import com.eworld.enumstype.DeliveryStatus;
 import com.eworld.helper.Msg;
 import com.eworld.services.AddressService;
 import com.eworld.services.CartService;
+import com.eworld.services.CategoryService;
 import com.eworld.services.OrderService;
 import com.eworld.services.PaymentService;
 import com.eworld.services.UserService;
@@ -65,45 +68,54 @@ public class OrderController {
 	private List<Order> orders;
 
 	private boolean billVisible;
+	
+	@Autowired
+	private CategoryService categoryService;
+
+	@Value("${spring.application.name}")
+	private String appName;
 
 	@ModelAttribute
 	public void currentUser(Principal principal, Model model) {
 		if (principal != null) {
 			User user = this.userService.findByEmail(principal.getName());
-			model.addAttribute("currentUser", user);
+			model.addAttribute("user", user);
 
 			List<Address> addresses = this.addressService.getAddressByUser(user);
 			model.addAttribute("addresses", addresses);
 
 			List<CartItem> cartItems = this.cartService.findByUser(user);
 			List<WishlistItem> wishlistItems = this.wishlistItemService.getWishlistByUser(user);
+			
+			int totalAmount = cartItems.stream()
+					.mapToInt(cartItem -> cartItem.getQuantity() * cartItem.getProduct().getPrice()).sum();
 
-			if (cartItems.size() == 0) {
-				model.addAttribute("cart", 0);
-			} else {
-				int totalPrice = 0;
-				int totalDiscoutedPrice = 0;
-				for (CartItem c : cartItems) {
-					totalPrice += c.getProduct().getPrice() * c.getQuantity();
-					totalDiscoutedPrice += c.getProduct().getPriceAfterApplyingDiscount() * c.getQuantity();
-				}
+			int totalDiscountedAmount = cartItems.stream()
+					.mapToInt(
+							cartItem -> cartItem.getQuantity() * cartItem.getProduct().getPriceAfterApplyingDiscount())
+					.sum();
 
-				model.addAttribute("totalPrice", totalPrice);
-				model.addAttribute("totalDiscountPrice", totalDiscoutedPrice);
-
-				model.addAttribute("cart", cartItems).addAttribute("wishlistItems", wishlistItems);
-			}
+				model.addAttribute("loggedIn", user != null).addAttribute("cartItems", cartItems)
+				.addAttribute("wishlistItems", wishlistItems).addAttribute("totalAmount", totalAmount)
+				.addAttribute("totalDiscountedAmount", totalDiscountedAmount);
+			
 		}
+		
+		List<Category> categories = this.categoryService.getAllCategories();
+		model.addAttribute("categories", categories);
+
+		model.addAttribute("appName", this.appName);
+		model.addAttribute("pageName", "Cart Details");
+		model.addAttribute("subPageName", "Cart");
+		
 	}
 
-	@PostMapping("/place-order")
-	public String placeOrder(@RequestParam("orderAmount") int orderAmount, Model model) {
+	@GetMapping("/checkout-order")
+	public String placeOrder(Model model) {
 		model.addAttribute("title", "Place Order - Eworld");
-
-		model.addAttribute("orderAmount", orderAmount);
 		model.addAttribute("address", new Address());
 
-		return "user/place_order";
+		return "user/checkout";
 	}
 
 	@PostMapping("/submit-order")

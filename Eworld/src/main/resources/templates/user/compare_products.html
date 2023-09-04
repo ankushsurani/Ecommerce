@@ -7,14 +7,23 @@
 <body>
 
 
-	<!--layout-->
-	<section class="wide_layout db_centered bg_white">
 
 
 
-		<!--main content-->
-		<div class="page_section_offset">
+	<!-- Start Compare Area -->
+	<section class="compare-area"
+		style="padding-top: 50px; padding-bottom: 50px;">
+		<div class="container">
 
+			<!-- messages of success and error -->
+			<div th:if="${session.message}" class="text-center">
+				<div th:classappend="${session.message.type}"
+					class="alert alert-primary" role="alert">
+					<span th:text="${session.message.content}"></span>
+				</div>
+				<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+			</div>
+			<!-- end error and success message -->
 
 			<div th:if="${#lists.size(productCompareItems) == 0}"
 				class="error-area">
@@ -30,20 +39,8 @@
 				</div>
 			</div>
 
-
-
-			<div th:if="${#lists.size(productCompareItems) >= 1}"
-				class="container numbered_title_init compare_product table-responsive">
-
-				<!-- messages of success and error -->
-				<div th:if="${session.message}" class="text-center">
-					<div th:classappend="${session.message.type}"
-						class="alert alert-primary" role="alert">
-						<span th:text="${session.message.content}"></span>
-					</div>
-					<th:block th:text="${#session.removeAttribute('message')}"></th:block>
-				</div>
-				<!-- end error and success message -->
+			<div th:unless="${#lists.size(productCompareItems) == 0}"
+				class="products-compare-table table-responsive">
 
 				<a
 					th:if="${#lists.size(productCompareItems) >= 1 && #lists.size(productCompareItems) < 4}"
@@ -51,45 +48,64 @@
 					class="default-btn mb-5"><i class='bx bx-git-compare'></i>
 					Compare With More</a>
 
-				<table
-					class="w_full compare_table m_bottom_30 m_xs_bottom_30 table table-bordered">
+				<table class="table table-bordered">
 					<tbody>
 						<tr>
-							<td style="background-color: #f9f9fa;"
-								class="second_font d_xs_none"><b>Compare <span
+							<td><b>Compare <span
 									th:text="${productCompareItems[0][0].product.name}"></span> VS
 									others
 							</b></td>
-							<td class="text-center"
-								th:each="productCompareItem : ${productCompareItems}"><img
-								style="max-height: 30vh;"
-								th:src="@{'/product_img/' + ${productCompareItem[0].product.productImages[0].productPic}}"
-								alt="" class="m_bottom_17 m_top_10 text-center">
-								<div class="lh_small m_bottom_7">
+							<td th:each="productCompareItem : ${productCompareItems}">
+								<div class="remove-btn">
 									<a
-										th:href="@{'/product/' + ${productCompareItem[0].product.id}}"
-										class="sc_hover second_font d_inline_b m_bottom_4"
-										th:text="${productCompareItem[0].product.name}"></a><br>
-									<p class="second_font fs_large">
-										<b class="scheme_color"
-											th:text="${'&#8377;' + productCompareItem[0].product.price}"></b>
-										<s class="color_light"
-											th:text="${'&#8377;' + productCompareItem[0].product.getPriceAfterApplyingDiscount()}"></s>
-										<b class="text-success"><span
-											th:text="${productCompareItem[0].product.discount}"></span>%
-											off</b>
-									</p>
-								</div></td>
+										th:href="@{'/user/product-compare/remove-product-from-comparison/' + ${productCompareItem[0].id}}"
+										class="remove"><i class='bx bx-trash'></i></a>
+								</div>
+
+								<div class="single-products-box">
+									<div class="products-image">
+										<a
+											th:href="@{'/product/' + ${productCompareItem[0].product.id}}">
+											<img style="max-height: 30vh;"
+											th:src="@{'/product_img/' + ${productCompareItem[0].product.productImages[0].productPic}}"
+											class="main-image" alt="image"> <img
+											style="max-height: 30vh;"
+											th:src="@{'/product_img/' + ${productCompareItem[0].product.productImages[1].productPic}}"
+											class="hover-image" alt="image">
+										</a>
+									</div>
+
+									<div class="products-content">
+										<h3>
+											<a
+												th:href="@{'/product/' + ${productCompareItem[0].product.id}}"
+												th:text="${productCompareItem[0].product.name}"></a>
+										</h3>
+										<div class="price">
+											<span class="old-price me-2"
+												th:text="${'&#8377;' + productCompareItem[0].product.price}"></span>
+											<span class="new-price me-2"
+												th:text="${'&#8377;' + productCompareItem[0].product.getPriceAfterApplyingDiscount()}"></span>
+
+											<span class="text-success me-2"><span
+												th:text="${productCompareItem[0].product.discount}"></span>%
+												off</span>
+										</div>
+
+										<a
+											th:href="@{'/user/cart/add-to-cart/' + ${productCompareItem[0].product.id}}"
+											class="add-to-cart">Add to Cart</a>
+									</div>
+								</div>
+							</td>
+
 
 						</tr>
-						<tr>
-							<td style="background-color: #f9f9fa;"
-								class="bg_grey_light_2 second_font d_xs_none"><b>Rating
-									& Reviews</b></td>
-							<td class="v_align_m text-center"
-								th:each="productCompareItem : ${productCompareItems}">
 
-								<div class="star-rating">
+						<tr>
+							<td>Rating & Reviews</td>
+							<td th:each="productCompareItem : ${productCompareItems}"><div
+									class="star-rating">
 									<span th:each="i : ${#numbers.sequence(1, 5)}"> <i
 										th:if="${productCompareItem[0].product.avgRating >= i}"
 										th:class="'bx bxs-star text-warning'"></i> <i
@@ -100,79 +116,44 @@
 										th:class="'bx bx-star text-warning'"></i>
 									</span> <span class="text-dark fw-bold"
 										th:text="${productCompareItem[0].product.avgRating}"></span>
-								</div>
-
-							</td>
-
-
+								</div></td>
 						</tr>
 
 						<tr>
-							<td style="background-color: #f9f9fa;"
-								class="bg_grey_light_2 second_font d_xs_none"><b>Description</b></td>
-							<td class="fw_light"
-								th:each="productCompareItem : ${productCompareItems}"><a
-								class="sc_hover"
+							<td>Description</td>
+							<td th:each="productCompareItem : ${productCompareItems}"><a
 								th:href="@{'/product/' + ${productCompareItem[0].product.id}}"
-								th:utext="${#strings.length(productCompareItem[0].product.description) > 10 ? 
-								#strings.substring(productCompareItem[0].product.description, 0, 10) + '...' 
+								th:utext="${#strings.length(productCompareItem[0].product.description) > 20 ? 
+								#strings.substring(productCompareItem[0].product.description, 0, 20) + '...' 
 								: productCompareItem[0].product.description}"></a>
 							</td>
-
-
 						</tr>
 
 						<tr>
-							<td style="background-color: #f9f9fa;"
-								class="bg_grey_light_2 second_font d_xs_none"><b>Additional
-									Information</b></td>
-							<td class="fw_light"
-								th:each="productCompareItem : ${productCompareItems}"><a
-								th:if="${productCompareItem[0].product.additionalInformation != null}"
-								class="sc_hover"
-								th:href="@{'/product/' + ${productCompareItem[0].product.id}}"
-								th:utext="${#strings.length(productCompareItem[0].product.additionalInformation) > 50 ? 
-								#strings.substring(productCompareItem[0].product.additionalInformation, 0, 50) + '...' 
-								: productCompareItem[0].product.additionalInformation}"></a>
-
-								<a
-								th:unless="${productCompareItem[0].product.additionalInformation != null}">
-									There is no any additional information for this product </a></td>
-						</tr>
-
-						<tr>
-							<td style="background-color: #f9f9fa;"
-								class="bg_grey_light_2 second_font d_xs_none"><b>Brand</b></td>
-							<td class="fw_light"
-								th:each="productCompareItem : ${productCompareItems}"><span
+							<td>Brand</td>
+							<td th:each="productCompareItem : ${productCompareItems}"><span
 								th:text="${productCompareItem[0].product.brandName}"></span></td>
 						</tr>
 
+
+
 						<tr>
-							<td style="background-color: #f9f9fa;"
-								class="bg_grey_light_2 second_font d_xs_none"><b>Availability</b></td>
-							<td class="fw_light"
-								th:each="productCompareItem : ${productCompareItems}"><mark
-									class="bg_transparent scheme_color">in stock</mark> <span
-								th:text="${productCompareItem[0].product.quantity}"></span>
+							<td>Availability</td>
+							<td th:each="productCompareItem : ${productCompareItems}"><mark>in
+									stock</mark> <span th:text="${productCompareItem[0].product.quantity}"></span>
 								item(s)</td>
 						</tr>
 
 						<tr>
-							<td style="background-color: #f9f9fa;"
-								class="bg_grey_light_2 second_font d_xs_none"><b>Delivery</b></td>
-							<td class="fw_light"
-								th:each="productCompareItem : ${productCompareItems}"><span
+							<td>Delivery</td>
+							<td th:each="productCompareItem : ${productCompareItems}"><span
 								th:text="${productCompareItem[1]}"></span></td>
 						</tr>
 
 						<tr>
-							<td style="background-color: #f9f9fa;"
-								class="bg_grey_light_2 second_font d_xs_none"><b>Warranty</b></td>
-							<td class="fw_light"
-								th:each="productCompareItem : ${productCompareItems}"><a
+							<td>Warranty</td>
+							<td th:each="productCompareItem : ${productCompareItems}"><a
 								th:if="${productCompareItem[0].product.warranty != null}"
-								class="sc_hover"
 								th:href="@{'/product/' + ${productCompareItem[0].product.id}}"
 								th:utext="${#strings.length(productCompareItem[0].product.warranty) > 60 ? 
 								#strings.substring(productCompareItem[0].product.warranty, 0, 60) + '...' 
@@ -180,55 +161,15 @@
 
 								<a th:unless="${productCompareItem[0].product.warranty != null}">
 									There is no any warranty related information for this product </a></td>
-
 						</tr>
 
 
-						<tr>
-							<td style="background-color: #f9f9fa;"
-								class="bg_grey_light_2 second_font d_xs_none"><b>Action</b></td>
-							<td th:each="productCompareItem : ${productCompareItems}">
-
-								<form
-									th:action="@{'/user/cart/add-to-cart/' + ${productCompareItem[0].product.id}}"
-									method="get">
-									<button type="submit"
-										class="button_type_2 compare_button m_bottom_5 lbrown state_2 tr_all d_block second_font fs_medium tt_uppercase">
-										<i class="fa fa-shopping-cart d_inline_m m_right_9"></i>Add To
-										Cart
-									</button>
-								</form>
-								<form
-									th:action="@{'/user/account/add-to-wishlist/' + ${productCompareItem[0].product.id}}"
-									method="get">
-									<button type="submit"
-										class="button_type_2 compare_button m_bottom_5 grey state_2 tr_all d_block second_font fs_medium tt_uppercase">
-										<i class="fa fa-heart d_inline_m m_right_9"></i>Add To
-										Wishlist
-									</button>
-								</form>
-								<form
-									th:action="@{'/user/product-compare/remove-product-from-comparison/' + ${productCompareItem[0].id}}"
-									method="get">
-									<button type="submit"
-										class="button_type_2 compare_button m_bottom_9 grey state_2 tr_all d_block second_font fs_medium tt_uppercase">
-										<i class="fa fa-times d_inline_m m_right_9"></i>Remove
-									</button>
-								</form>
-
-							</td>
-
-						</tr>
 					</tbody>
 				</table>
-				<hr class="divider_light m_bottom_5">
-				<a th:href="@{/}"
-					class="default-btn compare_button m_bottom_35 d_inline_b m_xs_bottom_0 grey state_2 tr_all second_font fs_medium"><i
-					class="fa fa-home"></i> Back to: SHOP HOME</a>
 			</div>
 		</div>
-
 	</section>
+	<!-- End Compare Area -->
 
 
 </body>

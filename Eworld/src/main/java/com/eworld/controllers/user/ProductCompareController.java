@@ -158,11 +158,9 @@ public class ProductCompareController {
 					.getProductFromComparisonById(productCompareItemId);
 
 			if (user.getId().equals(productCompareItem.getUser().getId())) {
-				List<ProductCompareItem> productCompareItems = this.productCompareService
-						.getAllProductFromComparisonByUser(user);
 				this.productCompareService.removeProductFromComparison(productCompareItemId);
 				session.setAttribute("message", new Msg(
-						productCompareItem.getProduct().getName() + " Removed for comparison", "alert-success"));
+						productCompareItem.getProduct().getName() + " Removed from comparison", "alert-success"));
 			} else {
 				session.setAttribute("message", new Msg("Something Went Wrong", "alert-danger"));
 			}

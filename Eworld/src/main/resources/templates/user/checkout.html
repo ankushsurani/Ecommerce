@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="bs::layout(~{::section})">
+<head>
+
+</head>
+<body>
+
+
+	<!-- Start Checkout Area -->
+	<section class="checkout-area ptb-100">
+		<div class="container">
+
+			<form>
+				<div class="row">
+					<div class="col-lg-6 col-md-12">
+						<div class="billing-details">
+							<h3 class="title">Billing Details</h3>
+
+							<div class="row">
+								<div class="col-lg-12 col-md-6">
+									<div class="form-group">
+										<label>Full Name <span class="required">*</span></label> <input
+											type="text" class="form-control">
+									</div>
+								</div>
+
+								<div class="col-lg-6 col-md-6">
+									<div class="form-group">
+										<label>Email Address <span class="required">*</span></label> <input
+											type="email" class="form-control">
+									</div>
+								</div>
+
+								<div class="col-lg-6 col-md-6">
+									<div class="form-group">
+										<label>Phone <span class="required">*</span></label> <input
+											type="text" class="form-control">
+									</div>
+								</div>
+
+								<div class="col-lg-12 col-md-12">
+
+
+									<div class="card rounded-0 mb-3"
+										style="background-color: #f5f5f5;"
+										th:each="address : ${user.address}" th:if="${address.active}">
+										<div class="card-body">
+											<div class="d-flex flex-column flex-xl-row gap-3">
+												<div class="address-info form-check flex-grow-1">
+													<input class="form-check-input" type="radio"
+														name="flexRadioDefaultAddress"
+														id="flexRadioDefaultAddress1"
+														th:checked="${address.addressType == 'MAIN'}"> <label
+														class="form-check-label" for="flexRadioDefaultAddress1">
+														<span class="fw-bold mb-0 h5" th:text="${address.name}"></span><br>
+														<span th:text="${address.fullAddress}"></span> <br> <span
+														th:text="${address.city + ' , ' + address.state + ' - ' + address.pincode}"></span><br>
+														Mobile: <span class="text-dark fw-bold"
+														th:text="${address.mobilenum}"></span>
+													</label>
+												</div>
+											</div>
+										</div>
+
+
+									</div>
+									<div class="form-check">
+										<input type="checkbox" class="form-check-input"
+											id="ship-different-address" onchange="toggleAddressDiv()">
+										<label class="form-check-label" for="ship-different-address">Ship
+											to a different address?</label>
+									</div>
+								</div>
+
+								<div id="addressDiv">
+
+
+									<div class="col-lg-12 col-md-6">
+										<div class="form-group">
+											<label>Address <span class="required">*</span></label> <input
+												type="text" class="form-control">
+										</div>
+									</div>
+
+
+									<div class="col-lg-12 col-md-6">
+										<div class="form-group">
+											<label>Town / Locality <span class="required">*</span></label>
+											<input type="text" class="form-control">
+										</div>
+									</div>
+
+
+
+
+
+									<div class="row">
+										<div class="col-lg-6 col-md-6">
+											<div class="form-group">
+												<label>State <span class="required">*</span></label> <input
+													type="text" class="form-control">
+											</div>
+										</div>
+
+										<div class="col-lg-6 col-md-6">
+											<div class="form-group">
+												<label>City <span class="required">*</span></label> <input
+													type="text" class="form-control">
+											</div>
+										</div>
+
+									</div>
+
+									<div class="row">
+										<div class="col-lg-6 col-md-6">
+											<div class="form-group">
+												<label>Phone <span class="required">*</span></label> <input
+													type="text" class="form-control">
+											</div>
+										</div>
+										<div class="col-lg-6 col-md-6">
+											<div class="form-group">
+												<label>Postcode / Zip <span class="required">*</span></label>
+												<input type="text" class="form-control">
+											</div>
+										</div>
+									</div>
+
+
+								</div>
+
+
+
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-6 col-md-12">
+						<div class="order-details">
+							<h3 class="title">Your Order</h3>
+
+							<div class="order-table table-responsive">
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th scope="col">Product Name</th>
+											<th scope="col">Total</th>
+										</tr>
+									</thead>
+
+									<tbody>
+										<tr>
+											<td class="product-name"><a href="#">Long Sleeve
+													Leopard T-Shirt</a></td>
+
+											<td class="product-total"><span class="subtotal-amount">$250.00</span>
+											</td>
+										</tr>
+
+										<tr>
+											<td class="product-name"><a href="#">Causal V-Neck
+													Soft Raglan</a></td>
+
+											<td class="product-total"><span class="subtotal-amount">$200.00</span>
+											</td>
+										</tr>
+
+										<tr>
+											<td class="product-name"><a href="#">Book Divas</a></td>
+
+											<td class="product-total"><span class="subtotal-amount">$140.50</span>
+											</td>
+										</tr>
+
+										<tr>
+											<td class="product-name"><a href="#">Hanes Men's
+													Pullover</a></td>
+
+											<td class="product-total"><span class="subtotal-amount">$200.00</span>
+											</td>
+										</tr>
+
+										<tr>
+											<td class="order-subtotal"><span>Cart Subtotal</span></td>
+
+											<td class="order-subtotal-price"><span
+												class="order-subtotal-amount">$800.00</span></td>
+										</tr>
+
+										<tr>
+											<td class="order-shipping"><span>Shipping</span></td>
+
+											<td class="shipping-price"><span>$30.00</span></td>
+										</tr>
+
+										<tr>
+											<td class="total-price"><span>Order Total</span></td>
+
+											<td class="product-subtotal"><span
+												class="subtotal-amount">$830.00</span></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<div class="payment-box">
+								<div class="payment-method">
+									<p>
+										<input type="radio" id="direct-bank-transfer"
+											name="radio-group" checked> <label
+											for="direct-bank-transfer">Direct Bank Transfer</label> Make
+										your payment directly into our bank account. Please use your
+										Order ID as the payment reference. Your order will not be
+										shipped until the funds have cleared in our account.
+									</p>
+									<p>
+										<input type="radio" id="paypal" name="radio-group"> <label
+											for="paypal">PayPal</label>
+									</p>
+									<p>
+										<input type="radio" id="cash-on-delivery" name="radio-group">
+										<label for="cash-on-delivery">Cash on Delivery</label>
+									</p>
+								</div>
+
+								<a href="#" class="default-btn">Place Order</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+
+
+		<script>
+			// Function to toggle the addressDiv based on the checkbox state
+			function toggleAddressDiv() {
+				var checkbox = document
+						.getElementById("ship-different-address");
+				var addressDiv = document.getElementById("addressDiv");
+
+				if (checkbox.checked) {
+					addressDiv.style.display = "block"; // Show the addressDiv
+				} else {
+					addressDiv.style.display = "none"; // Hide the addressDiv
+				}
+			}
+
+			// Check the initial state of the checkbox on page load
+			window.addEventListener("load", function() {
+				toggleAddressDiv(); // Run the function to set the initial state
+			});
+		</script>
+
+
+
+	</section>
+	<!-- End Checkout Area -->
+
+
+</body>
+</html>
