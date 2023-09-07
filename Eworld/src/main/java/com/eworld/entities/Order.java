@@ -2,6 +2,7 @@ package com.eworld.entities;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -9,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -32,8 +34,8 @@ public class Order {
 	private DeliveryStatus deliveryStatus;
 
 	private String paymentType;
-
-	private int finalPrice;
+	
+	private int orderPrice;
 
 	@ManyToOne
 	@JoinColumn(name = "address_id")
@@ -44,6 +46,9 @@ public class Order {
 	private Product product;
 
 	private int quantity;
+	
+	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+	private Payment payment;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
@@ -54,14 +59,14 @@ public class Order {
 	}
 
 	public Order(String id, LocalDateTime createdDate, LocalDateTime deliveryDate, DeliveryStatus deliveryStatus,
-			String paymentType, int finalPrice, Address address, Product product, int quantity, User user) {
+			String paymentType, int orderPrice, Address address, Product product, int quantity, User user) {
 		super();
 		this.id = id;
 		this.createdDate = createdDate;
 		this.deliveryDate = deliveryDate;
 		this.deliveryStatus = deliveryStatus;
 		this.paymentType = paymentType;
-		this.finalPrice = finalPrice;
+		this.orderPrice = orderPrice;
 		this.address = address;
 		this.product = product;
 		this.quantity = quantity;
@@ -69,13 +74,13 @@ public class Order {
 	}
 
 	public Order(LocalDateTime createdDate, LocalDateTime deliveryDate, DeliveryStatus deliveryStatus,
-			String paymentType, int finalPrice, Address address, Product product, int quantity, User user) {
+			String paymentType, int orderPrice, Address address, Product product, int quantity, User user) {
 		super();
 		this.createdDate = createdDate;
 		this.deliveryDate = deliveryDate;
 		this.deliveryStatus = deliveryStatus;
 		this.paymentType = paymentType;
-		this.finalPrice = finalPrice;
+		this.orderPrice = orderPrice;
 		this.address = address;
 		this.product = product;
 		this.quantity = quantity;
@@ -122,12 +127,12 @@ public class Order {
 		this.paymentType = paymentType;
 	}
 
-	public int getFinalPrice() {
-		return finalPrice;
+	public int getOrderPrice() {
+		return orderPrice;
 	}
 
-	public void setFinalPrice(int finalPrice) {
-		this.finalPrice = finalPrice;
+	public void setOrderPrice(int orderPrice) {
+		this.orderPrice = orderPrice;
 	}
 
 	public Address getAddress() {

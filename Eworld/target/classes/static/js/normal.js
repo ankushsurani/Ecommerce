@@ -67,7 +67,7 @@ const paymentStart = (amount) => {
 	//if amount is not null
 	//we will use ajax to send request to server to create order - jquery
 	$.ajax({
-		url: '/user/create_order',
+		url: '/user/order/create_order',
 		data: JSON.stringify({ amount: amount, info: 'order_request' }),
 		contentType: 'application/json',
 		type: 'POST',
@@ -138,18 +138,18 @@ const paymentStart = (amount) => {
 
 function updatePaymentOnServer(payment_id, order_id, status) {
 	$.ajax({
-		url: '/user/update_order',
+		url: '/user/order/update_order',
 		data: JSON.stringify({ payment_id: payment_id, order_id: order_id, status: status }),
 		contentType: 'application/json',
 		type: 'POST',
 		dataType: 'json',
 		success: function(response) {
 			swal("Congrats", "Payment Successfull", "success");
-			window.location.href = "/user/my-orders";
+			window.location.href = "/user/account/orders";
 		},
 		error: function(error) {
 			swal("Congrats", "Payment Successfull", "success");
-			window.location.href = "/user/my-orders";
+			window.location.href = "/user/account/orders";
 		}
 	})
 }

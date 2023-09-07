@@ -622,7 +622,7 @@
 						</div>
 
 						<div class="products-cart-btn">
-							<a href="#" class="default-btn">Proceed to Checkout</a> <a
+							<a th:href="@{/user/order/checkout-order}" class="default-btn">Proceed to Checkout</a> <a
 								th:href="@{/user/cart}" class="optional-btn">View Shopping
 								Cart</a>
 						</div>
@@ -946,8 +946,8 @@
 
 						<ul class="quick-links">
 							<li><a href="about.html">About Us</a></li>
-							<li><a href="products-left-sidebar.html">Shop Now!</a></li>
-							<li><a href="products-left-sidebar-2.html">Woman's</a></li>
+							<li><a th:href="@{/product/page=0}">Shop Now!</a></li>
+							<li><a th:href="@{/product/page=0?categoryId=103}">Woman's</a></li>
 							<li><a href="faqs.html">FAQ's</a></li>
 							<li><a href="contact.html">Contact Us</a></li>
 							<li><a href="customer-service.html">Customer Services</a></li>
@@ -960,9 +960,9 @@
 						<h3>Customer Support</h3>
 
 						<ul class="customer-support">
-							<li><a href="login.html">My Account</a></li>
+							<li><a th:href="@{/user/account/profile}">My Account</a></li>
 							<li><a href="checkout.html">Checkout</a></li>
-							<li><a href="cart.html">Cart</a></li>
+							<li><a th:href="@{/user/cart}">Cart</a></li>
 							<li><a href="faqs.html">FAQ's</a></li>
 							<li><a href="track-order.html">Order Tracking</a></li>
 							<li><a href="contact.html">Help & Support</a></li>
@@ -1047,6 +1047,9 @@
 	<script src="/assets/js/ajaxchimp.min.js"></script>
 	<script src="/assets/js/main.js"></script>
 
+<!-- sweet alert cdn -->
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 	<script th:src="@{/js/normal.js}"></script>
 
 	<!-- font awesome -->
@@ -1104,7 +1107,8 @@
 		$(document).ready(function() {
     // Check modal states and open them if necessary
     checkAndOpenModal('productsFilterModal');
-    checkAndOpenModal('NewAddress'); 
+    checkAndOpenModal('NewAddress');
+    checkAndOpenModal('OrderAddress');
 
     // Store modal states in localStorage when modals are shown/hidden
     $('#productsFilterModal').on('shown.bs.modal', function() {
@@ -1121,6 +1125,14 @@
 
     $('#NewAddress').on('hidden.bs.modal', function() {
         storeModalState('NewAddress', 'closed'); 
+    });
+    
+    $('#OrderAddress').on('shown.bs.modal', function() {
+        storeModalState('OrderAddress', 'open'); 
+    });
+    
+    $('#OrderAddress').on('hidden.bs.modal', function() {
+        storeModalState('OrderAddress', 'closed'); 
     });
 });
 

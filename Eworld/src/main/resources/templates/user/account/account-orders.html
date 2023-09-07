@@ -15,6 +15,19 @@
 		<!--start product details-->
 		<section class="section-padding">
 			<div class="container">
+			
+			
+			<!-- messages of success and error -->
+						<div th:if="${session.message}" class="text-center me-3">
+							<div th:classappend="${session.message.type}"
+								class="alert alert-primary" role="alert">
+								<span th:text="${session.message.content}"></span>
+							</div>
+							<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+						</div>
+						<!-- end error and success message -->
+			
+			
 				<div class="d-flex align-items-center px-3 py-2 border mb-4">
 					<div class="text-start">
 						<h4 class="mb-0 h4 fw-bold">Account - Orders</h4>

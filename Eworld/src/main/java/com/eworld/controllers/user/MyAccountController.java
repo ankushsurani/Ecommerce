@@ -28,6 +28,7 @@ import com.eworld.entities.Category;
 import com.eworld.entities.Product;
 import com.eworld.entities.User;
 import com.eworld.entities.WishlistItem;
+import com.eworld.enumstype.DeliveryStatus;
 import com.eworld.helper.Msg;
 import com.eworld.services.AddressService;
 import com.eworld.services.CartService;
@@ -136,7 +137,7 @@ public class MyAccountController {
 
 	@GetMapping("/orders")
 	public String accountOrders(Principal principal, Model model) {
-		List<AccountOrderDto> orders = this.orderService.getOrderByUser(principal.getName());
+		List<AccountOrderDto> orders = this.orderService.getOrderByUserEmail(principal.getName(), DeliveryStatus.AWAITINGPAYMENT);
 
 		model.addAttribute("orders", orders);
 

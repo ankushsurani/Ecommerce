@@ -22,13 +22,25 @@ public class AddressService {
 	public List<Address> getAddressByUser(User user) {
 		return this.addressRepository.findByUser(user);
 	}
-
+	
 	public Address getAddressById(String addressId) {
 		return this.addressRepository.findById(addressId).get();
 	}
 
+	public Address getAddressByUserAndId(User user, String addressId) {
+		return this.addressRepository.findByUserAndId(user, addressId);
+	}
+
 	public void deleteAddress(String addressId) {
 		this.addressRepository.deleteAddressById(addressId);
+	}
+	
+	public void changeAddressStatus(User user, String addressType, Boolean active) {
+		Address address = this.addressRepository.findByUserAndAddressTypeAndActive(user, addressType, active).orElse(null);
+		if (address != null) {
+			address.setAddressType("OTHER");
+			saveAddress(address);
+		}
 	}
 
 }

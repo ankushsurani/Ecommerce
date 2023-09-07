@@ -1,8 +1,10 @@
 package com.eworld.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.eworld.dao.PaymentRepository;
@@ -20,6 +22,14 @@ public class PaymentService {
 
 	public List<Payment> findByRzporderId(String rzporderId) {
 		return this.paymentRepository.findByRzporderId(rzporderId);
+	}
+
+	// This method will run every 2 minutes (120000 milliseconds)
+	@Scheduled(fixedRate = 120000)
+	public void deletePaymentWithStatusCreated() {
+		List<String> paymentIdsWithStatusCreatedAfter1Hr = this.paymentRepository
+				.findIdByStatusAndCreatedDateBefore("created", LocalDateTime.now().minusHours(1));
+		this.paymentRepository.deletePaymentsByIds(paymentIdsWithStatusCreatedAfter1Hr);
 	}
 
 }

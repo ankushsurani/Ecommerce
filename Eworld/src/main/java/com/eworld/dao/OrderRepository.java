@@ -1,5 +1,6 @@
 package com.eworld.dao;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -25,9 +26,15 @@ public interface OrderRepository extends JpaRepository<Order, String> {
 	@Query("SELECT o FROM Order o WHERE o.deliveryStatus IN (:statuses)")
 	List<Order> findOrdersByStatuses(@Param("statuses") List<DeliveryStatus> statuses);
 
-	@Query("SELECT new com.eworld.dto.AccountOrderDto(o.product, o.finalPrice, o.quantity, o.deliveryStatus) FROM Order o WHERE o.user.email = :email ORDER BY o.createdDate DESC")
-	List<AccountOrderDto> findProductAndQuantitiesByEmail(@Param("email") String email);
+	@Query("SELECT o FROM Order o WHERE o.user.id =:userId AND o.deliveryStatus IN :statuses")
+	List<Order> findOrdersByUserAndStatuses(@Param("userId") String userId,
+			@Param("statuses") List<DeliveryStatus> statuses);
 
+	@Query("SELECT new com.eworld.dto.AccountOrderDto(o.product, o.orderPrice, o.quantity, o.deliveryStatus) FROM Order o WHERE o.user.email = :email and o.deliveryStatus != :deliveryStatus ORDER BY o.createdDate DESC")
+	List<AccountOrderDto> findProductAndQuantitiesByEmail(@Param("email") String email, @Param("deliveryStatus") DeliveryStatus deliveryStatus);
+
+	List<Order> findByDeliveryStatusAndCreatedDateBefore(DeliveryStatus deliveryStatus, LocalDateTime dateTime);
+	
 	@Query("SELECT p FROM Product p JOIN Order o ON p = o.product GROUP BY p ORDER BY SUM(o.quantity) DESC")
 	Page<Product> findTopSellingProducts(Pageable pageable);
 

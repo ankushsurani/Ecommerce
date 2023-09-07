@@ -122,7 +122,7 @@
 						<div class="buy-checkbox-btn">
 
 							<div class="item">
-								<a href="#" class="default-btn">Buy it now!</a>
+								<a th:href="@{'/user/order/checkout-order?productId=' + ${product.id}}" class="default-btn">Buy it now!</a>
 							</div>
 						</div>
 					</div>

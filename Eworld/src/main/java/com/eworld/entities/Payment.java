@@ -1,9 +1,10 @@
 package com.eworld.entities;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -26,8 +27,9 @@ public class Payment {
 
 	private String status;
 
+	private LocalDateTime createdDate;
+
 	@OneToOne
-	@JoinColumn(name = "order_id")
 	private Order order;
 
 	private String paymentId;
@@ -37,7 +39,7 @@ public class Payment {
 	}
 
 	public Payment(String id, String rzporderId, int amount, String receipt, String status, Order order,
-			String paymentId) {
+			String paymentId, LocalDateTime createdDate) {
 		super();
 		this.id = id;
 		this.rzporderId = rzporderId;
@@ -46,9 +48,11 @@ public class Payment {
 		this.status = status;
 		this.order = order;
 		this.paymentId = paymentId;
+		this.createdDate = createdDate;
 	}
 
-	public Payment(String rzporderId, int amount, String receipt, String status, Order order, String paymentId) {
+	public Payment(String rzporderId, int amount, String receipt, String status, Order order, String paymentId,
+			LocalDateTime createdDate) {
 		super();
 		this.rzporderId = rzporderId;
 		this.amount = amount;
@@ -56,6 +60,7 @@ public class Payment {
 		this.status = status;
 		this.order = order;
 		this.paymentId = paymentId;
+		this.createdDate = createdDate;
 	}
 
 	public String getId() {
@@ -112,6 +117,14 @@ public class Payment {
 
 	public void setPaymentId(String paymentId) {
 		this.paymentId = paymentId;
+	}
+
+	public LocalDateTime getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(LocalDateTime createdDate) {
+		this.createdDate = createdDate;
 	}
 
 }

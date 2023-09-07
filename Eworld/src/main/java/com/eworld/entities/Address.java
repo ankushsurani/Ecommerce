@@ -19,16 +19,16 @@ public class Address {
 	@GenericGenerator(name = "custom-uuid-generator", strategy = "com.eworld.helper.CustomUUIDGenerator")
 	private String id;
 
-	@Size(min = 3, max = 50)
+	@Size(min = 3, max = 50, message = "Name must have 3 to 50 characters")
 	private String name;
 
-	@Size(min = 10, max = 10)
+	@Size(min = 10, max = 10, message = "Mobile number must have 10 digits")
 	private String mobilenum;
 
 	@NotBlank
 	private String pincode;
 
-	@Size(min = 5, max = 500)
+	@Size(min = 5, max = 500, message = "Address must have 5 to 500 characters")
 	private String fullAddress;
 
 	@NotBlank

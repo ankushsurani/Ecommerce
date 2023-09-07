@@ -19,6 +19,10 @@ public class CartService {
 	public void saveCartItem(CartItem cartItem) {
 		this.cartItemRepository.save(cartItem);
 	}
+	
+	public List<CartItem> getCartItemsByIds(List<String> cartItemIds) {
+		return this.cartItemRepository.findAllById(cartItemIds);
+	}
 
 	public CartItem findByProduct(Product product) {
 		return this.cartItemRepository.findByProduct(product);
@@ -38,6 +42,10 @@ public class CartService {
 	
 	public boolean existsByUserAndProduct(User user, Product product) {
 		return this.cartItemRepository.existsByUserAndProduct(user, product);
+	}
+	
+	public CartItem getByUserAndProduct(User user, Product product) {
+		return this.cartItemRepository.findByUserAndProduct(user, product);
 	}
 
 }

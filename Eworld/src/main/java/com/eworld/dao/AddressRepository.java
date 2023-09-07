@@ -1,6 +1,7 @@
 package com.eworld.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -21,5 +22,9 @@ public interface AddressRepository extends JpaRepository<Address, String> {
 	@Transactional
 	@Query("DELETE FROM Address a WHERE a.id = :id")
 	public void deleteAddressById(String id);
+	
+	public Address findByUserAndId(User user, String id);
+	
+	public Optional<Address> findByUserAndAddressTypeAndActive(User user, String addressType, Boolean active);
 
 }

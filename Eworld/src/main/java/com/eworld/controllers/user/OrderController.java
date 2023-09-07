@@ -3,16 +3,19 @@ package com.eworld.controllers.user;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +30,7 @@ import com.eworld.entities.CartItem;
 import com.eworld.entities.Category;
 import com.eworld.entities.Order;
 import com.eworld.entities.Payment;
+import com.eworld.entities.Product;
 import com.eworld.entities.User;
 import com.eworld.entities.WishlistItem;
 import com.eworld.enumstype.DeliveryStatus;
@@ -36,13 +40,14 @@ import com.eworld.services.CartService;
 import com.eworld.services.CategoryService;
 import com.eworld.services.OrderService;
 import com.eworld.services.PaymentService;
+import com.eworld.services.ProductService;
 import com.eworld.services.UserService;
 import com.eworld.services.WishlistItemService;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/user/order")
 public class OrderController {
 
 	@Autowired
@@ -55,6 +60,9 @@ public class OrderController {
 	private AddressService addressService;
 
 	@Autowired
+	private ProductService productService;
+
+	@Autowired
 	private OrderService orderService;
 
 	@Autowired
@@ -63,12 +71,6 @@ public class OrderController {
 	@Autowired
 	private WishlistItemService wishlistItemService;
 
-	private String paymentMode;
-
-	private List<Order> orders;
-
-	private boolean billVisible;
-	
 	@Autowired
 	private CategoryService categoryService;
 
@@ -86,7 +88,7 @@ public class OrderController {
 
 			List<CartItem> cartItems = this.cartService.findByUser(user);
 			List<WishlistItem> wishlistItems = this.wishlistItemService.getWishlistByUser(user);
-			
+
 			int totalAmount = cartItems.stream()
 					.mapToInt(cartItem -> cartItem.getQuantity() * cartItem.getProduct().getPrice()).sum();
 
@@ -95,46 +97,108 @@ public class OrderController {
 							cartItem -> cartItem.getQuantity() * cartItem.getProduct().getPriceAfterApplyingDiscount())
 					.sum();
 
-				model.addAttribute("loggedIn", user != null).addAttribute("cartItems", cartItems)
-				.addAttribute("wishlistItems", wishlistItems).addAttribute("totalAmount", totalAmount)
-				.addAttribute("totalDiscountedAmount", totalDiscountedAmount);
-			
+			model.addAttribute("loggedIn", user != null).addAttribute("cartItems", cartItems)
+					.addAttribute("wishlistItems", wishlistItems).addAttribute("totalAmount", totalAmount)
+					.addAttribute("totalDiscountedAmount", totalDiscountedAmount);
+
 		}
-		
+
 		List<Category> categories = this.categoryService.getAllCategories();
 		model.addAttribute("categories", categories);
 
 		model.addAttribute("appName", this.appName);
 		model.addAttribute("pageName", "Cart Details");
 		model.addAttribute("subPageName", "Cart");
-		
+
 	}
 
 	@GetMapping("/checkout-order")
-	public String placeOrder(Model model) {
+	public String placeOrder(@RequestParam(name = "productId", required = false) String productId, Principal principal,
+			Model model) {
 		model.addAttribute("title", "Place Order - Eworld");
 		model.addAttribute("address", new Address());
 
+		User user = this.userService.findByEmail(principal.getName());
+
+		List<CartItem> cartItems = new ArrayList<>();
+		int totalDiscountedAmount = 0;
+
+		if (productId != null) {
+			Product product = this.productService.getProduct(productId);
+
+			boolean presentInCart = this.cartService.existsByUserAndProduct(user, product);
+
+			CartItem cartItem;
+			if (presentInCart) {
+				cartItem = this.cartService.getByUserAndProduct(user, product);
+			} else {
+				cartItem = new CartItem(new Date(), product, user, 1);
+				this.cartService.saveCartItem(cartItem);
+			}
+			cartItems.add(cartItem);
+			totalDiscountedAmount = cartItem.getProduct().getPriceAfterApplyingDiscount();
+		} else {
+			cartItems = this.cartService.findByUser(user);
+
+			totalDiscountedAmount = cartItems.stream()
+					.mapToInt(
+							cartItem -> cartItem.getQuantity() * cartItem.getProduct().getPriceAfterApplyingDiscount())
+					.sum();
+		}
+		model.addAttribute("checkoutCartItems", cartItems).addAttribute("totalDiscountedAmount", totalDiscountedAmount);
+
+		if (cartItems.size() == 0) {
+			return "redirect:/user/cart";
+		}
 		return "user/checkout";
 	}
 
-	@PostMapping("/submit-order")
-	public String submitOrder(@RequestParam("orderAddress") String AddressId,
-			@RequestParam("paymentOption") String paymentOption, @RequestParam("orderAmount") int orderAmount,
+	@PostMapping("/add-address")
+	public String addAddress(@Valid @ModelAttribute("address") Address address, BindingResult result, Model model,
+			Principal principal, HttpSession session) {
+
+		model.addAttribute("title", "Add Address - Eworld");
+
+		try {
+
+			if (result.hasErrors()) {
+				model.addAttribute("address", address);
+				return "user/checkout";
+			}
+
+			User user = this.userService.findByEmail(principal.getName());
+
+			address.setUser(user);
+
+			this.addressService.changeAddressStatus(user, "MAIN", true);
+			address.setAddressType("MAIN");
+
+			this.addressService.saveAddress(address);
+
+			session.setAttribute("message", new Msg("Address Added Successfully", "alert-success"));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
+		}
+
+		return "redirect:/user/order/checkout-order";
+
+	}
+
+	@PostMapping("/send-order-cod")
+	public String submitOrder(@RequestParam("orderAddress") String addressId,
+			@RequestParam("cartItemId") List<String> cartItemIds, @RequestParam("paymentOption") String paymentOption,
 			Principal principal, Model model, HttpSession session) {
 		model.addAttribute("title", "Submit Order - Eworld");
 
 		try {
 
-			Address address = this.addressService.getAddressById(AddressId);
+			User user = this.userService.findByEmail(principal.getName());
 
-			User user = this.userService.getUserById(address.getUser().getId());
+			Address address = this.addressService.getAddressByUserAndId(user, addressId);
 
-			List<CartItem> cartItems = this.cartService.findByUser(user);
-
-			this.paymentMode = paymentOption;
-
-			this.orders = new ArrayList<>();
+			List<CartItem> cartItems = this.cartService.getCartItemsByIds(cartItemIds);
 
 			for (CartItem cartItem : cartItems) {
 				Order order = new Order();
@@ -145,7 +209,11 @@ public class OrderController {
 				order.setQuantity(cartItem.getQuantity());
 				order.setUser(user);
 				order.setPaymentType(paymentOption);
-				order.setFinalPrice(orderAmount);
+				order.setOrderPrice(cartItem.getProduct().getPriceAfterApplyingDiscount() * cartItem.getQuantity());
+
+				LocalDateTime estimatedDeliveryDate = LocalDateTime.now()
+						.plusDays(cartItem.getProduct().getEstimatedDeliveryDays());
+				order.setDeliveryDate(estimatedDeliveryDate);
 
 				if (paymentOption.equals("Cash On Delivery")) {
 					order.setDeliveryStatus(DeliveryStatus.AWAITINGPICKUP);
@@ -158,44 +226,29 @@ public class OrderController {
 
 				this.orderService.saveOrder(order);
 
-				this.orders.add(order);
-
 			}
 
 			if (paymentOption.equals("Cash On Delivery")) {
-				session.setAttribute("message", new Msg("Your Order Is Send !! Continue Shopping...", "alert-success"));
-				return "redirect:/user/my-orders";
+				session.setAttribute("message", new Msg("Your Order Is Sent !! Continue Shopping...", "alert-success"));
+				return "redirect:/user/account/orders";
 			} else {
-				this.billVisible = true;
-				return "redirect:/user/order-bill";
+				session.setAttribute("message",
+						new Msg("Your Order Is in waiting select payment mode and Confirm Order", "alert-success"));
+				return "redirect:/user/order/checkout-order?payMode=online";
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.setAttribute("Something Went Wrong!!", "alert-danger");
-			return "redirect:/user/mycart";
+			return "redirect:/user/cart";
 		}
-
-	}
-
-	@GetMapping("/order-bill")
-	public String orderBill(Model model) {
-		if (this.billVisible == false) {
-			return "redirect:/";
-		}
-
-		model.addAttribute("title", "Order Invoice - Eworld");
-
-		model.addAttribute("paymentMode", this.paymentMode);
-
-		return "user/order_bill";
 
 	}
 
 	// creating order for payment
 	@PostMapping("/create_order")
 	@ResponseBody
-	public String createOrder(@RequestBody Map<String, Object> data) {
+	public String createOrder(@RequestBody Map<String, Object> data, Principal principal) {
 
 		int amount = Integer.parseInt(data.get("amount").toString());
 
@@ -212,8 +265,12 @@ public class OrderController {
 			com.razorpay.Order order = client.orders.create(object);
 			System.out.println(order);
 
+			User user = this.userService.findByEmail(principal.getName());
+			List<Order> orders = this.orderService.findOrdersByUserAndStatuses(user.getId(),
+					List.of(DeliveryStatus.AWAITINGPAYMENT));
+
 			// save order in database
-			for (Order productOrder : this.orders) {
+			for (Order productOrder : orders) {
 				Payment payment = new Payment();
 
 				int rupeeAmount = order.get("amount");
@@ -222,13 +279,12 @@ public class OrderController {
 				payment.setRzporderId(order.get("id"));
 				payment.setPaymentId(null);
 				payment.setStatus("created");
+				payment.setCreatedDate(LocalDateTime.now());
 				payment.setOrder(productOrder);
 				payment.setReceipt(order.get("receipt"));
 
 				this.paymentService.savePayment(payment);
 			}
-
-			this.orders = null;
 
 			return order.toString();
 
@@ -258,8 +314,6 @@ public class OrderController {
 				this.orderService.saveOrder(order);
 			}
 
-			this.billVisible = false;
-
 			User user = this.userService.findByEmail(principal.getName());
 			List<CartItem> cartItems = this.cartService.findByUser(user);
 			for (CartItem cartItem : cartItems) {
@@ -273,25 +327,7 @@ public class OrderController {
 			session.setAttribute("Something Went Wrong!!", "alert-danger");
 		}
 
-		return "redirect:/";
-	}
-
-	// show orders to user
-	@GetMapping("/my-orders")
-	public String myOrders(Principal principal, Model model, HttpSession session) {
-		model.addAttribute("title", "My Orders - Eworld");
-
-		try {
-
-			List<AccountOrderDto> orders = this.orderService.getOrderByUser(principal.getName());
-			model.addAttribute("allorder", orders);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			session.setAttribute("Something Went Wrong!!", "alert-danger");
-		}
-
-		return "user/my_orders";
+		return "redirect:/user/account/orders";
 	}
 
 }

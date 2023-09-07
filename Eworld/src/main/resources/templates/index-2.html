@@ -30,7 +30,7 @@
 										</p>
 										<div class="btn-box">
 											<a th:href="@{'/product/' + ${product.value.id}}" class="default-btn">SEE
-												DETAILS</a> <a href="products-right-sidebar-3.html"
+												DETAILS</a> <a th:href="@{'/user/order/checkout-order?productId=' + ${product.value.id}}"
 												class="optional-btn">BUY NOW</a>
 										</div>
 									</div>

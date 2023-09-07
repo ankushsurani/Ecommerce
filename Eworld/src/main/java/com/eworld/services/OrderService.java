@@ -1,10 +1,13 @@
 package com.eworld.services;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.eworld.dao.OrderRepository;
@@ -41,8 +44,8 @@ public class OrderService {
 		return orderRepository.findOrdersByStatuses(statuses);
 	}
 
-	public List<AccountOrderDto> getOrderByUser(String email) {
-		return this.orderRepository.findProductAndQuantitiesByEmail(email);
+	public List<AccountOrderDto> getOrderByUserEmail(String email, DeliveryStatus status) {
+		return this.orderRepository.findProductAndQuantitiesByEmail(email, status);
 	}
 
 	public List<Product> getPopularProducts(int page, int size) {
@@ -56,6 +59,19 @@ public class OrderService {
 
 	public boolean anyOrderWithThisAddress(Address address, User user) {
 		return this.orderRepository.existsByAddressAndUser(address, user);
+	}
+
+	public List<Order> findOrdersByUserAndStatuses(String userId, List<DeliveryStatus> deliveryStatus) {
+		return this.orderRepository.findOrdersByUserAndStatuses(userId, deliveryStatus);
+	}
+
+	// This method will run every 2 minutes (120000 milliseconds)
+	@Scheduled(fixedRate = 120000)
+	public void deleteOrdersWithAwaitingPayment() {
+		List<Order> awaitingPaymentOrders = this.orderRepository.findByDeliveryStatusAndCreatedDateBefore(
+				DeliveryStatus.AWAITINGPAYMENT, LocalDateTime.now().minusHours(1));
+
+		this.orderRepository.deleteAll(awaitingPaymentOrders);
 	}
 
 }
