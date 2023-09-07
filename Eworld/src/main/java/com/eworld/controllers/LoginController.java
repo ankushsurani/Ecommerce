@@ -104,12 +104,13 @@ public class LoginController {
 	}
 
 	@GetMapping("/forgot")
-	public String forgotPassword(Model model) {
+	public String forgotPassword(Model model, Principal principal) {
 
 		model.addAttribute("title", "Forgot Password - Eworld");
-		model.addAttribute("addOtp", false);
+		model.addAttribute("addOtp", false)
+		.addAttribute("email", principal != null ? principal.getName() : null);
 
-		return "/forgot_password";
+		return "forgot_password";
 	}
 
 	@PostMapping("/send-otp")
