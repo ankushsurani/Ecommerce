@@ -3,7 +3,6 @@ package com.eworld.controllers;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
@@ -23,6 +22,7 @@ import com.eworld.entities.User;
 import com.eworld.entities.WishlistItem;
 import com.eworld.helper.EmailService;
 import com.eworld.helper.Msg;
+import com.eworld.helper.OTPGenerator;
 import com.eworld.services.CartService;
 import com.eworld.services.CategoryService;
 import com.eworld.services.UserService;
@@ -51,13 +51,6 @@ public class LoginController {
 
 	@Value("${spring.application.name}")
 	private String appName;
-
-	Random otp1 = new Random(1);
-	Random otp2 = new Random(1);
-	Random otp3 = new Random(5);
-	Random otp4 = new Random(8);
-	Random otp5 = new Random(7);
-	Random otp6 = new Random(3);
 
 	@ModelAttribute
 	public void currentUser(Principal principal, Model model) {
@@ -107,8 +100,7 @@ public class LoginController {
 	public String forgotPassword(Model model, Principal principal) {
 
 		model.addAttribute("title", "Forgot Password - Eworld");
-		model.addAttribute("addOtp", false)
-		.addAttribute("email", principal != null ? principal.getName() : null);
+		model.addAttribute("addOtp", false).addAttribute("email", principal != null ? principal.getName() : null);
 
 		return "forgot_password";
 	}
@@ -123,14 +115,7 @@ public class LoginController {
 
 			if (user != null) {
 
-				int int1 = otp1.nextInt(3);
-				int int2 = otp2.nextInt(4);
-				int int3 = otp3.nextInt(8);
-				int int4 = otp4.nextInt(9);
-				int int5 = otp5.nextInt(9);
-				int int6 = otp6.nextInt(6);
-
-				int fullOtp = int1 + int2 * 10 + int3 * 100 + int4 * 1000 + int5 * 10000 + int6 * 100000;
+				int fullOtp = OTPGenerator.generateOTP();
 
 				String subject = "Eworld - Shop Your Fabs";
 

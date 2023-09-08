@@ -41,5 +41,11 @@ public interface OrderRepository extends JpaRepository<Order, String> {
 	boolean existsByUserAndProductAndDeliveryStatus(User user, Product product, DeliveryStatus deliveryStatus);
 
 	boolean existsByAddressAndUser(Address address, User user);
+	
+	@Query("SELECT SUM(o.orderPrice) FROM Order o WHERE o.createdDate >= :time")
+    public long countTotalSaleOfLastTime(LocalDateTime time);
+	
+	@Query("SELECT COUNT(o) FROM Order o WHERE o.createdDate >= :time")
+	public Long countOrdersByLastTime(LocalDateTime time);
 
 }

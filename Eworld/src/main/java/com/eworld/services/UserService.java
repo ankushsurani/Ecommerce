@@ -40,6 +40,10 @@ public class UserService {
 	public User getUserByEmailVerification(String emailVerification) {
 		return this.userRepository.findByEmailVerification(emailVerification);
 	}
+	
+	public long countUserJoinInLastYear(LocalDateTime time) {
+		return this.userRepository.countUserJoinInLastYear(time);
+	}
 
 	public static boolean has24HoursCompleted(LocalDateTime startDate, LocalDateTime endDate) {
 		Duration duration = Duration.between(startDate, endDate);

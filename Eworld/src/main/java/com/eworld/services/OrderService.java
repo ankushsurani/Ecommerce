@@ -64,6 +64,14 @@ public class OrderService {
 	public List<Order> findOrdersByUserAndStatuses(String userId, List<DeliveryStatus> deliveryStatus) {
 		return this.orderRepository.findOrdersByUserAndStatuses(userId, deliveryStatus);
 	}
+	
+	public long countTotalSaleOfLastYear(LocalDateTime dateTime) {
+		return this.orderRepository.countTotalSaleOfLastTime(dateTime);
+	}
+	
+	public long countOrdersLastYear(LocalDateTime dateTime) {
+		return this.orderRepository.countOrdersByLastTime(dateTime);
+	}
 
 	// This method will run every 2 minutes (120000 milliseconds)
 	@Scheduled(fixedRate = 120000)

@@ -4,13 +4,18 @@ import java.security.Principal;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.eworld.dto.AdminAnalytics;
+import com.eworld.dto.FilterRequest;
 import com.eworld.entities.Category;
 import com.eworld.entities.Order;
 import com.eworld.entities.Product;
@@ -58,6 +65,11 @@ public class AdminDashboardController {
 	@Autowired
 	private OrderService orderService;
 
+	@Value("${spring.application.name}")
+	private String appName;
+	
+	private int pageSize = 10;
+
 	@ModelAttribute
 	public void currentUser(Principal principal, Model model) {
 		if (principal != null) {
@@ -72,25 +84,48 @@ public class AdminDashboardController {
 
 		try {
 
-//			Pageable pageable = PageRequest.of(0, 12);
+			long countTotalSaleOfLastYear = this.orderService
+					.countTotalSaleOfLastYear(LocalDateTime.now().minusYears(1));
+			long countTotalSaleOfLastMonth = this.orderService
+					.countTotalSaleOfLastYear(LocalDateTime.now().minusMonths(1));
 
-			List<User> users = this.userService.getAllUser();
-			model.addAttribute("users", users);
+			long ordersOfLastYear = this.orderService.countOrdersLastYear(LocalDateTime.now().minusYears(1));
+			long ordersOfLastMonth = this.orderService.countOrdersLastYear(LocalDateTime.now().minusMonths(1));
 
-			List<Category> categories = this.categoryService.getAllCategories();
-			model.addAttribute("categories", categories);
+			long userJoinedLastYear = this.userService.countUserJoinInLastYear(LocalDateTime.now().minusYears(1));
+			long userJoinedLastMonth = this.userService.countUserJoinInLastYear(LocalDateTime.now().minusMonths(1));
+			
+			Pageable pageable = PageRequest.of(0, this.pageSize);
+			Slice<Product> topSellingProducts = this.productService
+					.getFilteredAndSortedProducts(new FilterRequest("Popularity"), pageable);
+			Slice<Product> topRatedProducts = this.productService
+					.getFilteredAndSortedProducts(new FilterRequest("Rating"), pageable);
 
-//			List<Product> products = this.productService.getAllProducts(pageable);
-//			model.addAttribute("products", products);
+			AdminAnalytics analytics = new AdminAnalytics(countTotalSaleOfLastYear, countTotalSaleOfLastMonth, ordersOfLastYear, ordersOfLastMonth,
+					userJoinedLastYear, userJoinedLastMonth);
 
-			model.addAttribute("product", new Product());
+			model.addAttribute("appName", this.appName)
+			.addAttribute("analytics", analytics)
+			.addAttribute("topSellingProducts", topSellingProducts)
+			.addAttribute("topRatedProducts", topRatedProducts);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.setAttribute("message", new Msg("Something Went Wrong!!", "alert-danger"));
 		}
 
-		return "admin/dashboard";
+		return "admin/admin_dashboard";
+	}
+	
+	@GetMapping("/manage-products/page={pageNumber}")
+	public String manageProducts(@PathVariable("pageNumber") int pageNumber, Model model) {
+		Slice<Product> products = this.productService.getFilteredAndSortedProducts(new FilterRequest(), PageRequest.of(pageNumber, this.pageSize));
+		boolean hasNextPage = products.hasNext();
+		
+		model.addAttribute("products", products)
+		.addAttribute("hasNextPage", hasNextPage);
+		
+		return "admin/manage_products";
 	}
 
 	@PostMapping("/add-category")
