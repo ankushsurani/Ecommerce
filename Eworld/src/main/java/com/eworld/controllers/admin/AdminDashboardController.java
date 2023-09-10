@@ -74,7 +74,7 @@ public class AdminDashboardController {
 	public void currentUser(Principal principal, Model model) {
 		if (principal != null) {
 			User user = this.userService.findByEmail(principal.getName());
-			model.addAttribute("currentUser", user);
+			model.addAttribute("user", user);
 		}
 	}
 

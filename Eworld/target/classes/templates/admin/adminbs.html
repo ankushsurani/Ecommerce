@@ -134,7 +134,7 @@
 						<div class="avatar-container">
 							<div class="avatar avatar-sm avatar-indicators avatar-online">
 								<img alt="avatar"
-									src="/admin_assets/src/assets/img/profile-21.jpeg"
+									th:src="@{'/images/' + ${user.profilePic}}"
 									class="rounded-circle">
 							</div>
 						</div>
@@ -146,13 +146,12 @@
 							<div class="media mx-auto">
 								<div class="emoji me-2">&#x1F44B;</div>
 								<div class="media-body">
-									<h5>Shaun Park</h5>
-									<p>Project Leader</p>
+									<h5 th:text="${user.fullName}"></h5>
 								</div>
 							</div>
 						</div>
 						<div class="dropdown-item">
-							<a href="user-profile.html"> <svg
+							<a> <svg
 									xmlns="http://www.w3.org/2000/svg" width="24" height="24"
 									viewBox="0 0 24 24" fill="none" stroke="currentColor"
 									stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -162,7 +161,7 @@
 							</a>
 						</div>
 						<div class="dropdown-item">
-							<a href="app-mailbox.html"> <svg
+							<a> <svg
 									xmlns="http://www.w3.org/2000/svg" width="24" height="24"
 									viewBox="0 0 24 24" fill="none" stroke="currentColor"
 									stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -174,7 +173,7 @@
 							</a>
 						</div>
 						<div class="dropdown-item">
-							<a href="auth-boxed-signin.html"> <svg
+							<a th:href="@{/logout}"> <svg
 									xmlns="http://www.w3.org/2000/svg" width="24" height="24"
 									viewBox="0 0 24 24" fill="none" stroke="currentColor"
 									stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
