@@ -34,7 +34,7 @@ public class Order {
 	private DeliveryStatus deliveryStatus;
 
 	private String paymentType;
-	
+
 	private int orderPrice;
 
 	@ManyToOne
@@ -46,7 +46,7 @@ public class Order {
 	private Product product;
 
 	private int quantity;
-	
+
 	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
 	private Payment payment;
 

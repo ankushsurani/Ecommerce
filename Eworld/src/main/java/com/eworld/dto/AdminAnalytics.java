@@ -1,17 +1,17 @@
 package com.eworld.dto;
 
 public class AdminAnalytics {
-	
+
 	private long countTotalSaleOfLastYear;
-	
+
 	private long countTotalSaleOfLastMonth;
-	
+
 	private long ordersOfLastYear;
-	
+
 	private long ordersOfLastMonth;
-	
+
 	private long userJoinedLastYear;
-	
+
 	private long userJoinedLastMonth;
 
 	public AdminAnalytics(long countTotalSaleOfLastYear, long countTotalSaleOfLastMonth, long ordersOfLastYear,

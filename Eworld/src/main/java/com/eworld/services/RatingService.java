@@ -2,7 +2,6 @@ package com.eworld.services;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +27,7 @@ public class RatingService {
 			rating.setUser(user);
 			rating.setRatedDate(LocalDateTime.now());
 			this.ratingRepository.save(rating);
-			
+
 			hasUserOrderedProduct = true;
 		}
 		return hasUserOrderedProduct;
@@ -50,7 +49,7 @@ public class RatingService {
 	public List<Rating> getRatingsByProduct(Product product) {
 		return this.ratingRepository.findByProduct(product);
 	}
-	
+
 	public List<String> getRatingsIdsByProduct(Product product) {
 		return this.ratingRepository.findAllRatingIdsByProduct(product);
 	}

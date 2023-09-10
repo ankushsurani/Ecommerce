@@ -19,7 +19,7 @@ public interface UserRepository extends JpaRepository<User, String> {
 	public List<User> findAllUserByStatusFalse();
 
 	boolean existsAddressesByIdAndAddressActiveTrue(String id);
-	
+
 	@Query("SELECT COUNT(u) FROM User u WHERE u.creationDateTime >= :time")
 	public Long countUserJoinInLastYear(LocalDateTime time);
 

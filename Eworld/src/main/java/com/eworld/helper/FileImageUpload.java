@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -31,8 +32,8 @@ public class FileImageUpload {
 		}
 
 		// file copy
-		try {
-			Files.copy(file.getInputStream(), Paths.get(filePath));
+		try (InputStream inputStream = file.getInputStream()) {
+			Files.copy(inputStream, Paths.get(filePath));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -49,6 +50,24 @@ public class FileImageUpload {
 		// db logic to return inputstream
 
 		return is;
+	}
+
+	public static void deleteImages(List<String> imageNames, String path) {
+		imageNames.forEach(imageName -> {
+			File imageFile = new File(path + File.separator + imageName);
+
+			if (imageFile.exists()) {
+				try {
+
+					imageFile.delete();
+
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+			} else {
+				System.out.println("file not found");
+			}
+		});
 	}
 
 }

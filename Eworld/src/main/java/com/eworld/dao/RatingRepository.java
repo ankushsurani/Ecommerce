@@ -18,7 +18,7 @@ public interface RatingRepository extends JpaRepository<Rating, String> {
 	public Optional<Rating> findByProductAndUser(Product product, User user);
 
 	public List<Rating> findByProduct(Product product);
-	
+
 	@Query("SELECT r.id FROM Rating as r WHERE r.product = :product")
 	public List<String> findAllRatingIdsByProduct(Product product);
 

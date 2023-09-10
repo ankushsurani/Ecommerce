@@ -42,7 +42,7 @@ public interface ProductRepository extends JpaRepository<Product, String> {
 	Slice<Product> filterAndSortProducts(@Param("categoryId") String categoryId, @Param("minPrice") Integer minPrice,
 			@Param("maxPrice") Integer maxPrice, @Param("brandName") String brandName,
 			@Param("sortType") String sortType, Pageable pageable);
-	
+
 	@Query("SELECT p FROM Product p WHERE p.category.id=:categoryId")
 	Page<Product> findByCategoryId(String categoryId, Pageable pageable);
 

@@ -8,18 +8,20 @@
 <body>
 
 	<section>
-	
-	<div th:if="${hasUserOrderedProduct == false}" class="error-area ptb-100">
-		<div class="container">
-                <div class="error-content">
-                    <img th:src="@{/images/rating_access.png}" alt="error">
-                    <h3>Haven't purchased this product?</h3>
-                    <p>Sorry! You are not allowed to review this product since you haven't bought it.</p>
-                    <a th:href="@{/}" class="default-btn">Go to Home</a>
-                </div>
-            </div>
-	</div>
-	
+
+		<div th:if="${hasUserOrderedProduct == false}"
+			class="error-area ptb-100">
+			<div class="container">
+				<div class="error-content">
+					<img th:src="@{/images/rating_access.png}" alt="error">
+					<h3>Haven't purchased this product?</h3>
+					<p>Sorry! You are not allowed to review this product since you
+						haven't bought it.</p>
+					<a th:href="@{/}" class="default-btn">Go to Home</a>
+				</div>
+			</div>
+		</div>
+
 		<div id="page" th:unless="${hasUserOrderedProduct == false}">
 
 
@@ -52,20 +54,25 @@
 													id="ratingSection" class="rating"
 													th:data-product-id="${productId}"> <input
 													type="radio" class="rating-input" id="5_star" name="value"
-													value="5" th:checked="${rating != null && rating.value == 5}"> <label
-													for="5_star" class="rating-star"></label> <input
+													value="5"
+													th:checked="${rating != null && rating.value == 5}">
+													<label for="5_star" class="rating-star"></label> <input
 													type="radio" class="rating-input" id="4_star" name="value"
-													value="4" th:checked="${rating != null && rating.value == 4}"> <label
-													for="4_star" class="rating-star"></label> <input
+													value="4"
+													th:checked="${rating != null && rating.value == 4}">
+													<label for="4_star" class="rating-star"></label> <input
 													type="radio" class="rating-input" id="3_star" name="value"
-													value="3" th:checked="${rating != null && rating.value == 3}"> <label
-													for="3_star" class="rating-star"></label> <input
+													value="3"
+													th:checked="${rating != null && rating.value == 3}">
+													<label for="3_star" class="rating-star"></label> <input
 													type="radio" class="rating-input" id="2_star" name="value"
-													value="2" th:checked="${rating != null && rating.value == 2}"> <label
-													for="2_star" class="rating-star"></label> <input
+													value="2"
+													th:checked="${rating != null && rating.value == 2}">
+													<label for="2_star" class="rating-star"></label> <input
 													type="radio" class="rating-input" id="1_star" name="value"
-													value="1" th:checked="${rating != null && rating.value == 1}"> <label
-													for="1_star" class="rating-star"></label>
+													value="1"
+													th:checked="${rating != null && rating.value == 1}">
+													<label for="1_star" class="rating-star"></label>
 												</span>
 											</div>
 
@@ -83,10 +90,9 @@
 									<!-- /rating_submit -->
 									<div class="form-group mt-3">
 										<input name="id" th:value="${productReview.id}" hidden="">
-									
+
 										<label>Title</label> <input class="form-control" type="text"
-										th:value="${productReview.title}"
-											name="title"
+											th:value="${productReview.title}" name="title"
 											placeholder="If you could say it in one sentence, what would you say?">
 									</div>
 									<div class="form-group mt-3">
@@ -97,9 +103,8 @@
 									</div>
 
 									<div class="form-group mt-3">
-										<button
-											 id="submitButton"
-											type="submit" class="default-btn">Submit review</button>
+										<button id="submitButton" type="submit" class="default-btn">Submit
+											review</button>
 									</div>
 								</form>
 							</div>

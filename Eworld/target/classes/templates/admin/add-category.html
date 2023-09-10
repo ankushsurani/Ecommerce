@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="admin/adminbs::layout(~{::body})">
+<head>
+
+</head>
+<body class="alt-menu">
+
+	<!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
+	<link rel="stylesheet"
+		href="/admin_assets/src/plugins/src/filepond/filepond.min.css">
+	<link rel="stylesheet"
+		href="/admin_assets/src/plugins/src/filepond/FilePondPluginImagePreview.min.css">
+	<link rel="stylesheet" type="text/css"
+		href="/admin_assets/src/plugins/src/tagify/tagify.css">
+
+	<link rel="stylesheet" type="text/css"
+		href="/admin_assets/src/assets/css/light/forms/switches.css">
+	<link rel="stylesheet" type="text/css"
+		href="/admin_assets/src/plugins/css/light/editors/quill/quill.snow.css">
+	<link rel="stylesheet" type="text/css"
+		href="/admin_assets/src/plugins/css/light/tagify/custom-tagify.css">
+	<link
+		href="/admin_assets/src/plugins/css/light/filepond/custom-filepond.css"
+		rel="stylesheet" type="text/css" />
+
+	<link rel="stylesheet" type="text/css"
+		href="/admin_assets/src/assets/css/dark/forms/switches.css">
+	<link rel="stylesheet" type="text/css"
+		href="/admin_assets/src/plugins/css/dark/editors/quill/quill.snow.css">
+	<link rel="stylesheet" type="text/css"
+		href="/admin_assets/src/plugins/css/dark/tagify/custom-tagify.css">
+	<link
+		href="/admin_assets/src/plugins/css/dark/filepond/custom-filepond.css"
+		rel="stylesheet" type="text/css" />
+	<!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
+
+	<!--  BEGIN CUSTOM STYLE FILE  -->
+	<link rel="stylesheet"
+		href="/admin_assets/src/assets/css/light/apps/ecommerce-create.css">
+	<link rel="stylesheet"
+		href="/admin_assets/src/assets/css/dark/apps/ecommerce-create.css">
+
+	<link href="/admin_assets/layouts/web-app/css/dark/structure-mod.css"
+		rel="stylesheet" type="text/css" />
+	<link href="/admin_assets/layouts/web-app/css/light/structure-mod.css"
+		rel="stylesheet" type="text/css" />
+	<!--  END CUSTOM STYLE FILE  -->
+
+
+	<!--  BEGIN MAIN CONTAINER  -->
+
+	<!--  BEGIN CONTENT AREA  -->
+	<div id="content" class="main-content">
+
+		<div class="layout-px-spacing">
+
+			<div class="middle-content container-xxl p-0">
+
+				<!-- BREADCRUMB -->
+				<div class="row mb-4">
+
+					<div
+						class="col-xxl-9 col-xl-12 col-lg-12 col-md-12 col-sm-12 mx-auto">
+						<div class="page-meta">
+							<nav class="breadcrumb-style-one" aria-label="breadcrumb">
+								<ol class="breadcrumb">
+									<li class="breadcrumb-item active" aria-current="page">Add
+										Category</li>
+								</ol>
+							</nav>
+						</div>
+					</div>
+				</div>
+
+				<!-- messages of success and error -->
+				<div th:if="${session.message}" class="text-center">
+					<div th:classappend="${session.message.type}"
+						class="alert alert-primary" role="alert">
+						<span th:text="${session.message.content}"></span>
+					</div>
+					<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+				</div>
+
+
+				<!-- /BREADCRUMB -->
+				<form th:action="@{/admin/add-category-process}" method="post"
+					th:object="${category}" enctype="multipart/form-data">
+
+					<div class="row mb-4 layout-spacing layout-top-spacing">
+
+						<div
+							class="col-xxl-9 col-xl-12 col-lg-12 col-md-12 col-sm-12 mx-auto">
+
+
+
+							<div
+								class="widget-content widget-content-area ecommerce-create-section">
+
+								<div class="row mb-4">
+									<div class="col-sm-12">
+										<input th:if="${editCategory}" hidden="" name="id"
+											th:value="${category.id}"> <input type="text"
+											class="form-control" name="title" id="inputEmail3"
+											placeholder="Category Title"
+											th:classappend="${#fields.hasErrors('title') ? 'is-invalid' : ''}"
+											th:value="${category.title}">
+										<div th:each="e : ${#fields.errors('title')}" th:text="${e}"
+											class="invalid-feedback"></div>
+									</div>
+								</div>
+
+								<div class="row mb-4">
+									<div class="col-sm-12">
+										<input type="text" class="form-control" name="cachyTitle"
+											id="inputEmail3" placeholder="Category Cachy Title"
+											th:classappend="${#fields.hasErrors('cachyTitle') ? 'is-invalid' : ''}"
+											th:value="${category.cachyTitle}">
+										<div th:each="e : ${#fields.errors('cachyTitle')}"
+											th:text="${e}" class="invalid-feedback"></div>
+									</div>
+								</div>
+
+								<div class="row mb-4">
+									<div class="col-sm-12">
+										<label>Description</label>
+										<textarea style="height: 150px;"
+											placeholder="Write category description in html..."
+											class="form-control" name="description"
+											th:classappend="${#fields.hasErrors('description') ? 'is-invalid' : ''}"
+											th:text="${category.description}"></textarea>
+										<div th:each="e : ${#fields.errors('description')}"
+											th:text="${e}" class="invalid-feedback"></div>
+									</div>
+								</div>
+
+
+								<div class="row">
+									<div class="col-md-6">
+										<label for="product-images">Upload Banner Image</label>
+										<div class="input-group">
+											<input type="file" class="form-control" id="inputGroupFile01"
+												name="category_image">
+										</div>
+									</div>
+
+								</div>
+
+								<div class="row">
+									<div class="col-md-3 my-3">
+										<button type="submit" class="btn btn-success w-100">Add
+											Category</button>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+				</form>
+			</div>
+
+		</div>
+
+
+
+	</div>
+	<!--  END CONTENT AREA  -->
+	<!-- END MAIN CONTAINER -->
+
+	<!-- BEGIN PAGE LEVEL SCRIPTS -->
+	<script src="/admin_assets/src/plugins/src/editors/quill/quill.js"></script>
+	<script src="/admin_assets/src/plugins/src/filepond/filepond.min.js"></script>
+	<script
+		src="/admin_assets/src/plugins/src/filepond/FilePondPluginFileValidateType.min.js"></script>
+	<script
+		src="/admin_assets/src/plugins/src/filepond/FilePondPluginImageExifOrientation.min.js"></script>
+	<script
+		src="/admin_assets/src/plugins/src/filepond/FilePondPluginImagePreview.min.js"></script>
+	<script
+		src="/admin_assets/src/plugins/src/filepond/FilePondPluginImageCrop.min.js"></script>
+	<script
+		src="/admin_assets/src/plugins/src/filepond/FilePondPluginImageResize.min.js"></script>
+	<script
+		src="/admin_assets/src/plugins/src/filepond/FilePondPluginImageTransform.min.js"></script>
+	<script
+		src="/admin_assets/src/plugins/src/filepond/filepondPluginFileValidateSize.min.js"></script>
+
+	<script src="/admin_assets/src/plugins/src/tagify/tagify.min.js"></script>
+
+	<script src="/admin_assets/src/assets/js/apps/ecommerce-create.js"></script>
+
+	<!-- END PAGE LEVEL SCRIPTS -->
+
+
+</body>
+</html>

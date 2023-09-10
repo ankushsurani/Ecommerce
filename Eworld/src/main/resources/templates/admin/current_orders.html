@@ -1,25 +1,54 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-	th:replace="base::layout(~{::section})">
+	th:replace="admin/adminbs::layout(~{::body})">
 <head>
 <title>Bootstrap demo</title>
 
 </head>
 
-<body>
+<body data-bs-spy="scroll" data-bs-target="#navSection"
+	data-bs-offset="140">
 
-	<section style="background: white; min-height: 100vh;">
+	<!--  BEGIN CUSTOM STYLE FILE  -->
+	<link rel="stylesheet" type="text/css"
+		href="/admin_assets/src/plugins/src/table/datatable/datatables.css">
 
-		<link rel="stylesheet" th:href="@{/css/admin.css}" />
+	<link rel="stylesheet" type="text/css"
+		href="/admin_assets/src/plugins/css/light/table/datatable/dt-global_style.css">
+	<link rel="stylesheet" type="text/css"
+		href="/admin_assets/src/plugins/css/dark/table/datatable/dt-global_style.css">
 
-		<div class="container py-5">
+	<link href="/admin_assets/layouts/web-app/css/dark/structure-mod.css"
+		rel="stylesheet" type="text/css" />
+	<link href="/admin_assets/layouts/web-app/css/light/structure-mod.css"
+		rel="stylesheet" type="text/css" />
+	<!--  END CUSTOM STYLE FILE  -->
 
-			<div class="row" style="padding-top: 40px;">
+	<style>
+#ecommerce-list img {
+	border-radius: 18px;
+}
+</style>
 
+	<div id="content" class="main-content">
+
+		<div class="layout-px-spacing">
+
+			<div class="middle-content container-xxl p-0">
+
+				<!-- BREADCRUMB -->
+				<div class="page-meta">
+					<nav class="breadcrumb-style-one" aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item active" aria-current="page">Manage
+								Products</li>
+						</ol>
+					</nav>
+				</div>
+				<!-- /BREADCRUMB -->
 
 				<!-- messages of success and error -->
-				<div th:if="${session.message}" class="text-center"
-					style="padding-bottom: -40px;">
+				<div th:if="${session.message}" class="text-center">
 					<div th:classappend="${session.message.type}"
 						class="alert alert-primary" role="alert">
 						<span th:text="${session.message.content}"></span>
@@ -29,7 +58,7 @@
 
 
 
-				<div class="mb-4">
+				<div class="my-3">
 
 					<form th:action="@{/admin/current-orders}" method="get">
 
@@ -39,10 +68,8 @@
 
 								<div class="form-floating">
 									<select class="form-select" name="statusSelect">
-										<option value="all" selected>All</option>
-										<option value="Awaiting Payment">Awaiting Payment</option>
-										<option value="Awaiting Pickup">Awaiting Pickup</option>
-										<option value="Partially Shipped">Partially Shipped</option>
+										<option th:each="status : ${allDeliveryStatuses}"
+											th:text="${status.getStatus()}" th:value="${status}"></option>
 									</select> <label for="floatingSelect">Select By Status</label>
 								</div>
 
@@ -54,90 +81,115 @@
 							</div>
 
 						</div>
+
 					</form>
 
 				</div>
 
 
-				<div class="col-md-12">
+				<div class="row layout-top-spacing">
 
-					<table
-						class="table table-primary table-striped table-hover table-bordered shadow table-responsive">
-						<thead>
-							<tr>
-								<th scope="col">ORDER ID</th>
-								<th scope="col">USER ID</th>
-								<th scope="col">PRODUCT ID</th>
-								<th scope="col">ORDER DATE</th>
-								<th scope="col">Delivery Date</th>
-								<th scope="col">STATUS</th>
-								<th scope="col">PAYMENT TYPE</th>
-								<th scope="col">ACTION</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="o : ${orders}">
-								<th scope="row" th:text="${o.order_id}"></th>
-								<td th:text="${o.user.userId}"></td>
-								<td th:text="${o.product.pId}"></td>
-								<td th:text="${o.createdDate}"></td>
-								<td>
+					<div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+						<div class="widget-content widget-content-area br-8">
+							<table id="ecommerce-list" class="table dt-table-hover"
+								style="width: 100%">
+								<thead>
+									<tr>
+										<th>ORDER ID</th>
+										<th>PRODUCT ID</th>
+										<th>ORDER DATE</th>
+										<th>Delivery Date</th>
+										<th>STATUS</th>
+										<th>PAYMENT TYPE</th>
+										<th>ACTION</th>
+									</tr>
+								</thead>
 
-									<form th:action="@{'/admin/change-status/'+${o.order_id}}"
-										method="post">
+								<tbody>
+									<tr th:each="o : ${orders}">
+										<form th:action="@{'/admin/change-status/'+${o.id}}"
+											method="post">
+											<th th:text="${o.id}"></th>
+											<td th:text="${o.product.id}"></td>
+											<td th:text="${o.createdDate}"></td>
+											<td><input th:id="'deliverychange_status'+${o.id}"
+												disabled type="date"
+												th:value="${#strings.substring(o.deliveryDate,0,10)}"
+												name="deliveryDate"></td>
 
-										<input th:id="'deliverychange_status'+${o.order_id}" disabled
-											type="date"
-											th:value="${#strings.substring(o.deliveryDate,0,10)}"
-											name="deliveryDate">
-								</td>
+											<td>
 
-								<td>
+												<div class="form-floating">
+													<select disabled class="form-select" name="status"
+														th:id="'statuschange_status'+${o.id}">
+														<option th:each="status : ${allDeliveryStatuses}"
+															th:text="${status.getStatus()}" th:value="${status}"
+															th:selected="${status == o.deliveryStatus}"></option>
+													</select> <label for="floatingSelect">Change Status</label>
 
-									<div class="form-floating">
-										<select disabled class="form-select" name="status"
-											th:id="'statuschange_status'+${o.order_id}">
-											<option th:text="${o.status}" th:value="${o.status}" selected></option>
-											<option th:if="${o.status} != 'Awaiting Payment'"
-												value="Awaiting Payment">Awaiting Payment</option>
-											<option th:if="${o.status} != 'Awaiting Pickup'"
-												value="Awaiting Pickup">Awaiting Pickup</option>
-											<option th:if="${o.status} != 'Partially Shipped'"
-												value="Partially Shipped">Partially Shipped</option>
-											<option th:if="${o.status} != 'Completed'" value="Completed">Completed</option>
-										</select> <label for="floatingSelect">Change Status</label>
-									</div>
 
-								</td>
 
-								<td th:text="${o.paymentType}"></td>
+												</div>
 
-								<td><a class="btn btn-sm btn-primary text-light ms-2"
-									th:id="'change_status'+${o.order_id}"
-									th:onclick="|enableStatus('change_status'+'${o.order_id}')|"
-									style="color: black;">EDIT</a>
+											</td>
 
-									<button th:id="'btnchange_status'+${o.order_id}"
-										disabled="disabled" type="submit"
-										class="btn btn-sm btn-primary text-light ms-2">SAVE</button>
+											<td th:text="${o.paymentType}"></td>
 
-									</form></td>
+											<td><a class="btn btn-sm btn-primary text-light ms-2"
+												th:id="'change_status'+${o.id}"
+												th:data-name="${'change_status' + o.id}"
+												th:onclick="enableStatus(this.getAttribute('data-name'))"
+												style="color: black;">EDIT</a>
 
-							</tr>
-						</tbody>
-					</table>
+												<button th:id="'btnchange_status'+${o.id}"
+													disabled="disabled" type="submit"
+													class="btn btn-sm btn-primary text-light ms-2">SAVE</button>
+
+											</td>
+										</form>
+									</tr>
+
+								</tbody>
+
+							</table>
+
+						</div>
+
+					</div>
 
 				</div>
-
 
 			</div>
 
 		</div>
+	</div>
 
 
-		<script th:src="@{/js/admin.js}"></script>
+	<script th:src="@{/js/admin.js}"></script>
 
-	</section>
+	<!-- BEGIN GLOBAL MANDATORY STYLES -->
+	<script src="/admin_assets/src/plugins/src/global/vendors.min.js"></script>
+	<script src="/admin_assets/src/assets/js/custom.js"></script>
+	<!-- END GLOBAL MANDATORY STYLES -->
+
+	<!-- BEGIN PAGE LEVEL SCRIPTS -->
+	<script
+		src="/admin_assets/src/plugins/src/table/datatable/datatables.js"></script>
+	<script>
+		ecommerceList = $('#ecommerce-list')
+				.DataTable(
+						{
+							"dom" : "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex mt-sm-0 mt-3'f>>>"
+									+ "<'table-responsive'tr>",
+							"oLanguage" : {
+								"sSearch" : '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+								"sSearchPlaceholder" : "Search...",
+							},
+							"stripeClasses" : [],
+						});
+		multiCheck(ecommerceList);
+	</script>
+
 
 </body>
 </html>

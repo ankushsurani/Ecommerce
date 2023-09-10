@@ -17,12 +17,12 @@ import com.eworld.entities.Payment;
 public interface PaymentRepository extends JpaRepository<Payment, String> {
 
 	public List<Payment> findByRzporderId(String rzporderId);
-	
+
 	@Modifying
-    @Transactional
-    @Query("DELETE FROM Payment p WHERE p.id IN :paymentIds")
-    public void deletePaymentsByIds(@Param("paymentIds") List<String> paymentIds);
-	
+	@Transactional
+	@Query("DELETE FROM Payment p WHERE p.id IN :paymentIds")
+	public void deletePaymentsByIds(@Param("paymentIds") List<String> paymentIds);
+
 	@Query("SELECT p.id FROM Payment p WHERE p.status = :status AND p.createdDate < :dateTime")
 	public List<String> findIdByStatusAndCreatedDateBefore(String status, LocalDateTime dateTime);
 

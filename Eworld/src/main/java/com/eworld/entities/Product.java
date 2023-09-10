@@ -1,6 +1,5 @@
 package com.eworld.entities;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +14,6 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -61,7 +59,8 @@ public class Product {
 
 	private LocalDateTime addedDate;
 
-	@NotNull
+	@Min(value = 1, message = "Delivery must be provided into minimum 1 day")
+	@Max(value = 7, message = "Delivery must be provided into maximum 7 day")
 	private int estimatedDeliveryDays;
 
 	@NotBlank
@@ -77,6 +76,8 @@ public class Product {
 
 	private double avgRating = 0.0;
 
+	private boolean active;
+
 	@ManyToOne
 	@JsonIgnore
 	private Category category;
@@ -86,8 +87,8 @@ public class Product {
 	}
 
 	public Product(String id, String name, String brandName, String description, String additionalInformation,
-			int price, int discount, int quantity, LocalDateTime addedDate, int estimatedDeliveryDays,
-			String warranty, List<ProductImage> productImages, List<Rating> ratings, double avgRating,
+			int price, int discount, int quantity, LocalDateTime addedDate, int estimatedDeliveryDays, String warranty,
+			List<ProductImage> productImages, List<Rating> ratings, double avgRating, boolean active,
 			Category category) {
 		super();
 		this.id = id;
@@ -104,12 +105,14 @@ public class Product {
 		this.productImages = productImages;
 		this.ratings = ratings;
 		this.avgRating = avgRating;
+		this.active = active;
 		this.category = category;
 	}
 
 	public Product(String name, String brandName, String description, String additionalInformation, int price,
 			int discount, int quantity, LocalDateTime addedDate, int estimatedDeliveryDays, String warranty,
-			List<ProductImage> productImages, List<Rating> ratings, double avgRating, Category category) {
+			List<ProductImage> productImages, List<Rating> ratings, double avgRating, boolean active,
+			Category category) {
 		super();
 		this.name = name;
 		this.brandName = brandName;
@@ -124,6 +127,7 @@ public class Product {
 		this.productImages = productImages;
 		this.ratings = ratings;
 		this.avgRating = avgRating;
+		this.active = active;
 		this.category = category;
 	}
 
@@ -245,6 +249,14 @@ public class Product {
 
 	public void setWarranty(String warranty) {
 		this.warranty = warranty;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 	// calculate price after discount

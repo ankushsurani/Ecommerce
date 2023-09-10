@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="admin/adminbs::layout(~{::body})">
+<head>
+
+</head>
+<body class="alt-menu">
+
+	<!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
+	<link rel="stylesheet"
+		href="/admin_assets/src/plugins/src/filepond/filepond.min.css">
+	<link rel="stylesheet"
+		href="/admin_assets/src/plugins/src/filepond/FilePondPluginImagePreview.min.css">
+	<link rel="stylesheet" type="text/css"
+		href="/admin_assets/src/plugins/src/tagify/tagify.css">
+
+	<link rel="stylesheet" type="text/css"
+		href="/admin_assets/src/assets/css/light/forms/switches.css">
+	<link rel="stylesheet" type="text/css"
+		href="/admin_assets/src/plugins/css/light/editors/quill/quill.snow.css">
+	<link rel="stylesheet" type="text/css"
+		href="/admin_assets/src/plugins/css/light/tagify/custom-tagify.css">
+	<link
+		href="/admin_assets/src/plugins/css/light/filepond/custom-filepond.css"
+		rel="stylesheet" type="text/css" />
+
+	<link rel="stylesheet" type="text/css"
+		href="/admin_assets/src/assets/css/dark/forms/switches.css">
+	<link rel="stylesheet" type="text/css"
+		href="/admin_assets/src/plugins/css/dark/editors/quill/quill.snow.css">
+	<link rel="stylesheet" type="text/css"
+		href="/admin_assets/src/plugins/css/dark/tagify/custom-tagify.css">
+	<link
+		href="/admin_assets/src/plugins/css/dark/filepond/custom-filepond.css"
+		rel="stylesheet" type="text/css" />
+	<!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
+
+	<!--  BEGIN CUSTOM STYLE FILE  -->
+	<link rel="stylesheet"
+		href="/admin_assets/src/assets/css/light/apps/ecommerce-create.css">
+	<link rel="stylesheet"
+		href="/admin_assets/src/assets/css/dark/apps/ecommerce-create.css">
+
+	<link href="/admin_assets/layouts/web-app/css/dark/structure-mod.css"
+		rel="stylesheet" type="text/css" />
+	<link href="/admin_assets/layouts/web-app/css/light/structure-mod.css"
+		rel="stylesheet" type="text/css" />
+	<!--  END CUSTOM STYLE FILE  -->
+
+
+	<!--  BEGIN MAIN CONTAINER  -->
+
+	<!--  BEGIN CONTENT AREA  -->
+	<div id="content" class="main-content">
+
+		<div class="layout-px-spacing">
+
+			<div class="middle-content container-xxl p-0">
+
+				<!-- BREADCRUMB -->
+				<div class="page-meta">
+					<nav class="breadcrumb-style-one" aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item active" aria-current="page">Add
+								Product</li>
+						</ol>
+					</nav>
+				</div>
+
+				<!-- messages of success and error -->
+				<div th:if="${session.message}" class="text-center">
+					<div th:classappend="${session.message.type}"
+						class="alert alert-primary" role="alert">
+						<span th:text="${session.message.content}"></span>
+					</div>
+					<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+				</div>
+
+
+				<!-- /BREADCRUMB -->
+				<form th:action="@{/admin/add-product-process}" method="post"
+					th:object="${product}" enctype="multipart/form-data">
+
+					<div class="row mb-4 layout-spacing layout-top-spacing">
+
+						<div class="col-xxl-9 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+
+
+							<div
+								class="widget-content widget-content-area ecommerce-create-section">
+
+								<div class="row mb-4">
+									<div class="col-sm-12">
+										<input th:if="${editProduct == true}" hidden="" name="id"
+											th:value="${product.id}"> <input type="text"
+											class="form-control" name="name" id="inputEmail3"
+											placeholder="Product Name"
+											th:classappend="${#fields.hasErrors('name') ? 'is-invalid' : ''}"
+											th:value="${product.name}">
+										<div th:each="e : ${#fields.errors('name')}" th:text="${e}"
+											class="invalid-feedback"></div>
+									</div>
+								</div>
+
+								<div class="row mb-4">
+									<div class="col-sm-12">
+										<label>Description</label>
+										<textarea style="height: 150px;"
+											placeholder="Write product description in html..."
+											class="form-control" name="description"
+											th:classappend="${#fields.hasErrors('description') ? 'is-invalid' : ''}"
+											th:text="${product.description}"></textarea>
+										<div th:each="e : ${#fields.errors('description')}"
+											th:text="${e}" class="invalid-feedback"></div>
+									</div>
+								</div>
+
+								<div class="row mb-4">
+									<div class="col-sm-12">
+										<label>Additional Information</label>
+										<textarea style="height: 150px;"
+											placeholder="Write additional information in html..."
+											class="form-control" name="additionalInformation"
+											th:classappend="${#fields.hasErrors('additionalInformation') ? 'is-invalid' : ''}"
+											th:text="${product.additionalInformation}"></textarea>
+										<div th:each="e : ${#fields.errors('additionalInformation')}"
+											th:text="${e}" class="invalid-feedback"></div>
+									</div>
+								</div>
+
+								<div class="row mb-4">
+									<div class="col-sm-12">
+										<label>Warranty Details</label>
+										<textarea placeholder="Write warranty details in html..."
+											class="form-control" name="warranty"
+											th:classappend="${#fields.hasErrors('warranty') ? 'is-invalid' : ''}"
+											th:text="${product.warranty}"></textarea>
+										<div th:each="e : ${#fields.errors('warranty')}"
+											th:text="${e}" class="invalid-feedback"></div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-6">
+										<label for="product-images">Upload Images</label>
+										<div class="input-group">
+											<input type="file" class="form-control" id="inputGroupFile01"
+												name="product_images" multiple="multiple">
+										</div>
+									</div>
+
+								</div>
+
+
+
+							</div>
+
+						</div>
+
+						<div class="col-xxl-3 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+							<div class="row">
+								<div class="col-xxl-12 col-xl-8 col-lg-8 col-md-7 mt-xxl-0 mt-4">
+									<div
+										class="widget-content widget-content-area ecommerce-create-section">
+										<div class="row">
+											<div class="col-sm-12 mb-4">
+												<label for="regular-price">Brand</label> <input type="text"
+													class="form-control" id="regular-price" name="brandName"
+													th:classappend="${#fields.hasErrors('brandName') ? 'is-invalid' : ''}"
+													th:value="${product.brandName}">
+												<div th:each="e : ${#fields.errors('brandName')}"
+													th:text="${e}" class="invalid-feedback"></div>
+											</div>
+											<div class="col-sm-12 mb-4">
+												<label for="regular-price">Price</label> <input type="text"
+													class="form-control" id="regular-price" name="price"
+													th:classappend="${#fields.hasErrors('price') ? 'is-invalid' : ''}"
+													th:value="${product.price}">
+												<div th:each="e : ${#fields.errors('price')}" th:text="${e}"
+													class="invalid-feedback"></div>
+											</div>
+											<div class="col-xxl-12 col-md-6 mb-4">
+												<label>Discount</label> <input type="text"
+													class="form-control" name="discount"
+													th:classappend="${#fields.hasErrors('discount') ? 'is-invalid' : ''}"
+													th:value="${product.discount}">
+												<div th:each="e : ${#fields.errors('discount')}"
+													th:text="${e}" class="invalid-feedback"></div>
+											</div>
+											<div class="col-xxl-12 col-md-6 mb-4">
+												<label>Quantity</label> <input type="number"
+													class="form-control" name="quantity"
+													th:classappend="${#fields.hasErrors('quantity') ? 'is-invalid' : ''}"
+													th:value="${product.quantity}">
+												<div th:each="e : ${#fields.errors('quantity')}"
+													th:text="${e}" class="invalid-feedback"></div>
+											</div>
+											<div class="col-xxl-12 col-md-6 mb-4">
+												<label for="category">Category</label> <select name="catId"
+													class="form-select" id="category">
+													<option th:each="category : ${categories}"
+														th:text="${category.title}" th:value="${category.id}"></option>
+												</select>
+											</div>
+											<div class="col-xxl-12 col-md-6 mb-4">
+												<label>Estimated Delivery Day</label> <input type="number"
+													class="form-control" name="estimatedDeliveryDays"
+													th:classappend="${#fields.hasErrors('estimatedDeliveryDays') ? 'is-invalid' : ''}"
+													th:value="${product.estimatedDeliveryDays}">
+												<div
+													th:each="e : ${#fields.errors('estimatedDeliveryDays')}"
+													th:text="${e}" class="invalid-feedback"></div>
+											</div>
+											<div class="col-sm-12">
+												<button type="submit" class="btn btn-success w-100">Add
+													Product</button>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+
+					</div>
+				</form>
+			</div>
+
+		</div>
+
+
+
+	</div>
+	<!--  END CONTENT AREA  -->
+	<!-- END MAIN CONTAINER -->
+
+	<!-- BEGIN PAGE LEVEL SCRIPTS -->
+	<script src="/admin_assets/src/plugins/src/editors/quill/quill.js"></script>
+	<script src="/admin_assets/src/plugins/src/filepond/filepond.min.js"></script>
+	<script
+		src="/admin_assets/src/plugins/src/filepond/FilePondPluginFileValidateType.min.js"></script>
+	<script
+		src="/admin_assets/src/plugins/src/filepond/FilePondPluginImageExifOrientation.min.js"></script>
+	<script
+		src="/admin_assets/src/plugins/src/filepond/FilePondPluginImagePreview.min.js"></script>
+	<script
+		src="/admin_assets/src/plugins/src/filepond/FilePondPluginImageCrop.min.js"></script>
+	<script
+		src="/admin_assets/src/plugins/src/filepond/FilePondPluginImageResize.min.js"></script>
+	<script
+		src="/admin_assets/src/plugins/src/filepond/FilePondPluginImageTransform.min.js"></script>
+	<script
+		src="/admin_assets/src/plugins/src/filepond/filepondPluginFileValidateSize.min.js"></script>
+
+	<script src="/admin_assets/src/plugins/src/tagify/tagify.min.js"></script>
+
+	<script src="/admin_assets/src/assets/js/apps/ecommerce-create.js"></script>
+
+	<!-- END PAGE LEVEL SCRIPTS -->
+
+
+</body>
+</html>

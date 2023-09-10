@@ -29,8 +29,9 @@
 												style="font-weight: bold;" th:text="${product.value.price}"></span>
 										</p>
 										<div class="btn-box">
-											<a th:href="@{'/product/' + ${product.value.id}}" class="default-btn">SEE
-												DETAILS</a> <a th:href="@{'/user/order/checkout-order?productId=' + ${product.value.id}}"
+											<a th:href="@{'/product/' + ${product.value.id}}"
+												class="default-btn">SEE DETAILS</a> <a
+												th:href="@{'/user/order/checkout-order?productId=' + ${product.value.id}}"
 												class="optional-btn">BUY NOW</a>
 										</div>
 									</div>
@@ -61,10 +62,11 @@
 							<div class="content text-white">
 								<span th:text="${category.cachyTitle}"></span>
 								<h3 th:text="${category.title}"></h3>
-								<a th:href="@{'/product/page=0?categoryId=' + ${category.id}}" class="default-btn">Discover
-									Now</a>
+								<a th:href="@{'/product/page=0?categoryId=' + ${category.id}}"
+									class="default-btn">Discover Now</a>
 							</div>
-							<a th:href="@{'/product/page=0?categoryId=' + ${category.id}}" class="link-btn"></a>
+							<a th:href="@{'/product/page=0?categoryId=' + ${category.id}}"
+								class="link-btn"></a>
 						</div>
 					</div>
 				</div>
@@ -80,15 +82,16 @@
 				<div class="section-title text-start">
 					<span class="sub-title">See Our Collection</span>
 					<h2>Latest Products</h2>
-					<a th:href="@{/product/page=0?sortType=Latest}"
-						class="default-btn">Shop More</a>
+					<a th:href="@{/product/page=0?sortType=Latest}" class="default-btn">Shop
+						More</a>
 				</div>
 
 				<div class="products-slides owl-carousel owl-theme">
 					<div class="single-products-box"
 						th:each="latestProduct : ${latestProducts}">
 						<div class="products-image">
-							<a th:href="@{'/product/' + ${latestProduct.id}}"> <img style="height: 45vh;"
+							<a th:href="@{'/product/' + ${latestProduct.id}}"> <img
+								style="height: 45vh;"
 								th:src="@{'/product_img/' + ${latestProduct.productImages[0].productPic}}"
 								alt="image"> <img style="height: 45vh;"
 								th:src="@{'/product_img/' + ${latestProduct.productImages[1].productPic}}"
@@ -99,30 +102,33 @@
 								<ul>
 									<li>
 										<div class="wishlist-btn">
-											<a th:href="@{'/user/account/add-to-wishlist/' + ${latestProduct.id}}"> <i class='bx bx-heart'></i> <span
-												class="tooltip-label">Add to Wishlist</span>
+											<a
+												th:href="@{'/user/account/add-to-wishlist/' + ${latestProduct.id}}">
+												<i class='bx bx-heart'></i> <span class="tooltip-label">Add
+													to Wishlist</span>
 											</a>
 										</div>
 									</li>
 									<li>
 										<div class="compare-btn">
-											<a th:href="@{'/user/product-compare/add-compare-product/' + ${latestProduct.id}}"> <i class='bx bx-refresh'></i> <span
-												class="tooltip-label">Compare</span>
+											<a
+												th:href="@{'/user/product-compare/add-compare-product/' + ${latestProduct.id}}">
+												<i class='bx bx-refresh'></i> <span class="tooltip-label">Compare</span>
 											</a>
 										</div>
 									</li>
 									<li>
 										<div class="quick-view-btn">
 											<a id="quickViewModal" href="#" data-bs-toggle="modal"
-											 th:data-productname="${latestProduct.name}"
-											 th:data-productprice="${latestProduct.price}"
-											 th:data-productpriceafterdiscount="${latestProduct.getPriceAfterApplyingDiscount}"
-											 th:data-productimageurl="@{'/product_img/' + ${latestProduct.productImages[0].productPic}}"
-											 th:data-brandname="${latestProduct.brandName}"
-											 th:data-avgrating="${latestProduct.avgRating}"
-											 th:data-quantity="${latestProduct.quantity}"
-											 th:data-category="${latestProduct.category.title}"
-											 th:data-viewfullinfourl="@{'/product/' + ${latestProduct.id}}"
+												th:data-productname="${latestProduct.name}"
+												th:data-productprice="${latestProduct.price}"
+												th:data-productpriceafterdiscount="${latestProduct.getPriceAfterApplyingDiscount}"
+												th:data-productimageurl="@{'/product_img/' + ${latestProduct.productImages[0].productPic}}"
+												th:data-brandname="${latestProduct.brandName}"
+												th:data-avgrating="${latestProduct.avgRating}"
+												th:data-quantity="${latestProduct.quantity}"
+												th:data-category="${latestProduct.category.title}"
+												th:data-viewfullinfourl="@{'/product/' + ${latestProduct.id}}"
 												data-bs-target="#productsQuickView"> <i
 												class='bx bx-search-alt'></i> <span class="tooltip-label">Quick
 													View</span>
@@ -135,7 +141,8 @@
 
 						<div class="products-content">
 							<h3>
-								<a th:href="@{'/product/' + ${latestProduct.id}}" th:text="${latestProduct.name}"></a>
+								<a th:href="@{'/product/' + ${latestProduct.id}}"
+									th:text="${latestProduct.name}"></a>
 							</h3>
 							<div class="price">
 								<i
@@ -158,7 +165,8 @@
 								</span> <span class="text-dark fw-bold"
 									th:text="${latestProduct.avgRating}"></span>
 							</div>
-							<a th:href="@{'/user/cart/add-to-cart/' + ${latestProduct.id}}" class="add-to-cart">Add to Cart</a>
+							<a th:href="@{'/user/cart/add-to-cart/' + ${latestProduct.id}}"
+								class="add-to-cart">Add to Cart</a>
 						</div>
 					</div>
 				</div>
@@ -197,15 +205,16 @@
 				<div class="section-title text-start">
 					<span class="sub-title">See Our Collection</span>
 					<h2>Top Rated Products</h2>
-					<a th:href="@{/product/page=0?sortType=Rating}"
-						class="default-btn">Shop More</a>
+					<a th:href="@{/product/page=0?sortType=Rating}" class="default-btn">Shop
+						More</a>
 				</div>
 
 				<div class="products-slides owl-carousel owl-theme">
 					<div class="single-products-box"
 						th:each="topRatedProduct : ${topRatedProducts}">
 						<div class="products-image">
-							<a th:href="@{'/product/' + ${topRatedProduct.id}}"> <img style="height: 45vh;"
+							<a th:href="@{'/product/' + ${topRatedProduct.id}}"> <img
+								style="height: 45vh;"
 								th:src="@{'/product_img/' + ${topRatedProduct.productImages[0].productPic}}"
 								alt="image"> <img style="height: 45vh;"
 								th:src="@{'/product_img/' + ${topRatedProduct.productImages[1].productPic}}"
@@ -216,30 +225,33 @@
 								<ul>
 									<li>
 										<div class="wishlist-btn">
-											<a th:href="@{'/user/account/add-to-wishlist/' + ${topRatedProduct.id}}"> <i class='bx bx-heart'></i> <span
-												class="tooltip-label">Add to Wishlist</span>
+											<a
+												th:href="@{'/user/account/add-to-wishlist/' + ${topRatedProduct.id}}">
+												<i class='bx bx-heart'></i> <span class="tooltip-label">Add
+													to Wishlist</span>
 											</a>
 										</div>
 									</li>
 									<li>
 										<div class="compare-btn">
-											<a th:href="@{'/user/product-compare/add-compare-product/' + ${topRatedProduct.id}}"> <i class='bx bx-refresh'></i> <span
-												class="tooltip-label">Compare</span>
+											<a
+												th:href="@{'/user/product-compare/add-compare-product/' + ${topRatedProduct.id}}">
+												<i class='bx bx-refresh'></i> <span class="tooltip-label">Compare</span>
 											</a>
 										</div>
 									</li>
 									<li>
 										<div class="quick-view-btn">
 											<a id="quickViewModal" href="#" data-bs-toggle="modal"
-											 th:data-productname="${topRatedProduct.name}"
-											 th:data-productprice="${topRatedProduct.price}"
-											 th:data-productpriceafterdiscount="${topRatedProduct.getPriceAfterApplyingDiscount}"
-											 th:data-productimageurl="@{'/product_img/' + ${topRatedProduct.productImages[0].productPic}}"
-											 th:data-brandname="${topRatedProduct.brandName}"
-											 th:data-avgrating="${topRatedProduct.avgRating}"
-											 th:data-quantity="${topRatedProduct.quantity}"
-											 th:data-category="${topRatedProduct.category.title}"
-											 th:data-viewfullinfourl="@{'/product/' + ${topRatedProduct.id}}"
+												th:data-productname="${topRatedProduct.name}"
+												th:data-productprice="${topRatedProduct.price}"
+												th:data-productpriceafterdiscount="${topRatedProduct.getPriceAfterApplyingDiscount}"
+												th:data-productimageurl="@{'/product_img/' + ${topRatedProduct.productImages[0].productPic}}"
+												th:data-brandname="${topRatedProduct.brandName}"
+												th:data-avgrating="${topRatedProduct.avgRating}"
+												th:data-quantity="${topRatedProduct.quantity}"
+												th:data-category="${topRatedProduct.category.title}"
+												th:data-viewfullinfourl="@{'/product/' + ${topRatedProduct.id}}"
 												data-bs-target="#productsQuickView"> <i
 												class='bx bx-search-alt'></i> <span class="tooltip-label">Quick
 													View</span>
@@ -258,9 +270,8 @@
 							<div class="price">
 								<i
 									class="fa-solid fa-indian-rupee-sign text-muted text-decoration-line-through"></i>
-								<span class="old-price"
-									th:text="${topRatedProduct.price}"></span> <i
-									class="fa-solid fa-indian-rupee-sign"></i> <span
+								<span class="old-price" th:text="${topRatedProduct.price}"></span>
+								<i class="fa-solid fa-indian-rupee-sign"></i> <span
 									class="new-price"
 									th:text="${topRatedProduct.getPriceAfterApplyingDiscount}"></span>
 							</div>
@@ -276,7 +287,8 @@
 								</span> <span class="text-dark fw-bold"
 									th:text="${topRatedProduct.avgRating}"></span>
 							</div>
-							<a th:href="@{'/user/cart/add-to-cart/' + ${topRatedProduct.id}}" class="add-to-cart">Add to Cart</a>
+							<a th:href="@{'/user/cart/add-to-cart/' + ${topRatedProduct.id}}"
+								class="add-to-cart">Add to Cart</a>
 						</div>
 					</div>
 				</div>
@@ -357,7 +369,8 @@
 					<div class="single-products-box"
 						th:each="popularProduct : ${popularProducts}">
 						<div class="products-image">
-							<a th:href="@{'/product/' + ${popularProduct.id}}"> <img style="height: 45vh;"
+							<a th:href="@{'/product/' + ${popularProduct.id}}"> <img
+								style="height: 45vh;"
 								th:src="@{'/product_img/' + ${popularProduct.productImages[0].productPic}}"
 								alt="image"> <img style="height: 45vh;"
 								th:src="@{'/product_img/' + ${popularProduct.productImages[1].productPic}}"
@@ -368,30 +381,33 @@
 								<ul>
 									<li>
 										<div class="wishlist-btn">
-											<a th:href="@{'/user/account/add-to-wishlist/' + ${popularProduct.id}}"> <i class='bx bx-heart'></i> <span
-												class="tooltip-label">Add to Wishlist</span>
+											<a
+												th:href="@{'/user/account/add-to-wishlist/' + ${popularProduct.id}}">
+												<i class='bx bx-heart'></i> <span class="tooltip-label">Add
+													to Wishlist</span>
 											</a>
 										</div>
 									</li>
 									<li>
 										<div class="compare-btn">
-											<a th:href="@{'/user/product-compare/add-compare-product/' + ${popularProduct.id}}"> <i class='bx bx-refresh'></i> <span
-												class="tooltip-label">Compare</span>
+											<a
+												th:href="@{'/user/product-compare/add-compare-product/' + ${popularProduct.id}}">
+												<i class='bx bx-refresh'></i> <span class="tooltip-label">Compare</span>
 											</a>
 										</div>
 									</li>
 									<li>
 										<div class="quick-view-btn">
 											<a id="quickViewModal" href="#" data-bs-toggle="modal"
-											 th:data-productname="${popularProduct.name}"
-											 th:data-productprice="${popularProduct.price}"
-											 th:data-productpriceafterdiscount="${popularProduct.getPriceAfterApplyingDiscount}"
-											 th:data-productimageurl="@{'/product_img/' + ${popularProduct.productImages[0].productPic}}"
-											 th:data-brandname="${popularProduct.brandName}"
-											 th:data-avgrating="${popularProduct.avgRating}"
-											 th:data-quantity="${popularProduct.quantity}"
-											 th:data-category="${popularProduct.category.title}"
-											 th:data-viewfullinfourl="@{'/product/' + ${popularProduct.id}}"
+												th:data-productname="${popularProduct.name}"
+												th:data-productprice="${popularProduct.price}"
+												th:data-productpriceafterdiscount="${popularProduct.getPriceAfterApplyingDiscount}"
+												th:data-productimageurl="@{'/product_img/' + ${popularProduct.productImages[0].productPic}}"
+												th:data-brandname="${popularProduct.brandName}"
+												th:data-avgrating="${popularProduct.avgRating}"
+												th:data-quantity="${popularProduct.quantity}"
+												th:data-category="${popularProduct.category.title}"
+												th:data-viewfullinfourl="@{'/product/' + ${popularProduct.id}}"
 												data-bs-target="#productsQuickView"> <i
 												class='bx bx-search-alt'></i> <span class="tooltip-label">Quick
 													View</span>
@@ -427,7 +443,8 @@
 								</span> <span class="text-dark fw-bold"
 									th:text="${popularProduct.avgRating}"></span>
 							</div>
-							<a th:href="@{'/user/cart/add-to-cart/' + ${popularProduct.id}}" class="add-to-cart">Add to Cart</a>
+							<a th:href="@{'/user/cart/add-to-cart/' + ${popularProduct.id}}"
+								class="add-to-cart">Add to Cart</a>
 						</div>
 					</div>
 				</div>

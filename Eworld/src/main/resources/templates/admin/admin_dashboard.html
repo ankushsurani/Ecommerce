@@ -7,146 +7,199 @@
 
 <body>
 
-	<section>
-	
 	<!--  BEGIN MAIN CONTAINER  -->
-    <div class="main-container sidebar-closed " id="container">
+	<section id="content" class="main-content">
 
-       
-	
-	<!--  BEGIN CONTENT AREA  -->
-        <div id="content" class="main-content">
-            <div class="layout-px-spacing">
+		<!--  BEGIN CONTENT AREA  -->
+		<div class="layout-px-spacing">
 
-                <div class="middle-content container-xxl p-0">                    
-                                        
-                    <div class="row layout-top-spacing">
+			<div class="middle-content container-xxl p-0">
 
-                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 layout-spacing">
-                            <div class="widget widget-t-sales-widget widget-m-sales">
-                                <div class="media">
-                                    <div class="icon ml-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-activity"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-                                    </div>
-                                    <div class="media-body">
-                                        <p class="widget-text">Sales</p>
-                                        <p class="widget-numeric-value" th:text="${'&#8377;' + analytics.countTotalSaleOfLastYear}"></p>
-                                    </div>
-                                </div>
-                                <p class="widget-total-stats" th:text="${'Current month sale : &#8377;' + analytics.countTotalSaleOfLastMonth}"></p>
-                                
-                            </div>
-                        </div>
+				<div class="row layout-top-spacing">
 
-                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 layout-spacing">
-                            <div class="widget widget-t-sales-widget widget-m-orders">
-                                <div class="media">
-                                    <div class="icon ml-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-bag"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-                                    </div>
-                                    <div class="media-body">
-                                        <p class="widget-text">Orders</p>
-                                        <p class="widget-numeric-value" th:text="${analytics.ordersOfLastYear}"></p>
-                                    </div>
-                                </div>
-                                <p class="widget-total-stats" th:text="${'Current Month sale : ' + analytics.ordersOfLastMonth}"></p>
-                                
-                            </div>
-                        </div>
+					<div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 layout-spacing">
+						<div class="widget widget-t-sales-widget widget-m-sales">
+							<div class="media">
+								<div class="icon ml-2">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+										viewBox="0 0 24 24" fill="none" stroke="currentColor"
+										stroke-width="2" stroke-linecap="round"
+										stroke-linejoin="round" class="feather feather-activity">
+										<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+								</div>
+								<div class="media-body">
+									<p class="widget-text">Sales</p>
+									<p class="widget-numeric-value"
+										th:text="${'&#8377;' + analytics.countTotalSaleOfLastYear}"></p>
+								</div>
+							</div>
+							<p class="widget-total-stats"
+								th:text="${'Current month sale : &#8377;' + analytics.countTotalSaleOfLastMonth}"></p>
 
-                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 layout-spacing">
-                            <div class="widget widget-t-sales-widget widget-m-customers">
-                                <div class="media">
-                                    <div class="icon ml-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                                    </div>
-                                    <div class="media-body">
-                                        <p class="widget-text">Users</p>
-                                        <p class="widget-numeric-value" th:text="${analytics.userJoinedLastYear}"></p>
-                                    </div>
-                                </div>
-                                <p class="widget-total-stats" th:text="${analytics.userJoinedLastMonth} + ' Users Joined this Month'"></p>
-                                
-                            </div>
-                        </div>
-                        
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
-                            <div class="widget widget-table-three">
-    
-                                <div class="widget-heading">
-                                    <h5 class="">Top Selling Product</h5>
-                                </div>
-    
-                                <div class="widget-content">
-                                    <div class="table-responsive">
-                                        <table class="table table-scroll">
-                                            <thead>
-                                                <tr>
-                                                    <th><div class="th-content">Product</div></th>
-                                                    <th><div class="th-content th-heading">Price</div></th>
-                                                    <th><div class="th-content th-heading">Discount</div></th>
-                                                    <th><div class="th-content">Sold</div></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr th:each="topRatedProduct : ${topRatedProducts}">
-                                                    <td><a th:href="@{'/product/' + ${topRatedProduct.id}}"><div class="td-content product-name"><img th:src="@{'/product_img/' + ${topRatedProduct.productImages[0].productPic}}" alt="product"><div class="align-self-center"><p class="prd-name" th:text="${topRatedProduct.name}"></p><p class="prd-category text-primary" th:text="${topRatedProduct.category.title}"></p></div></div></a></td>
-                                                    <td><div class="td-content"><span class="pricing" th:text="${'&#8377;' + topRatedProduct.price}"></span></div></td>
-                                                    <td><div class="td-content"><span class="discount-pricing" th:text="${'&#8377;' + (topRatedProduct.price - topRatedProduct.getPriceAfterApplyingDiscount())}"></span></div></td>
-                                                    <td><div class="td-content" th:text="${'&#8377;' + topRatedProduct.getPriceAfterApplyingDiscount()}">170</div></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+						</div>
+					</div>
 
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
-                            <div class="widget widget-table-three">
-    
-                               <div class="widget-heading">
-                                    <h5 class="">Top Rated Products</h5>
-                                </div>
-    
-                                <div class="widget-content">
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th><div class="th-content">Product</div></th>
-                                                    <th><div class="th-content">Price</div></th>
-                                                    <th><div class="th-content">Discount</div></th>
-                                                    <th><div class="th-content th-heading">Sold</div></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr th:each="topSellingProduct : ${topSellingProducts}">
-                                                    <td><a th:href="@{'/product/' + ${topSellingProduct.id}}"><div class="td-content product-name"><img th:src="@{'/product_img/' + ${topSellingProduct.productImages[0].productPic}}" alt="product"><div class="align-self-center"><p class="prd-name" th:text="${topSellingProduct.name}"></p><p class="prd-category text-primary" th:text="${topSellingProduct.category.title}"></p></div></div></a></td>
-                                                    <td><div class="td-content"><span class="pricing" th:text="${'&#8377;' + topSellingProduct.price}"></span></div></td>
-                                                    <td><div class="td-content"><span class="discount-pricing" th:text="${'&#8377;' + (topSellingProduct.price - topSellingProduct.getPriceAfterApplyingDiscount())}"></span></div></td>
-                                                    <td><div class="td-content" th:text="${'&#8377;' + topSellingProduct.getPriceAfterApplyingDiscount()}">170</div></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-    
-                        
-    
-                    </div>
+					<div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 layout-spacing">
+						<div class="widget widget-t-sales-widget widget-m-orders">
+							<div class="media">
+								<div class="icon ml-2">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+										viewBox="0 0 24 24" fill="none" stroke="currentColor"
+										stroke-width="2" stroke-linecap="round"
+										stroke-linejoin="round" class="feather feather-shopping-bag">
+										<path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+										<line x1="3" y1="6" x2="21" y2="6"></line>
+										<path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+								</div>
+								<div class="media-body">
+									<p class="widget-text">Orders</p>
+									<p class="widget-numeric-value"
+										th:text="${analytics.ordersOfLastYear}"></p>
+								</div>
+							</div>
+							<p class="widget-total-stats"
+								th:text="${'Current Month sale : ' + analytics.ordersOfLastMonth}"></p>
 
-                </div>
+						</div>
+					</div>
 
-            </div>
-            
-        </div>
-        <!--  END CONTENT AREA  -->
-	</div>
-	
-	
+					<div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 layout-spacing">
+						<div class="widget widget-t-sales-widget widget-m-customers">
+							<div class="media">
+								<div class="icon ml-2">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+										viewBox="0 0 24 24" fill="none" stroke="currentColor"
+										stroke-width="2" stroke-linecap="round"
+										stroke-linejoin="round" class="feather feather-users">
+										<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+										<circle cx="9" cy="7" r="4"></circle>
+										<path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+										<path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+								</div>
+								<div class="media-body">
+									<p class="widget-text">Users</p>
+									<p class="widget-numeric-value"
+										th:text="${analytics.userJoinedLastYear}"></p>
+								</div>
+							</div>
+							<p class="widget-total-stats"
+								th:text="${analytics.userJoinedLastMonth} + ' Users Joined this Month'"></p>
+
+						</div>
+					</div>
+
+					<div
+						class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+						<div class="widget widget-table-three">
+
+							<div class="widget-heading">
+								<h5 class="">Recently Added Products</h5>
+							</div>
+
+							<div class="widget-content">
+								<div class="table-responsive">
+									<table class="table table-scroll">
+										<thead>
+											<tr>
+												<th><div class="th-content">Product</div></th>
+												<th><div class="th-content th-heading">Price</div></th>
+												<th><div class="th-content th-heading">Discount</div></th>
+												<th><div class="th-content">Sold</div></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="latestProduct : ${latestProducts}">
+												<td><a th:href="@{'/product/' + ${latestProduct.id}}"><div
+															class="td-content product-name">
+															<img
+																th:src="@{'/product_img/' + ${latestProduct.productImages[0].productPic}}"
+																alt="product">
+															<div class="align-self-center">
+																<p class="prd-name" th:text="${latestProduct.name}"></p>
+																<p class="prd-category text-primary"
+																	th:text="${latestProduct.category.title}"></p>
+															</div>
+														</div></a></td>
+												<td><div class="td-content">
+														<span class="pricing"
+															th:text="${'&#8377;' + latestProduct.price}"></span>
+													</div></td>
+												<td><div class="td-content">
+														<span class="discount-pricing"
+															th:text="${'&#8377;' + (latestProduct.price - latestProduct.getPriceAfterApplyingDiscount())}"></span>
+													</div></td>
+												<td><div class="td-content"
+														th:text="${'&#8377;' + latestProduct.getPriceAfterApplyingDiscount()}">170</div></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div
+						class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+						<div class="widget widget-table-three">
+
+							<div class="widget-heading">
+								<h5 class="">Top Selling Products</h5>
+							</div>
+
+							<div class="widget-content">
+								<div class="table-responsive">
+									<table class="table">
+										<thead>
+											<tr>
+												<th><div class="th-content">Product</div></th>
+												<th><div class="th-content">Price</div></th>
+												<th><div class="th-content">Discount</div></th>
+												<th><div class="th-content th-heading">Sold</div></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="topSellingProduct : ${topSellingProducts}">
+												<td><a
+													th:href="@{'/product/' + ${topSellingProduct.id}}"><div
+															class="td-content product-name">
+															<img
+																th:src="@{'/product_img/' + ${topSellingProduct.productImages[0].productPic}}"
+																alt="product">
+															<div class="align-self-center">
+																<p class="prd-name" th:text="${topSellingProduct.name}"></p>
+																<p class="prd-category text-primary"
+																	th:text="${topSellingProduct.category.title}"></p>
+															</div>
+														</div></a></td>
+												<td><div class="td-content">
+														<span class="pricing"
+															th:text="${'&#8377;' + topSellingProduct.price}"></span>
+													</div></td>
+												<td><div class="td-content">
+														<span class="discount-pricing"
+															th:text="${'&#8377;' + (topSellingProduct.price - topSellingProduct.getPriceAfterApplyingDiscount())}"></span>
+													</div></td>
+												<td><div class="td-content"
+														th:text="${'&#8377;' + topSellingProduct.getPriceAfterApplyingDiscount()}">170</div></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+
+				</div>
+
+			</div>
+
+		</div>
+
+		<!--  END CONTENT AREA  -->
+
+
 	</section>
 
 

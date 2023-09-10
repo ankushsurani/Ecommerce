@@ -6,7 +6,8 @@ public enum DeliveryStatus {
     CANCELLED("Cancelled"),
     AWAITINGPAYMENT("Awaiting Payment"),
     AWAITINGPICKUP("Awaiting Pickup"),
-    PARTIALLYSHIPPED("Partially Shipped");
+    PARTIALLYSHIPPED("Partially Shipped"),
+	ALL("All");
     
     private final String status;
 

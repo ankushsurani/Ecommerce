@@ -13,7 +13,7 @@ import com.eworld.entities.User;
 public interface ProductCompareItemRepository extends JpaRepository<ProductCompareItem, String> {
 
 	public List<ProductCompareItem> findAllByUser(User user);
-	
+
 	boolean existsByUserAndProduct(User user, Product product);
 
 }

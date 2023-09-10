@@ -23,15 +23,15 @@ public class ProductCompareService {
 	public ProductCompareItem getProductFromComparisonById(String productCompareId) {
 		return this.productCompareRepository.findById(productCompareId).get();
 	}
-	
+
 	public List<ProductCompareItem> getAllProductFromComparisonByUser(User user) {
 		return this.productCompareRepository.findAllByUser(user);
 	}
-	
+
 	public void removeProductFromComparison(String productCompareItemId) {
 		this.productCompareRepository.deleteById(productCompareItemId);
 	}
-	
+
 	public boolean existsByUserAndProduct(User user, Product product) {
 		return this.productCompareRepository.existsByUserAndProduct(user, product);
 	}

@@ -137,7 +137,8 @@ public class MyAccountController {
 
 	@GetMapping("/orders")
 	public String accountOrders(Principal principal, Model model) {
-		List<AccountOrderDto> orders = this.orderService.getOrderByUserEmail(principal.getName(), DeliveryStatus.AWAITINGPAYMENT);
+		List<AccountOrderDto> orders = this.orderService.getOrderByUserEmail(principal.getName(),
+				DeliveryStatus.AWAITINGPAYMENT);
 
 		model.addAttribute("orders", orders);
 

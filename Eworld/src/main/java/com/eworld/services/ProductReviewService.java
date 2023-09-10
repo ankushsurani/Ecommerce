@@ -18,11 +18,11 @@ public class ProductReviewService {
 	public ProductReview getProductReviewByRating(Rating rating) {
 		return this.productReviewRepository.getRatingByUserAndProduct(rating).orElse(new ProductReview());
 	}
-	
+
 	public void saveProductReview(ProductReview review) {
 		this.productReviewRepository.save(review);
 	}
-	
+
 	public List<ProductReview> getProductReviewsByIds(List<String> ratingIds) {
 		return this.productReviewRepository.findAllByRatingIds(ratingIds);
 	}

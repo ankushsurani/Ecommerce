@@ -14,16 +14,17 @@
 		<!--start product details-->
 		<section class="section-padding">
 			<div class="container">
-			
-			<!-- messages of success and error -->
-					<div th:if="${session.message}" class="text-center">
-						<div th:classappend="${session.message.type}" class="alert alert-primary" role="alert">
-				  			<span th:text="${session.message.content}"></span>
-						</div>
-						<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+
+				<!-- messages of success and error -->
+				<div th:if="${session.message}" class="text-center">
+					<div th:classappend="${session.message.type}"
+						class="alert alert-primary" role="alert">
+						<span th:text="${session.message.content}"></span>
 					</div>
-			
-			
+					<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+				</div>
+
+
 				<div class="d-flex align-items-center px-3 py-2 border mb-4">
 					<div class="text-start">
 						<h4 class="mb-0 h4 fw-bold">Account - Addresses</h4>
@@ -54,15 +55,16 @@
 									</div>
 								</div>
 							</div>
-							
+
 							<h6 class="text-center mb-3 py-2 px-3" style="opacity: 50%;"
-									th:if="${!haveAddress}">You Don't Save Any Address</h6>
-							
+								th:if="${!haveAddress}">You Don't Save Any Address</h6>
+
 							<div class="card-body">
-							
-								<h6 class="fw-bold mb-3 py-2 px-3 bg-light"
-									>Default Address</h6>
-								<div class="card rounded-0 mb-3" th:each="address : ${user.address}"
+
+								<h6 class="fw-bold mb-3 py-2 px-3 bg-light">Default
+									Address</h6>
+								<div class="card rounded-0 mb-3"
+									th:each="address : ${user.address}"
 									th:if="${address.addressType == 'MAIN' && address.active}">
 									<div class="card-body">
 										<div class="d-flex flex-column flex-xl-row gap-3">
@@ -81,24 +83,27 @@
 											<div class="d-none d-xl-block vr"></div>
 											<div
 												class="d-grid gap-2 align-self-start align-self-xl-center">
-												<form th:action="@{'/user/account/delete-address/' + ${address.id}}" method="post">
-												
-												<button type="submit"
-													class="btn btn-outline-dark px-5 btn-ecomm">Remove</button>
-												
+												<form
+													th:action="@{'/user/account/delete-address/' + ${address.id}}"
+													method="post">
+
+													<button type="submit"
+														class="btn btn-outline-dark px-5 btn-ecomm">Remove</button>
+
 												</form>
 											</div>
 										</div>
 									</div>
 								</div>
-								
-								</div>
-								
-								<div class="card-body">
 
-								<h6 class="fw-bold mb-3 py-2 px-3 bg-light"
-									>Other Address</h6>
-								<div class="card rounded-0 mb-3" th:each="address : ${user.address}"
+							</div>
+
+							<div class="card-body">
+
+								<h6 class="fw-bold mb-3 py-2 px-3 bg-light">Other
+									Address</h6>
+								<div class="card rounded-0 mb-3"
+									th:each="address : ${user.address}"
 									th:if="${address.addressType != 'MAIN' && address.active}">
 									<div class="card-body">
 										<div class="d-flex flex-column flex-xl-row gap-3">
@@ -117,14 +122,16 @@
 											<div class="d-none d-xl-block vr"></div>
 											<div
 												class="d-grid gap-2 align-self-start align-self-xl-center">
-												
-												<form th:action="@{'/user/account/delete-address/' + ${address.id}}" method="post">
-												
-												<button type="submit"
-													class="btn btn-outline-dark px-5 btn-ecomm">Remove</button>
-												
+
+												<form
+													th:action="@{'/user/account/delete-address/' + ${address.id}}"
+													method="post">
+
+													<button type="submit"
+														class="btn btn-outline-dark px-5 btn-ecomm">Remove</button>
+
 												</form>
-												
+
 											</div>
 										</div>
 									</div>
@@ -145,136 +152,137 @@
 
 
 		<!-- New Address Modal -->
-	<form th:action="@{/user/account/add-address}" method="post"
-		th:object="${address}">
-		<div class="modal" id="NewAddress" tabindex="-1">
+		<form th:action="@{/user/account/add-address}" method="post"
+			th:object="${address}">
+			<div class="modal" id="NewAddress" tabindex="-1">
 
-			<div
-				class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-				<div class="modal-content rounded-0">
-
-
-					<div class="modal-header">
-						<h5 class="modal-title fw-bold">Add New Address</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal"
-							aria-label="Close"></button>
-					</div>
+				<div
+					class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+					<div class="modal-content rounded-0">
 
 
-
-
-					<div class="modal-body">
-						<div class="">
-							<h6 class="fw-bold mb-3">Contact Details</h6>
-
-
-							<!-- messages of success and error -->
-							<div th:if="${session.message}" class="text-center">
-								<div th:classappend="${session.message.type}"
-									class="alert alert-primary" role="alert">
-									<span th:text="${session.message.content}"></span>
-								</div>
-								<th:block th:text="${#session.removeAttribute('message')}"></th:block>
-							</div>
-
-
-
-							<div class="form-floating mb-3">
-								<input type="text" name="name" class="form-control rounded-0"
-									id="floatingName" placeholder="Name" th:value="${address.name}"
-									th:classappend="${#fields.hasErrors('name') ? 'is-invalid' : ''}">
-								<div th:each="e : ${#fields.errors('name')}" th:text="${e}"
-									class="text-red-500 text-xs invalid-feedback"></div>
-
-								<label for="floatingName">Name</label>
-							</div>
-							<div class="form-floating mb-3">
-								<input type="number" name="mobilenum"
-									class="form-control rounded-0" id="floatingMobileNo"
-									placeholder="Mobile No" th:value="${address.mobilenum}"
-									th:classappend="${#fields.hasErrors('mobilenum') ? 'is-invalid' : ''}">
-								<div th:each="e : ${#fields.errors('mobilenum')}" th:text="${e}"
-									class="text-red-500 text-xs invalid-feedback"></div>
-								<label for="floatingMobileNo">Mobile No</label>
-							</div>
+						<div class="modal-header">
+							<h5 class="modal-title fw-bold">Add New Address</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
 						</div>
 
-						<div class="mt-4">
-							<h6 class="fw-bold mb-3">Address</h6>
-							<div class="form-floating mb-3">
-								<input type="number" name="pincode"
-									class="form-control rounded-0" id="floatingPinCode"
-									placeholder="Pin Code" th:value="${address.pincode}"
-									th:classappend="${#fields.hasErrors('pincode') ? 'is-invalid' : ''}">
-								<div th:each="e : ${#fields.errors('pincode')}" th:text="${e}"
-									class="text-red-500 text-xs invalid-feedback"></div>
-								<label for="floatingPinCode">Pin Code</label>
-							</div>
-							<div class="form-floating mb-3">
-								<input type="text" name="fullAddress"
-									class="form-control rounded-0" id="floatingAddress"
-									placeholder="Address (House No, Building, Street, Area)"
-									th:value="${address.fullAddress}"
-									th:classappend="${#fields.hasErrors('fullAddress') ? 'is-invalid' : ''}">
-								<div th:each="e : ${#fields.errors('fullAddress')}"
-									th:text="${e}" class="text-red-500 text-xs invalid-feedback"></div>
-								<label for="floatingAddress">Address</label>
-							</div>
-							<div class="form-floating mb-3">
-								<input type="text" name="localityOrTown"
-									class="form-control rounded-0" id="floatingLocalityTown"
-									placeholder="Locality/Town"
-									th:value="${address.localityOrTown}"
-									th:classappend="${#fields.hasErrors('localityOrTown') ? 'is-invalid' : ''}">
-								<div th:each="e : ${#fields.errors('localityOrTown')}"
-									th:text="${e}" class="text-red-500 text-xs invalid-feedback"></div>
-								<label for="floatingLocalityTown">Locality / Town</label>
-							</div>
-							<div class="row">
-								<div class="col">
-									<div class="form-floating">
-										<input type="text" name="city" class="form-control rounded-0"
-											id="floatingCity" placeholder="City / District"
-											th:value="${address.city}"
-											th:classappend="${#fields.hasErrors('city') ? 'is-invalid' : ''}">
-										<div th:each="e : ${#fields.errors('city')}" th:text="${e}"
-											class="text-red-500 text-xs invalid-feedback"></div>
-										<label for="floatingAddress">City / District</label>
+
+
+
+						<div class="modal-body">
+							<div class="">
+								<h6 class="fw-bold mb-3">Contact Details</h6>
+
+
+								<!-- messages of success and error -->
+								<div th:if="${session.message}" class="text-center">
+									<div th:classappend="${session.message.type}"
+										class="alert alert-primary" role="alert">
+										<span th:text="${session.message.content}"></span>
 									</div>
+									<th:block th:text="${#session.removeAttribute('message')}"></th:block>
 								</div>
-								<div class="col">
-									<div class="form-floating">
-										<input type="text" name="state" class="form-control rounded-0"
-											id="floatingState" placeholder="State"
-											th:value="${address.state}"
-											th:classappend="${#fields.hasErrors('state') ? 'is-invalid' : ''}">
-										<div th:each="e : ${#fields.errors('state')}" th:text="${e}"
-											class="text-red-500 text-xs invalid-feedback"></div>
-										<label for="floatingState">State</label>
+
+
+
+								<div class="form-floating mb-3">
+									<input type="text" name="name" class="form-control rounded-0"
+										id="floatingName" placeholder="Name"
+										th:value="${address.name}"
+										th:classappend="${#fields.hasErrors('name') ? 'is-invalid' : ''}">
+									<div th:each="e : ${#fields.errors('name')}" th:text="${e}"
+										class="text-red-500 text-xs invalid-feedback"></div>
+
+									<label for="floatingName">Name</label>
+								</div>
+								<div class="form-floating mb-3">
+									<input type="number" name="mobilenum"
+										class="form-control rounded-0" id="floatingMobileNo"
+										placeholder="Mobile No" th:value="${address.mobilenum}"
+										th:classappend="${#fields.hasErrors('mobilenum') ? 'is-invalid' : ''}">
+									<div th:each="e : ${#fields.errors('mobilenum')}"
+										th:text="${e}" class="text-red-500 text-xs invalid-feedback"></div>
+									<label for="floatingMobileNo">Mobile No</label>
+								</div>
+							</div>
+
+							<div class="mt-4">
+								<h6 class="fw-bold mb-3">Address</h6>
+								<div class="form-floating mb-3">
+									<input type="number" name="pincode"
+										class="form-control rounded-0" id="floatingPinCode"
+										placeholder="Pin Code" th:value="${address.pincode}"
+										th:classappend="${#fields.hasErrors('pincode') ? 'is-invalid' : ''}">
+									<div th:each="e : ${#fields.errors('pincode')}" th:text="${e}"
+										class="text-red-500 text-xs invalid-feedback"></div>
+									<label for="floatingPinCode">Pin Code</label>
+								</div>
+								<div class="form-floating mb-3">
+									<input type="text" name="fullAddress"
+										class="form-control rounded-0" id="floatingAddress"
+										placeholder="Address (House No, Building, Street, Area)"
+										th:value="${address.fullAddress}"
+										th:classappend="${#fields.hasErrors('fullAddress') ? 'is-invalid' : ''}">
+									<div th:each="e : ${#fields.errors('fullAddress')}"
+										th:text="${e}" class="text-red-500 text-xs invalid-feedback"></div>
+									<label for="floatingAddress">Address</label>
+								</div>
+								<div class="form-floating mb-3">
+									<input type="text" name="localityOrTown"
+										class="form-control rounded-0" id="floatingLocalityTown"
+										placeholder="Locality/Town"
+										th:value="${address.localityOrTown}"
+										th:classappend="${#fields.hasErrors('localityOrTown') ? 'is-invalid' : ''}">
+									<div th:each="e : ${#fields.errors('localityOrTown')}"
+										th:text="${e}" class="text-red-500 text-xs invalid-feedback"></div>
+									<label for="floatingLocalityTown">Locality / Town</label>
+								</div>
+								<div class="row">
+									<div class="col">
+										<div class="form-floating">
+											<input type="text" name="city" class="form-control rounded-0"
+												id="floatingCity" placeholder="City / District"
+												th:value="${address.city}"
+												th:classappend="${#fields.hasErrors('city') ? 'is-invalid' : ''}">
+											<div th:each="e : ${#fields.errors('city')}" th:text="${e}"
+												class="text-red-500 text-xs invalid-feedback"></div>
+											<label for="floatingAddress">City / District</label>
+										</div>
 									</div>
+									<div class="col">
+										<div class="form-floating">
+											<input type="text" name="state"
+												class="form-control rounded-0" id="floatingState"
+												placeholder="State" th:value="${address.state}"
+												th:classappend="${#fields.hasErrors('state') ? 'is-invalid' : ''}">
+											<div th:each="e : ${#fields.errors('state')}" th:text="${e}"
+												class="text-red-500 text-xs invalid-feedback"></div>
+											<label for="floatingState">State</label>
+										</div>
+									</div>
+
+									<input hidden="" id="pagename">
+
 								</div>
-								
-								<input hidden="" id="pagename">
-								
+							</div>
+
+						</div>
+
+						<div class="modal-footer">
+							<div class="d-grid w-100">
+								<button type="submit" class="btn btn-dark py-3 px-5 btn-ecomm">Add
+									Address</button>
 							</div>
 						</div>
 
+
 					</div>
-
-					<div class="modal-footer">
-						<div class="d-grid w-100">
-							<button type="submit" class="btn btn-dark py-3 px-5 btn-ecomm">Add
-								Address</button>
-						</div>
-					</div>
-
-
 				</div>
-			</div>
 
-		</div>
-	</form>
-	<!-- end New Address Modal -->
+			</div>
+		</form>
+		<!-- end New Address Modal -->
 
 
 
@@ -282,107 +290,106 @@
 		<!-- Edit Address Modal -->
 		<form th:action="@{/user/account/edit-address}" method="post"
 			th:object="${address}">
-		<div class="modal" id="EditAddress" tabindex="-1">
-			<div
-				class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-				<div class="modal-content rounded-0">
-					<div class="modal-header">
-						<h5 class="modal-title fw-bold">Edit Address</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal"
-							aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						<div class="">
-							<h6 class="fw-bold mb-3">Contact Details</h6>
-							<div class="form-floating mb-3">
-								<input type="text" name="name" class="form-control rounded-0"
-									id="floatingName2" placeholder="Name"
-									th:value="${address.name}"
+			<div class="modal" id="EditAddress" tabindex="-1">
+				<div
+					class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+					<div class="modal-content rounded-0">
+						<div class="modal-header">
+							<h5 class="modal-title fw-bold">Edit Address</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<div class="">
+								<h6 class="fw-bold mb-3">Contact Details</h6>
+								<div class="form-floating mb-3">
+									<input type="text" name="name" class="form-control rounded-0"
+										id="floatingName2" placeholder="Name"
+										th:value="${address.name}"
 										th:classappend="${#fields.hasErrors('name') ? 'is-invalid' : ''}">
 									<div th:each="e : ${#fields.errors('name')}" th:text="${e}"
 										class="text-red-500 text-xs invalid-feedback"></div>
-									
-								<label for="floatingName2">Name</label>
-							</div>
-							<div class="form-floating mb-3">
-								<input type="number" name="mobilenum" class="form-control rounded-0"
-									id="floatingMobileNo2" placeholder="Mobile No"
-									th:value="${address.mobilenum}"
+
+									<label for="floatingName2">Name</label>
+								</div>
+								<div class="form-floating mb-3">
+									<input type="number" name="mobilenum"
+										class="form-control rounded-0" id="floatingMobileNo2"
+										placeholder="Mobile No" th:value="${address.mobilenum}"
 										th:classappend="${#fields.hasErrors('mobilenum') ? 'is-invalid' : ''}">
 									<div th:each="e : ${#fields.errors('mobilenum')}"
 										th:text="${e}" class="text-red-500 text-xs invalid-feedback"></div>
-									<label for="floatingMobileNo2">Mobile
-									No</label>
+									<label for="floatingMobileNo2">Mobile No</label>
+								</div>
 							</div>
-						</div>
 
-						<div class="mt-4">
-							<h6 class="fw-bold mb-3">Address</h6>
-							<div class="form-floating mb-3">
-								<input type="number" name="pincode" class="form-control rounded-0"
-									id="floatingPinCode2" placeholder="Pin Code" 
-									th:value="${address.pincode}"
+							<div class="mt-4">
+								<h6 class="fw-bold mb-3">Address</h6>
+								<div class="form-floating mb-3">
+									<input type="number" name="pincode"
+										class="form-control rounded-0" id="floatingPinCode2"
+										placeholder="Pin Code" th:value="${address.pincode}"
 										th:classappend="${#fields.hasErrors('pincode') ? 'is-invalid' : ''}">
-									<div th:each="e : ${#fields.errors('pincode')}"
-										th:text="${e}" class="text-red-500 text-xs invalid-feedback"></div>
-								<label for="floatingPinCode2">Pin Code</label>
-							</div>
-							<div class="form-floating mb-3">
-								<input type="text" name="fullAddress" class="form-control rounded-0"
-									id="floatingAddress2"
-									placeholder="Address (House No, Building, Street, Area)"
-									th:value="${address.fullAddress}"
+									<div th:each="e : ${#fields.errors('pincode')}" th:text="${e}"
+										class="text-red-500 text-xs invalid-feedback"></div>
+									<label for="floatingPinCode2">Pin Code</label>
+								</div>
+								<div class="form-floating mb-3">
+									<input type="text" name="fullAddress"
+										class="form-control rounded-0" id="floatingAddress2"
+										placeholder="Address (House No, Building, Street, Area)"
+										th:value="${address.fullAddress}"
 										th:classappend="${#fields.hasErrors('fullAddress') ? 'is-invalid' : ''}">
 									<div th:each="e : ${#fields.errors('fullAddress')}"
 										th:text="${e}" class="text-red-500 text-xs invalid-feedback"></div>
 									<label for="floatingAddress2">Address</label>
-							</div>
-							<div class="form-floating mb-3">
-								<input type="text" name="localityOrTown" class="form-control rounded-0"
-									id="floatingLocalityTown2" placeholder="Locality/Town"
-									th:value="${address.localityOrTown}"
+								</div>
+								<div class="form-floating mb-3">
+									<input type="text" name="localityOrTown"
+										class="form-control rounded-0" id="floatingLocalityTown2"
+										placeholder="Locality/Town"
+										th:value="${address.localityOrTown}"
 										th:classappend="${#fields.hasErrors('localityOrTown') ? 'is-invalid' : ''}">
 									<div th:each="e : ${#fields.errors('localityOrTown')}"
 										th:text="${e}" class="text-red-500 text-xs invalid-feedback"></div>
-									 <label for="floatingLocalityTown2">Locality
-									/ Town</label>
-							</div>
-							<div class="row">
-								<div class="col">
-									<div class="form-floating">
-										<input type="text" name="city" class="form-control rounded-0"
-											id="floatingCity2" placeholder="City / District"
-											th:value="${address.city}"
-										th:classappend="${#fields.hasErrors('city') ? 'is-invalid' : ''}">
-									<div th:each="e : ${#fields.errors('city')}"
-										th:text="${e}" class="text-red-500 text-xs invalid-feedback"></div>
-											<label for="floatingAddress2">City
-											/ District</label>
+									<label for="floatingLocalityTown2">Locality / Town</label>
+								</div>
+								<div class="row">
+									<div class="col">
+										<div class="form-floating">
+											<input type="text" name="city" class="form-control rounded-0"
+												id="floatingCity2" placeholder="City / District"
+												th:value="${address.city}"
+												th:classappend="${#fields.hasErrors('city') ? 'is-invalid' : ''}">
+											<div th:each="e : ${#fields.errors('city')}" th:text="${e}"
+												class="text-red-500 text-xs invalid-feedback"></div>
+											<label for="floatingAddress2">City / District</label>
+										</div>
+									</div>
+									<div class="col">
+										<div class="form-floating">
+											<input type="text" name="state"
+												class="form-control rounded-0" id="floatingState2"
+												placeholder="State" th:value="${address.state}"
+												th:classappend="${#fields.hasErrors('state') ? 'is-invalid' : ''}">
+											<div th:each="e : ${#fields.errors('state')}" th:text="${e}"
+												class="text-red-500 text-xs invalid-feedback"></div>
+											<label for="floatingState2">State</label>
+										</div>
 									</div>
 								</div>
-								<div class="col">
-									<div class="form-floating">
-										<input type="text" name="state" class="form-control rounded-0"
-											id="floatingState2" placeholder="State" th:value="${address.state}"
-										th:classappend="${#fields.hasErrors('state') ? 'is-invalid' : ''}">
-									<div th:each="e : ${#fields.errors('state')}"
-										th:text="${e}" class="text-red-500 text-xs invalid-feedback"></div>
-										<label for="floatingState2">State</label>
-									</div>
-								</div>
 							</div>
-						</div>
 
-					</div>
-					<div class="modal-footer">
-						<div class="d-grid w-100">
-							<button type="submit" class="btn btn-dark py-3 px-5 btn-ecomm">Save
-								Address</button>
+						</div>
+						<div class="modal-footer">
+							<div class="d-grid w-100">
+								<button type="submit" class="btn btn-dark py-3 px-5 btn-ecomm">Save
+									Address</button>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 		</form>
 		<!-- end Edit Address Modal -->
 

@@ -63,7 +63,8 @@
 							<li><span>Availability: In stock (</span> <a
 								th:text="${product.quantity}"></a> items)</li>
 							<li><span>Products Type:</span> <a
-								th:text="${product.category.title}" th:href="@{'/product/page=0?categoryId=' + ${product.category.id}}">T-Shirt</a></li>
+								th:text="${product.category.title}"
+								th:href="@{'/product/page=0?categoryId=' + ${product.category.id}}">T-Shirt</a></li>
 						</ul>
 
 						<div class="products-color-switch">
@@ -108,21 +109,27 @@
 									class='bx bx-plus'></i></span>
 							</div>
 
-							<a th:href="@{'/user/cart/add-to-cart/' + ${product.id}}" type="submit" class="default-btn">
-								<i class="fas fa-cart-plus"></i> Add to Cart
+							<a th:href="@{'/user/cart/add-to-cart/' + ${product.id}}"
+								type="submit" class="default-btn"> <i
+								class="fas fa-cart-plus"></i> Add to Cart
 							</a>
 						</div>
 
 						<div class="wishlist-compare-btn">
-							<a th:href="@{'/user/account/add-to-wishlist/' + ${product.id}}" class="optional-btn"><i class='bx bx-heart'></i>
-								Add to Wishlist</a> <a th:href="@{'/user/product-compare/add-compare-product/' + ${product.id}}" class="optional-btn"><i
-								class='bx bx-refresh'></i> Add to Compare</a>
+							<a th:href="@{'/user/account/add-to-wishlist/' + ${product.id}}"
+								class="optional-btn"><i class='bx bx-heart'></i> Add to
+								Wishlist</a> <a
+								th:href="@{'/user/product-compare/add-compare-product/' + ${product.id}}"
+								class="optional-btn"><i class='bx bx-refresh'></i> Add to
+								Compare</a>
 						</div>
 
 						<div class="buy-checkbox-btn">
 
 							<div class="item">
-								<a th:href="@{'/user/order/checkout-order?productId=' + ${product.id}}" class="default-btn">Buy it now!</a>
+								<a
+									th:href="@{'/user/order/checkout-order?productId=' + ${product.id}}"
+									class="default-btn">Buy it now!</a>
 							</div>
 						</div>
 					</div>
@@ -249,7 +256,8 @@
 					<div class="single-products-box"
 						th:each="similarProduct : ${similarProducts}">
 						<div class="products-image">
-							<a th:href="@{'/product/' + ${similarProduct.id}}"> <img style="height: 45vh;"
+							<a th:href="@{'/product/' + ${similarProduct.id}}"> <img
+								style="height: 45vh;"
 								th:src="@{'/product_img/' + ${similarProduct.productImages[0].productPic}}"
 								class="main-image" alt="image"> <img style="height: 45vh;"
 								th:src="@{'/product_img/' + ${similarProduct.productImages[1].productPic}}"
@@ -260,30 +268,33 @@
 								<ul>
 									<li>
 										<div class="wishlist-btn">
-											<a th:href="@{'/user/account/add-to-wishlist/' + ${similarProduct.id}}"> <i class='bx bx-heart'></i> <span
-												class="tooltip-label">Add to Wishlist</span>
+											<a
+												th:href="@{'/user/account/add-to-wishlist/' + ${similarProduct.id}}">
+												<i class='bx bx-heart'></i> <span class="tooltip-label">Add
+													to Wishlist</span>
 											</a>
 										</div>
 									</li>
 									<li>
 										<div class="compare-btn">
-											<a th:href="@{'/user/product-compare/add-compare-product/' + ${similarProduct.id}}"> <i class='bx bx-refresh'></i> <span
-												class="tooltip-label">Compare</span>
+											<a
+												th:href="@{'/user/product-compare/add-compare-product/' + ${similarProduct.id}}">
+												<i class='bx bx-refresh'></i> <span class="tooltip-label">Compare</span>
 											</a>
 										</div>
 									</li>
 									<li>
 										<div class="quick-view-btn">
 											<a id="quickViewModal" href="#" data-bs-toggle="modal"
-											 th:data-productname="${similarProduct.name}"
-											 th:data-productprice="${similarProduct.price}"
-											 th:data-productpriceafterdiscount="${similarProduct.getPriceAfterApplyingDiscount}"
-											 th:data-productimageurl="@{'/product_img/' + ${similarProduct.productImages[0].productPic}}"
-											 th:data-brandname="${similarProduct.brandName}"
-											 th:data-avgrating="${similarProduct.avgRating}"
-											 th:data-quantity="${similarProduct.quantity}"
-											 th:data-category="${similarProduct.category.title}"
-											 th:data-viewfullinfourl="@{'/product/' + ${similarProduct.id}}"
+												th:data-productname="${similarProduct.name}"
+												th:data-productprice="${similarProduct.price}"
+												th:data-productpriceafterdiscount="${similarProduct.getPriceAfterApplyingDiscount}"
+												th:data-productimageurl="@{'/product_img/' + ${similarProduct.productImages[0].productPic}}"
+												th:data-brandname="${similarProduct.brandName}"
+												th:data-avgrating="${similarProduct.avgRating}"
+												th:data-quantity="${similarProduct.quantity}"
+												th:data-category="${similarProduct.category.title}"
+												th:data-viewfullinfourl="@{'/product/' + ${similarProduct.id}}"
 												data-bs-target="#productsQuickView"> <i
 												class='bx bx-search-alt'></i> <span class="tooltip-label">Quick
 													View</span>
@@ -296,7 +307,8 @@
 
 						<div class="products-content">
 							<h3>
-								<a th:href="@{'/product/' + ${similarProduct.id}}" th:text="${similarProduct.name}"></a>
+								<a th:href="@{'/product/' + ${similarProduct.id}}"
+									th:text="${similarProduct.name}"></a>
 							</h3>
 							<div class="price">
 								<i
@@ -318,7 +330,8 @@
 								</span> <span class="text-dark fw-bold"
 									th:text="${similarProduct.avgRating}"></span>
 							</div>
-							<a th:href="@{'/user/cart/add-to-cart/' + ${similarProduct.id}}" class="add-to-cart">Add to Cart</a>
+							<a th:href="@{'/user/cart/add-to-cart/' + ${similarProduct.id}}"
+								class="add-to-cart">Add to Cart</a>
 						</div>
 					</div>
 

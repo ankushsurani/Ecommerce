@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -19,13 +21,21 @@ public class Category {
 	@GenericGenerator(name = "custom-uuid-generator", strategy = "com.eworld.helper.CustomUUIDGenerator")
 	private String id;
 
+	@NotBlank
+	@Size(min = 3, max = 25, message = "title length must have 3 to 25 characters")
 	private String title;
 
+	@NotBlank
+	@Size(min = 3, max = 25, message = "cachy title length must have 3 to 25 characters")
 	private String cachyTitle;
 
+	@NotBlank
+	@Size(min = 3, max = 500, message = "description length must have 3 to 500 characters")
 	private String description;
 
 	private String categoryImage;
+
+	private boolean active;
 
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
 	private List<Product> products = new ArrayList<>();
@@ -35,22 +45,25 @@ public class Category {
 	}
 
 	public Category(String id, String title, String cachyTitle, String description, String categoryImage,
-			List<Product> products) {
+			boolean active, List<Product> products) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.cachyTitle = cachyTitle;
 		this.description = description;
 		this.categoryImage = categoryImage;
+		this.active = active;
 		this.products = products;
 	}
 
-	public Category(String title, String cachyTitle, String description, String categoryImage, List<Product> products) {
+	public Category(String title, String cachyTitle, String description, String categoryImage, boolean active,
+			List<Product> products) {
 		super();
 		this.title = title;
 		this.cachyTitle = cachyTitle;
 		this.description = description;
 		this.categoryImage = categoryImage;
+		this.active = active;
 		this.products = products;
 	}
 
@@ -100,6 +113,14 @@ public class Category {
 
 	public void setCachyTitle(String cachyTitle) {
 		this.cachyTitle = cachyTitle;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 }

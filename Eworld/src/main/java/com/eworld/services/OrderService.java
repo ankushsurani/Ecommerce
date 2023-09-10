@@ -1,6 +1,5 @@
 package com.eworld.services;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class OrderService {
 		return this.orderRepository.findAll();
 	}
 
-	public List<Order> getOrderByStatus(String status) {
+	public List<Order> getOrderByStatus(DeliveryStatus status) {
 		return this.orderRepository.getOrderByStatus(status);
 	}
 
@@ -64,11 +63,11 @@ public class OrderService {
 	public List<Order> findOrdersByUserAndStatuses(String userId, List<DeliveryStatus> deliveryStatus) {
 		return this.orderRepository.findOrdersByUserAndStatuses(userId, deliveryStatus);
 	}
-	
+
 	public long countTotalSaleOfLastYear(LocalDateTime dateTime) {
 		return this.orderRepository.countTotalSaleOfLastTime(dateTime);
 	}
-	
+
 	public long countOrdersLastYear(LocalDateTime dateTime) {
 		return this.orderRepository.countOrdersByLastTime(dateTime);
 	}

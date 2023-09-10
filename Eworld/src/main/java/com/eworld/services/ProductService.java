@@ -38,9 +38,14 @@ public class ProductService {
 		return productRepository.filterAndSortProducts(filterRequest.getCategoryId(), filterRequest.getMinPrice(),
 				filterRequest.getMaxPrice(), filterRequest.getBrandName(), filterRequest.getSortType(), pageable);
 	}
-	
-	public Page<Product> getSimilarProductsByCatId(String categoryId, Pageable pageable){
+
+	public Page<Product> getSimilarProductsByCatId(String categoryId, Pageable pageable) {
 		return this.productRepository.findByCategoryId(categoryId, pageable);
+	}
+
+	public void removeProductFromView(Product product) {
+		product.setActive(false);
+		this.productRepository.save(product);
 	}
 
 }

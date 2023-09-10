@@ -40,7 +40,7 @@ public class UserService {
 	public User getUserByEmailVerification(String emailVerification) {
 		return this.userRepository.findByEmailVerification(emailVerification);
 	}
-	
+
 	public long countUserJoinInLastYear(LocalDateTime time) {
 		return this.userRepository.countUserJoinInLastYear(time);
 	}
