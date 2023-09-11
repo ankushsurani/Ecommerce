@@ -160,7 +160,9 @@ public class AdminDashboardController {
 			product.setAddedDate(LocalDateTime.now());
 			product.setActive(true);
 
-			this.productService.saveProduct(product);
+			synchronized (this.productService) {
+		        this.productService.saveProduct(product);
+		    }
 
 			try {
 

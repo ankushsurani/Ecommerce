@@ -22,6 +22,9 @@ public class OrderService {
 
 	@Autowired
 	private OrderRepository orderRepository;
+	
+	@Autowired
+	private ProductService productService;
 
 	public void saveOrder(Order order) {
 		this.orderRepository.save(order);
@@ -78,6 +81,13 @@ public class OrderService {
 		List<Order> awaitingPaymentOrders = this.orderRepository.findByDeliveryStatusAndCreatedDateBefore(
 				DeliveryStatus.AWAITINGPAYMENT, LocalDateTime.now().minusHours(1));
 
+		synchronized (this.productService) {
+			awaitingPaymentOrders.forEach(order -> {
+				Product product = this.productService.getProduct(order.getProduct().getId());
+				product.setQuantity(product.getQuantity() + order.getQuantity());
+				this.productService.saveProduct(product);
+			});
+		}
 		this.orderRepository.deleteAll(awaitingPaymentOrders);
 	}
 

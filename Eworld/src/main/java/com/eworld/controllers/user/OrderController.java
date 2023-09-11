@@ -224,6 +224,11 @@ public class OrderController {
 				}
 
 				this.orderService.saveOrder(order);
+				synchronized (this.productService) {
+					Product product = this.productService.getProduct(order.getProduct().getId());
+					product.setQuantity(product.getQuantity() - order.getQuantity());
+					this.productService.saveProduct(product);
+				}
 
 			}
 
@@ -262,7 +267,6 @@ public class OrderController {
 
 			// creating new order
 			com.razorpay.Order order = client.orders.create(object);
-			System.out.println(order);
 
 			User user = this.userService.findByEmail(principal.getName());
 			List<Order> orders = this.orderService.findOrdersByUserAndStatuses(user.getId(),
@@ -288,6 +292,17 @@ public class OrderController {
 			return order.toString();
 
 		} catch (RazorpayException e) {
+			synchronized (this.productService) {
+				User user = this.userService.findByEmail(principal.getName());
+				List<Order> orders = this.orderService.findOrdersByUserAndStatuses(user.getId(),
+						List.of(DeliveryStatus.AWAITINGPAYMENT));
+				for (Order order : orders) {
+					Product product = this.productService.getProduct(order.getProduct().getId());
+					product.setQuantity(product.getQuantity() + order.getQuantity());
+					this.productService.saveProduct(product);
+				}
+			}
+
 			e.printStackTrace();
 			return "error";
 		}
