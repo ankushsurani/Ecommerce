@@ -15,23 +15,15 @@ import com.eworld.entities.Product;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, String> {
 
-	public List<Product> findByCategory_id(String category_id); // remove when update project
-
 	// search
-	public List<Product> findByNameContaining(String name);
+	public List<Product> findByNameContainingAndActiveIsTrue(String name);
 
-	@Query("SELECT p FROM Product p ORDER BY p.addedDate DESC")
-	Page<Product> findLatestProducts(Pageable pageable);
-
-	Page<Product> findAllByOrderByDiscountDesc(Pageable pageable);
-
-	Page<Product> findAllByOrderByAvgRatingDesc(Pageable pageable);
-
-	@Query("select p.brandName from Product p WHERE (:categoryId IS NULL OR p.category.id = :categoryId) AND p.brandName IS NOT NULL")
+	@Query("select DISTINCT p.brandName from Product p WHERE (:categoryId IS NULL OR p.category.id = :categoryId) AND p.brandName IS NOT NULL AND p.active=true")
 	List<String> getAllBrandName(String categoryId);
 
-	@Query("SELECT p FROM Product p WHERE (:categoryId IS NULL OR p.category.id = :categoryId)"
+	@Query("SELECT p FROM Product p WHERE (:categoryId IS NULL OR p.category.id = :categoryId) AND p.active=true"
 			+ " AND (:minPrice IS NULL OR p.price >= :minPrice)" + " AND (:maxPrice IS NULL OR p.price <= :maxPrice)"
+			+ " AND (:search IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', REPLACE(:search, ' ', '%'), '%')))"
 			+ " AND (:brandName IS NULL OR p.brandName = :brandName)" + " ORDER BY "
 			+ " CASE WHEN :sortType = 'Popularity' THEN (SELECT COUNT(o) FROM Order o WHERE o.product = p AND o.deliveryStatus = 'SUCCESSFULLY_DELIVERED') END DESC, "
 			+ " CASE WHEN :sortType = 'Rating' THEN p.avgRating END DESC, "
@@ -40,10 +32,10 @@ public interface ProductRepository extends JpaRepository<Product, String> {
 			+ " CASE WHEN :sortType = 'Price:HighToLow' THEN p.price END DESC, "
 			+ " CASE WHEN :sortType = 'Price:LowToHigh' THEN p.price END ASC")
 	Slice<Product> filterAndSortProducts(@Param("categoryId") String categoryId, @Param("minPrice") Integer minPrice,
-			@Param("maxPrice") Integer maxPrice, @Param("brandName") String brandName,
+			@Param("maxPrice") Integer maxPrice, @Param("search") String search, @Param("brandName") String brandName,
 			@Param("sortType") String sortType, Pageable pageable);
 
-	@Query("SELECT p FROM Product p WHERE p.category.id=:categoryId")
+	@Query("SELECT p FROM Product p WHERE p.category.id=:categoryId AND p.active=true")
 	Page<Product> findByCategoryId(String categoryId, Pageable pageable);
 
 }

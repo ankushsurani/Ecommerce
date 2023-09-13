@@ -226,6 +226,13 @@
 											<i class='bx bx-x'></i>
 										</a>
 									</li>
+									
+									<li th:if="${param.search != null}">
+										<a style="cursor: pointer;" onclick="removeParamFromUrl('search')">
+											<span th:text="${'Search : ' + param.search}"></span>
+											<i class='bx bx-x'></i>
+										</a>
+									</li>
 								</ul>
 
 								<a th:href="@{/product/page=0}"
@@ -295,6 +302,7 @@
 
 
 		<script>
+			
 			$(document)
 					.ready(
 							function() {

@@ -104,11 +104,13 @@ public class ProductController {
 			@RequestParam(name = "categoryId", required = false) String categoryId,
 			@RequestParam(name = "minPrice", required = false) Integer minPrice,
 			@RequestParam(name = "maxPrice", required = false) Integer maxPrice,
+			@RequestParam(name = "search", required = false) String search,
 			@RequestParam(name = "brandName", required = false) String brandName, Model model) {
 
 		try {
 
-			FilterRequest filterRequest = new FilterRequest(sortType, categoryId, minPrice, maxPrice, brandName);
+			FilterRequest filterRequest = new FilterRequest(sortType, categoryId, minPrice, maxPrice, search,
+					brandName);
 
 			Pageable pageable = PageRequest.of(pageNum, this.pageSize);
 

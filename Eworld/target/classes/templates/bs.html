@@ -291,8 +291,8 @@
 				</div>
 
 				<div class="search-overlay-form">
-					<form>
-						<input type="text" class="input-search"
+					<form id="searchForm" action="/product/page=0/">
+						<input type="text" name="search" class="input-search" id="searchInput"
 							placeholder="Search here...">
 						<button type="submit">
 							<i class='bx bx-search-alt'></i>
@@ -1316,7 +1316,13 @@ function storeModalState(modalId, state) {
 	            filterButton.setAttribute("disabled", "disabled");
 	        }
 	    }
-
+	    
+	    
+	    
+	    /* add search param in url */
+		document.querySelector('searchForm').onsubmit = function() {
+        	  this.setAttribute('action', "/product/page=0/" + document.querySelector('input[name=searchvalue]').value.toLowerCase())
+        	}
 
 
 	</script>

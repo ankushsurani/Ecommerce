@@ -31,12 +31,13 @@ public class ProductService {
 	}
 
 	public List<Product> getBypNameContaining(String productName) {
-		return this.productRepository.findByNameContaining(productName);
+		return this.productRepository.findByNameContainingAndActiveIsTrue(productName);
 	}
 
 	public Slice<Product> getFilteredAndSortedProducts(FilterRequest filterRequest, Pageable pageable) {
 		return productRepository.filterAndSortProducts(filterRequest.getCategoryId(), filterRequest.getMinPrice(),
-				filterRequest.getMaxPrice(), filterRequest.getBrandName(), filterRequest.getSortType(), pageable);
+				filterRequest.getMaxPrice(), filterRequest.getSearch(), filterRequest.getBrandName(),
+				filterRequest.getSortType(), pageable);
 	}
 
 	public Page<Product> getSimilarProductsByCatId(String categoryId, Pageable pageable) {

@@ -309,8 +309,14 @@ public class MyAccountController {
 	public String addToWishlist(@PathVariable("productId") String productId, Principal principal, HttpSession session) {
 		try {
 
-			User user = this.userService.findByEmail(principal.getName());
 			Product product = this.productService.getProduct(productId);
+
+			if (!product.isActive()) {
+				session.setAttribute("message", new Msg("This Product is Unavailable", "alert-danger"));
+				return "redirect:/user/account/wishlist";
+			}
+
+			User user = this.userService.findByEmail(principal.getName());
 
 			boolean alreadyPresentInWishlist = this.wishlistItemService.existsByUserAndProduct(user, product);
 			if (alreadyPresentInWishlist) {

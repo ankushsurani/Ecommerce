@@ -111,8 +111,15 @@ public class ProductCompareController {
 	@GetMapping("/add-compare-product/{productId}")
 	private String addCompareProduct(@PathVariable("productId") String productId, Principal principal,
 			HttpSession session) {
-		User user = this.userService.findByEmail(principal.getName());
+		
 		Product product = this.productService.getProduct(productId);
+		
+		if (!product.isActive()) {
+			session.setAttribute("message", new Msg("This Product is Unavailable", "alert-danger"));
+			return "redirect:/user/product-compare";
+		}
+		
+		User user = this.userService.findByEmail(principal.getName());
 
 		List<ProductCompareItem> productCompareItems = this.productCompareService
 				.getAllProductFromComparisonByUser(user);

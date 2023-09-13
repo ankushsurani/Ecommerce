@@ -94,6 +94,11 @@ public class CartController {
 		try {
 
 			Product product = this.productService.getProduct(productId);
+			
+			if (!product.isActive()) {
+				session.setAttribute("message", new Msg("This Product is Unavailable", "alert-danger"));
+				return "redirect:/user/cart";
+			}
 
 			User user = this.userService.findByEmail(principal.getName());
 

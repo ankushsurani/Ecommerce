@@ -10,18 +10,22 @@ public class FilterRequest {
 
 	private Integer maxPrice;
 
+	private String search;
+
 	private String brandName;
 
 	public FilterRequest() {
 		super();
 	}
 
-	public FilterRequest(String sortType, String categoryId, Integer minPrice, Integer maxPrice, String brandName) {
+	public FilterRequest(String sortType, String categoryId, Integer minPrice, Integer maxPrice, String search,
+			String brandName) {
 		super();
 		this.sortType = sortType;
 		this.categoryId = categoryId;
 		this.minPrice = minPrice;
 		this.maxPrice = maxPrice;
+		this.search = search;
 		this.brandName = brandName;
 	}
 
@@ -60,6 +64,14 @@ public class FilterRequest {
 
 	public void setMaxPrice(Integer maxPrice) {
 		this.maxPrice = maxPrice;
+	}
+
+	public String getSearch() {
+		return search;
+	}
+
+	public void setSearch(String search) {
+		this.search = search;
 	}
 
 	public String getBrandName() {

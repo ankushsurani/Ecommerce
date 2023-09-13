@@ -113,7 +113,7 @@ public class OrderController {
 
 	@GetMapping("/checkout-order")
 	public String placeOrder(@RequestParam(name = "productId", required = false) String productId, Principal principal,
-			Model model) {
+			Model model, HttpSession session) {
 		model.addAttribute("title", "Place Order - Eworld");
 		model.addAttribute("address", new Address());
 
@@ -124,6 +124,11 @@ public class OrderController {
 
 		if (productId != null) {
 			Product product = this.productService.getProduct(productId);
+
+			if (!product.isActive()) {
+				session.setAttribute("message", new Msg("This Product is Unavailable", "alert-danger"));
+				return "redirect:/user/cart";
+			}
 
 			boolean presentInCart = this.cartService.existsByUserAndProduct(user, product);
 
