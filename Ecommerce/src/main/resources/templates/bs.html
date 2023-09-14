@@ -1,0 +1,1304 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:fragment="layout(content)">
+<head>
+
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Links of CSS files -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="/assets/css/animate.min.css">
+<link rel="stylesheet" href="/assets/css/boxicons.min.css">
+<link rel="stylesheet" href="/assets/css/flaticon.css">
+<link rel="stylesheet" href="/assets/css/magnific-popup.min.css">
+<link rel="stylesheet" href="/assets/css/nice-select.min.css">
+<link rel="stylesheet" href="/assets/css/slick.min.css">
+<link rel="stylesheet" href="/assets/css/owl.carousel.min.css">
+<link rel="stylesheet" href="/assets/css/meanmenu.min.css">
+<link rel="stylesheet" href="/assets/css/rangeSlider.min.css">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/dark.css">
+<link rel="stylesheet" href="/assets/css/responsive.css">
+
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<link rel="stylesheet" th:href="@{/css/normal.css}" />
+
+<title th:text="${title}"></title>
+
+<link rel="icon" type="image/png" href="/assets/img/favicon.png">
+</head>
+<body>
+
+
+	<!-- Start Top Header Area -->
+	<div class="top-header">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-6 col-md-12">
+					<ul class="header-contact-info">
+						<li th:text="'Welcome to ' + ${appName}"></li>
+						<li>Call: <a>+01 321 654 214</a></li>
+					</ul>
+				</div>
+
+				<div class="col-lg-6 col-md-12">
+					<ul class="header-top-menu">
+						<li><a th:href="@{/user/account/dashboard}"><i
+								class='bx bxs-user'></i> My Account</a></li>
+						<li><a href="#" data-bs-toggle="modal"
+							data-bs-target="#shoppingWishlistModal"><span
+								th:if="${#lists.size(wishlistItems) > 0}"> <i
+									class='bx bxs-heart' style="color: #F53F85;"></i> Wishlist
+							</span> <span th:unless="${#lists.size(wishlistItems) > 0}"> <i
+									class='bx bx-heart'></i> Wishlist
+							</span> </a></li>
+						<li><a th:href="@{/user/product-compare}"><i class='bx bx-shuffle'></i>
+								Compare</a></li>
+						<li><a th:href="@{/login}"><i class='bx bx-log-in'></i>
+								Login</a></li>
+					</ul>
+
+					<ul class="header-top-others-option">
+						<div class="option-item">
+							<div class="search-btn-box">
+								<i class="search-btn bx bx-search-alt"></i>
+							</div>
+						</div>
+
+						<div class="option-item">
+							<div class="cart-btn">
+								<a href="#" data-bs-toggle="modal"
+									data-bs-target="#shoppingCartModal"><i
+									class='bx bx-shopping-bag'></i><span></span></a>
+							</div>
+						</div>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Top Header Area -->
+
+	<!-- Start Navbar Area -->
+	<div class="navbar-area">
+		<div class="xton-responsive-nav">
+			<div class="container">
+				<div class="xton-responsive-menu">
+					<div class="logo">
+						<a th:href="@{/}"> <img style="height: 7vh;"
+							src="/assets/img/logo.png" class="main-logo" alt="logo"> <img
+							style="height: 7vh;" src="/assets/img/white-logo.png"
+							class="white-logo" alt="logo">
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="xton-nav">
+			<div class="container">
+				<nav class="navbar navbar-expand-md navbar-light">
+					<a class="navbar-brand" th:href="@{/}"> <img
+						style="height: 7vh;" src="/assets/img/logo.png" class="main-logo"
+						alt="logo"> <img style="height: 7vh;"
+						src="/assets/img/white-logo.png" class="white-logo" alt="logo">
+					</a>
+
+					<div class="collapse navbar-collapse mean-menu">
+						<ul class="navbar-nav">
+							<li class="nav-item"><a th:href="@{/}" class="nav-link">Home</a></li>
+
+							<li class="nav-item megamenu"><a
+								th:href="@{/product/page=0}" class="nav-link">Shop </a></li>
+
+							<li class="nav-item megamenu"><a th:href="@{/product/page=0}"
+								class="nav-link active">Categories <i
+									class='bx bx-chevron-down'></i></a>
+								<ul class="dropdown-menu">
+									<li class="nav-item">
+										<div class="container">
+											<div class="row"
+												th:each="row, rowIndex : ${#numbers.sequence(0, (#lists.size(categories) / 4))}">
+												<!-- Calculate the index range for this row -->
+												<th:block
+													th:with="startIndex=${row * 4}, endIndex=${(row + 1) * 4}">
+													<div class="col col-md-3"
+														th:each="category, iterStat : ${categories}"
+														th:if="${iterStat.index >= startIndex and iterStat.index < endIndex}">
+														<ul class="megamenu-submenu">
+															<li><a
+																th:href="@{'/product/page=0?categoryId=' + ${category.id}}"
+																th:text="${category.title}"></a></li>
+														</ul>
+													</div>
+												</th:block>
+											</div>
+
+										</div>
+									</li>
+								</ul></li>
+
+							<li class="nav-item megamenu"><a
+								th:href="@{/product/page=0?categoryId=103}" class="nav-link">Women's
+
+							</a></li>
+
+							<li class="nav-item megamenu"><a
+								th:href="@{/product/page=0?categoryId=102}" class="nav-link">Men's
+
+							</a></li>
+
+
+						</ul>
+
+						<div class="others-option">
+							<div class="option-item">
+								<div class="search-btn-box">
+									<i class="search-btn bx bx-search-alt"></i>
+								</div>
+							</div>
+
+							<div class="option-item">
+								<div class="cart-btn">
+									<a href="#" data-bs-toggle="modal"
+										data-bs-target="#shoppingCartModal"><i
+										class='bx bx-shopping-bag'></i><span
+										th:text="${#lists.size(cartItems)}"></span></a>
+								</div>
+							</div>
+
+							<div class="option-item">
+								<div class="burger-menu" data-bs-toggle="modal"
+									data-bs-target="#sidebarModal">
+									<span class="top-bar"></span> <span class="middle-bar"></span>
+									<span class="bottom-bar"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</nav>
+			</div>
+		</div>
+	</div>
+	<!-- End Navbar Area -->
+
+	<!-- Start Sticky Navbar Area -->
+	<div class="navbar-area header-sticky">
+		<div class="xton-nav">
+			<div class="container">
+				<nav class="navbar navbar-expand-md navbar-light">
+					<a class="navbar-brand" th:href="@{/}"> <img
+						style="height: 7vh;" src="/assets/img/logo.png" class="main-logo"
+						alt="logo"> <img style="height: 7vh;"
+						src="/assets/img/white-logo.png" class="white-logo" alt="logo">
+					</a>
+
+					<div class="collapse navbar-collapse mean-menu">
+						<ul class="navbar-nav">
+							<li class="nav-item"><a th:href="@{/}" class="nav-link">Home</a>
+							</li>
+
+							<li class="nav-item megamenu"><a
+								th:href="@{/product/page=0}" class="nav-link">Shop </a></li>
+
+							<li class="nav-item megamenu"><a th:href="@{/product/page=0}"
+								class="nav-link active">Categories <i
+									class='bx bx-chevron-down'></i></a>
+								<ul class="dropdown-menu">
+									<li class="nav-item">
+										<div class="container">
+											<div class="row"
+												th:each="row, rowIndex : ${#numbers.sequence(0, (#lists.size(categories) / 4))}">
+												<!-- Calculate the index range for this row -->
+												<th:block
+													th:with="startIndex=${row * 4}, endIndex=${(row + 1) * 4}">
+													<div class="col col-md-3"
+														th:each="category, iterStat : ${categories}"
+														th:if="${iterStat.index >= startIndex and iterStat.index < endIndex}">
+														<ul class="megamenu-submenu">
+															<li><a
+																th:href="@{'/product/page=0?categoryId=' + ${category.id}}"
+																th:text="${category.title}"></a></li>
+														</ul>
+													</div>
+												</th:block>
+											</div>
+										</div>
+									</li>
+								</ul></li>
+
+							<li class="nav-item megamenu"><a
+								th:href="@{/product/page=0?categoryId=103}" class="nav-link">Women's
+
+							</a></li>
+
+							<li class="nav-item megamenu"><a
+								th:href="@{/product/page=0?categoryId=102}" class="nav-link">Men's
+
+							</a></li>
+
+
+						</ul>
+
+						<div class="others-option">
+							<div class="option-item">
+								<div class="search-btn-box">
+									<i class="search-btn bx bx-search-alt"></i>
+								</div>
+							</div>
+
+							<div class="option-item">
+								<div class="cart-btn">
+									<a href="#" data-bs-toggle="modal"
+										data-bs-target="#shoppingCartModal"><i
+										class='bx bx-shopping-bag'></i><span>0</span></a>
+								</div>
+							</div>
+
+							<div class="option-item">
+								<div class="burger-menu" data-bs-toggle="modal"
+									data-bs-target="#sidebarModal">
+									<span class="top-bar"></span> <span class="middle-bar"></span>
+									<span class="bottom-bar"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</nav>
+			</div>
+		</div>
+	</div>
+	<!-- End Header Area -->
+
+	<!-- Start Search Overlay -->
+	<div class="search-overlay">
+		<div class="d-table">
+			<div class="d-table-cell">
+				<div class="search-overlay-layer"></div>
+				<div class="search-overlay-layer"></div>
+				<div class="search-overlay-layer"></div>
+
+				<div class="search-overlay-close">
+					<span class="search-overlay-close-line"></span> <span
+						class="search-overlay-close-line"></span>
+				</div>
+
+				<div class="search-overlay-form">
+					<form id="searchForm" action="/product/page=0/">
+						<input type="text" name="search" class="input-search" id="searchInput"
+							placeholder="Search here...">
+						<button type="submit">
+							<i class='bx bx-search-alt'></i>
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Search Overlay -->
+
+
+	<!-- Start Page Title -->
+	<div th:if="${pageName ne 'home'}" class="page-title-area">
+		<div class="container">
+			<div class="page-title-content">
+				<h2 th:text="${pageName}">My Account</h2>
+				<ul>
+					<li><a>Home</a></li>
+					<li th:text="${subPageName}"></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- End Page Title -->
+
+
+
+	<div th:replace="${content}"></div>
+
+
+
+	<!-- Start Facility Area -->
+	<section th:if="${pageName ne 'home'}" class="facility-area pb-70">
+		<div class="container">
+			<div class="facility-slides owl-carousel owl-theme">
+				<div class="single-facility-box">
+					<div class="icon">
+						<i class='flaticon-tracking'></i>
+					</div>
+					<h3>Free Shipping Worldwide</h3>
+				</div>
+
+				<div class="single-facility-box">
+					<div class="icon">
+						<i class='flaticon-return'></i>
+					</div>
+					<h3>Easy Return Policy</h3>
+				</div>
+
+				<div class="single-facility-box">
+					<div class="icon">
+						<i class='flaticon-shuffle'></i>
+					</div>
+					<h3>7 Day Exchange Policy</h3>
+				</div>
+
+				<div class="single-facility-box">
+					<div class="icon">
+						<i class='flaticon-sale'></i>
+					</div>
+					<h3>Weekend Discount Coupon</h3>
+				</div>
+
+				<div class="single-facility-box">
+					<div class="icon">
+						<i class='flaticon-credit-card'></i>
+					</div>
+					<h3>Secure Payment Methods</h3>
+				</div>
+
+				<div class="single-facility-box">
+					<div class="icon">
+						<i class='flaticon-location'></i>
+					</div>
+					<h3>Track Your Package</h3>
+				</div>
+
+				<div class="single-facility-box">
+					<div class="icon">
+						<i class='flaticon-customer-service'></i>
+					</div>
+					<h3>24/7 Customer Support</h3>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End Facility Area -->
+
+
+	<!-- Start Sidebar Modal -->
+	<div class="modal right fade sidebarModal" id="sidebarModal"
+		tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<button type="button" class="close" data-bs-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true"><i class='bx bx-x'></i></span>
+				</button>
+
+				<div class="modal-body">
+					<div class="sidebar-about-content">
+						<h3>About The Store</h3>
+
+						<div class="about-the-store">
+							<p>One of the most popular on the web is shopping.</p>
+
+							<ul class="sidebar-contact-info">
+								<li><i class='bx bx-map'></i> <a target="_blank">Wonder
+										Street, USA, New York</a></li>
+								<li><i class='bx bx-phone-call'></i> <a
+									>+01 321 654 214</a></li>
+								<li><i class='bx bx-envelope'></i> <a
+									href="mailto:EworldEcom99@gmail.com">EworldEcom99@gmail.com</a></li>
+							</ul>
+						</div>
+
+						<ul class="social-link">
+							<li><a class="d-block" target="_blank"><i
+									class='bx bxl-facebook'></i></a></li>
+							<li><a class="d-block" target="_blank"><i
+									class='bx bxl-twitter'></i></a></li>
+							<li><a class="d-block" target="_blank"><i
+									class='bx bxl-instagram'></i></a></li>
+							<li><a class="d-block" target="_blank"><i
+									class='bx bxl-linkedin'></i></a></li>
+							<li><a class="d-block" target="_blank"><i
+									class='bx bxl-pinterest-alt'></i></a></li>
+						</ul>
+					</div>
+
+					<div class="sidebar-new-in-store">
+						<h3>New In Store</h3>
+
+						<p>Buy Now And Get Whopping Discount.</p>
+						<a th:href="@{/product/page=0}" class="shop-now-btn">Shop Now</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Sidebar Modal -->
+
+
+
+
+	<!-- Start QuickView Modal Area -->
+	<div class="modal fade productsQuickView" id="productsQuickView"
+		tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<button type="button" class="close" data-bs-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true"><i class='bx bx-x'></i></span>
+				</button>
+
+				<div class="row align-items-center">
+					<div class="col-lg-6 col-md-6">
+						<div class="products-image text-center">
+							<img id="productimageurl" style="max-height: 60vh;"
+								src="/assets/img/quick-view-img.jpg" alt="image">
+						</div>
+					</div>
+
+					<div class="col-lg-6 col-md-6">
+						<div class="products-content">
+							<h3>
+								<a id="productName"></a>
+							</h3>
+
+							<div class="price">
+								<span style="opacity: 50%;">&#8377;</span><span id=productprice
+									class="old-price"></span> <span>&#8377;</span><span
+									id="productpriceafterdiscount" class="new-price"></span>
+							</div>
+
+							<div class="products-review">
+								<div class="rating text-warning" id="avgrating"></div>
+							</div>
+
+							<ul class="products-info">
+								<li><span>Brand:</span> <a id="brandname"></a></li>
+								<li><span>Availability: In stock (</span><a id="quantity"
+									> </a> Items)</li>
+								<li><span>Products Type:</span> <a id="category"></a></li>
+							</ul>
+
+							<div class="products-color-switch">
+								<h4>Color:</h4>
+
+								<ul>
+									<li><a data-bs-toggle="tooltip"
+										data-placement="top" title="Black" class="color-black"></a></li>
+									<li><a data-bs-toggle="tooltip"
+										data-placement="top" title="White" class="color-white"></a></li>
+									<li><a data-bs-toggle="tooltip"
+										data-placement="top" title="Green" class="color-green"></a></li>
+									<li><a data-bs-toggle="tooltip"
+										data-placement="top" title="Yellow Green"
+										class="color-yellowgreen"></a></li>
+									<li><a data-bs-toggle="tooltip"
+										data-placement="top" title="Teal" class="color-teal"></a></li>
+								</ul>
+							</div>
+
+							<div class="products-size-wrapper">
+								<h4>Size:</h4>
+
+								<ul>
+									<li><a>XS</a></li>
+									<li class="active"><a>S</a></li>
+									<li><a>M</a></li>
+									<li><a>XL</a></li>
+									<li><a>XXL</a></li>
+								</ul>
+							</div>
+
+							<a id="viewfullinfourl" href="#" class="view-full-info">View
+								Full Info</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End QuickView Modal Area -->
+
+	<!-- Start Shopping Cart Modal -->
+	<div class="modal right fade shoppingCartModal" id="shoppingCartModal"
+		tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<button type="button" class="close" data-bs-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true"><i class='bx bx-x'></i></span>
+				</button>
+
+				<div class="modal-body">
+
+					<div th:if="${!loggedIn}" class="error-area ptb-100">
+						<div class="container">
+							<div class="error-content">
+								<img th:src="@{/images/empty-cart.webp}" alt="error">
+								<h3 class="animate-charcter">Missing Cart items?</h3>
+								<p>Login to see the items you added previously</p>
+								<a th:href="@{/login}" class="default-btn"><i
+									class='bx bx-log-in'></i> Login</a>
+							</div>
+						</div>
+					</div>
+
+
+					<div th:if="${loggedIn && #lists.size(cartItems) == 0}"
+						class="error-area ptb-100">
+						<div class="container">
+							<div class="error-content">
+								<img th:src="@{/images/empty-cart.webp}" alt="error">
+								<h3 class="animate-charcter">Your cart is empty!</h3>
+								<p>Add items to it now.</p>
+								<a th:href="@{/product/page=0}" class="default-btn">Shop now</a>
+							</div>
+						</div>
+					</div>
+					<div th:if="${loggedIn && #lists.size(cartItems) > 0}">
+						<h3>
+							My Cart (<span th:text="${#lists.size(cartItems)}"></span>)
+						</h3>
+
+						<div class="products-cart-content">
+							<div class="products-cart" th:each="cartItem : ${cartItems}">
+								<div class="products-image">
+									<a th:href="@{'/product/' + ${cartItem.product.id}}"><img
+										style="height: 10vh;"
+										th:src="@{'/product_img/' + ${cartItem.product.productImages[0].productPic}}"
+										alt="image"></a>
+								</div>
+
+								<div class="products-content">
+									<h3>
+										<a th:href="@{'/product/' + ${cartItem.product.id}}"
+											th:text="${cartItem.product.name}"></a>
+									</h3>
+									<span th:text="${cartItem.product.brandName}">Blue / XS</span>
+									<div class="products-price">
+										<span th:text="${cartItem.quantity}"></span> <span>x</span> <span
+											th:text="${'&#8377;' + cartItem.product.getPriceAfterApplyingDiscount()}"
+											class="price"></span>
+									</div>
+									<a th:href="@{'/user/cart/remove-cart-item/' + ${cartItem.id}}"
+										class="remove-btn"><i class='bx bx-trash'></i></a>
+								</div>
+							</div>
+
+						</div>
+
+						<div class="products-cart-subtotal">
+							<span>Price</span> <span class="subtotal"
+								th:text="${'&#8377;' + totalDiscountedAmount}"></span>
+						</div>
+
+						<div class="products-cart-btn">
+							<a th:href="@{/user/order/checkout-order}" class="default-btn">Proceed to Checkout</a> <a
+								th:href="@{/user/cart}" class="optional-btn">View Shopping
+								Cart</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Shopping Cart Modal -->
+
+	<!-- Start Wishlist Modal -->
+	<div class="modal right fade shoppingWishlistModal"
+		id="shoppingWishlistModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<button type="button" class="close" data-bs-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true"><i class='bx bx-x'></i></span>
+				</button>
+
+				<div class="modal-body">
+
+
+					<div th:if="${!loggedIn}" class="error-area ptb-100">
+						<div class="container">
+							<div class="error-content">
+								<img th:src="@{/images/Add-to-Wishlist.png}" alt="error">
+								<h3 class="animate-charcter">Missing Wishlist items?</h3>
+								<p>Login to see the items you added previously</p>
+								<a th:href="@{/login}" class="default-btn"><i
+									class='bx bx-log-in'></i> Login</a>
+							</div>
+						</div>
+					</div>
+
+
+
+					<div th:if="${loggedIn && #lists.size(wishlistItems) == 0}"
+						class="error-area ptb-100">
+						<div class="container">
+							<div class="error-content">
+								<img th:src="@{/images/Add-to-Wishlist.png}" alt="error">
+								<h3 class="animate-charcter">Your Wishlist is empty!</h3>
+								<p>Explore our wide range of products and discover great
+									deals for all your shopping needs.</p>
+								<a th:href="@{/product/page=0}" class="default-btn">Shop now</a>
+							</div>
+						</div>
+					</div>
+
+					<div th:if="${loggedIn && #lists.size(wishlistItems) > 0}">
+						<h3>
+							My Wish List (<span th:text="${#lists.size(wishlistItems)}"></span>)
+						</h3>
+
+						<div class="products-cart-content">
+							<div class="products-cart"
+								th:each="wishlistItem : ${wishlistItems}">
+								<div
+									class="products-image d-flex justify-content-center align-items-center">
+									<a th:href="@{'/product/' + ${wishlistItem.product.id}}"><img
+										style="height: 10vh;"
+										th:src="@{'/product_img/' + ${wishlistItem.product.productImages[0].productPic}}"
+										alt="image"></a>
+								</div>
+
+								<div class="products-content">
+									<h3>
+										<a th:href="@{'/product/' + ${wishlistItem.product.id}}"
+											th:text="${wishlistItem.product.name}"></a>
+									</h3>
+									<span th:text="${wishlistItem.product.brandName}"></span>
+									<div class="products-price">
+										<span>1</span> <span>x</span> <span class="price"
+											th:text="${'&#8377;' + wishlistItem.product.getPriceAfterApplyingDiscount()}"></span>
+									</div>
+									<a
+										th:href="@{'/user/account/remove-from-wishlist/' + ${wishlistItem.id}}"
+										class="remove-btn"><i class='bx bx-trash'></i></a>
+								</div>
+							</div>
+
+						</div>
+
+						<div class="products-cart-btn">
+							<a th:href="@{/user/account/wishlist}" class="optional-btn">View
+								Wishlist</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Wishlist Modal -->
+
+	<!-- Start Size Guide Modal Area -->
+	<div class="modal fade sizeGuideModal" id="sizeGuideModal"
+		tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<button type="button" class="close" data-bs-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true"><i class="bx bx-x"></i></span>
+				</button>
+
+				<div class="modal-sizeguide">
+					<h3>Size Guide</h3>
+					<p>This is an approximate conversion table to help you find
+						your size.</p>
+
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>Italian</th>
+									<th>Spanish</th>
+									<th>German</th>
+									<th>UK</th>
+									<th>US</th>
+									<th>Japanese</th>
+									<th>Chinese</th>
+									<th>Russian</th>
+									<th>Korean</th>
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr>
+									<td>34</td>
+									<td>30</td>
+									<td>28</td>
+									<td>4</td>
+									<td>00</td>
+									<td>3</td>
+									<td>155/75A</td>
+									<td>36</td>
+									<td>44</td>
+								</tr>
+								<tr>
+									<td>36</td>
+									<td>32</td>
+									<td>30</td>
+									<td>6</td>
+									<td>0</td>
+									<td>5</td>
+									<td>155/80A</td>
+									<td>38</td>
+									<td>44</td>
+								</tr>
+								<tr>
+									<td>38</td>
+									<td>34</td>
+									<td>32</td>
+									<td>8</td>
+									<td>2</td>
+									<td>7</td>
+									<td>160/84A</td>
+									<td>40</td>
+									<td>55</td>
+								</tr>
+								<tr>
+									<td>40</td>
+									<td>36</td>
+									<td>34</td>
+									<td>10</td>
+									<td>4</td>
+									<td>9</td>
+									<td>165/88A</td>
+									<td>42</td>
+									<td>55</td>
+								</tr>
+								<tr>
+									<td>42</td>
+									<td>38</td>
+									<td>36</td>
+									<td>12</td>
+									<td>6</td>
+									<td>11</td>
+									<td>170/92A</td>
+									<td>44</td>
+									<td>66</td>
+								</tr>
+								<tr>
+									<td>44</td>
+									<td>40</td>
+									<td>38</td>
+									<td>14</td>
+									<td>8</td>
+									<td>13</td>
+									<td>175/96A</td>
+									<td>46</td>
+									<td>66</td>
+								</tr>
+								<tr>
+									<td>46</td>
+									<td>42</td>
+									<td>40</td>
+									<td>16</td>
+									<td>10</td>
+									<td>15</td>
+									<td>170/98A</td>
+									<td>48</td>
+									<td>77</td>
+								</tr>
+								<tr>
+									<td>48</td>
+									<td>44</td>
+									<td>42</td>
+									<td>18</td>
+									<td>12</td>
+									<td>17</td>
+									<td>170/100B</td>
+									<td>50</td>
+									<td>77</td>
+								</tr>
+								<tr>
+									<td>50</td>
+									<td>46</td>
+									<td>44</td>
+									<td>20</td>
+									<td>14</td>
+									<td>19</td>
+									<td>175/100B</td>
+									<td>52</td>
+									<td>88</td>
+								</tr>
+								<tr>
+									<td>52</td>
+									<td>48</td>
+									<td>46</td>
+									<td>22</td>
+									<td>16</td>
+									<td>21</td>
+									<td>180/104B</td>
+									<td>54</td>
+									<td>88</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Size Guide Modal Area -->
+
+	<!-- Start Shipping Modal Area -->
+	<div class="modal fade productsShippingModal"
+		id="productsShippingModal" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<button type="button" class="close" data-bs-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true"><i class='bx bx-x'></i></span>
+				</button>
+
+				<div class="shipping-content">
+					<h3>Shipping</h3>
+					<ul>
+						<li>Complimentary ground shipping within 1 to 7 business days</li>
+						<li>In-store collection available within 1 to 7 business days</li>
+						<li>Next-day and Express delivery options also available</li>
+						<li>Purchases are delivered in an orange box tied with a
+							Bolduc ribbon, with the exception of certain items</li>
+						<li>See the delivery FAQs for details on shipping methods,
+							costs and delivery times</li>
+					</ul>
+
+					<h3>Returns and Exchanges</h3>
+					<ul>
+						<li>Easy and complimentary, within 14 days</li>
+						<li>See conditions and procedure in our return FAQs</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Shipping Modal Area -->
+
+
+
+	<!-- Start Footer Area -->
+	<footer class="footer-area">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-6 col-sm-6">
+					<div class="single-footer-widget">
+						<h3>About The Store</h3>
+
+						<div class="about-the-store">
+							<p>One of the most popular on the web is shopping.</p>
+							<ul class="footer-contact-info">
+								<li><i class='bx bx-map'></i> <a target="_blank">Wonder
+										Street, USA, New York</a></li>
+								<li><i class='bx bx-phone-call'></i> <a
+									>+01 321 654 214</a></li>
+								<li><i class='bx bx-envelope'></i> <a
+									href="mailto:eworldecom99@gmail.com">eworldecom99@gmail.com</a></li>
+							</ul>
+						</div>
+
+						<ul class="social-link">
+							<li><a class="d-block" target="_blank"><i
+									class='bx bxl-facebook'></i></a></li>
+							<li><a class="d-block" target="_blank"><i
+									class='bx bxl-twitter'></i></a></li>
+							<li><a class="d-block" target="_blank"><i
+									class='bx bxl-instagram'></i></a></li>
+							<li><a class="d-block" target="_blank"><i
+									class='bx bxl-linkedin'></i></a></li>
+							<li><a class="d-block" target="_blank"><i
+									class='bx bxl-pinterest-alt'></i></a></li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="col-lg-3 col-md-6 col-sm-6">
+					<div class="single-footer-widget pl-4">
+						<h3>Quick Links</h3>
+
+						<ul class="quick-links">
+							<li><a>About Us</a></li>
+							<li><a th:href="@{/product/page=0}">Shop Now!</a></li>
+							<li><a th:href="@{/product/page=0?categoryId=103}">Woman's</a></li>
+							<li><a>FAQ's</a></li>
+							<li><a>Contact Us</a></li>
+							<li><a>Customer Services</a></li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="col-lg-3 col-md-6 col-sm-6">
+					<div class="single-footer-widget">
+						<h3>Customer Support</h3>
+
+						<ul class="customer-support">
+							<li><a th:href="@{/user/account/profile}">My Account</a></li>
+							<li><a href="@{/user/cart}">Checkout</a></li>
+							<li><a th:href="@{/user/cart}">Cart</a></li>
+							<li><a>FAQ's</a></li>
+							<li><a>Order Tracking</a></li>
+							<li><a>Help & Support</a></li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="col-lg-3 col-md-6 col-sm-6">
+					<div class="single-footer-widget">
+						<h3>Newsletter</h3>
+
+						<div class="footer-newsletter-box">
+							<p>To get the latest news and latest updates from us.</p>
+
+							<form class="newsletter-form" data-bs-toggle="validator">
+								<label>Your E-mail Address:</label> <input type="email"
+									class="input-newsletter" placeholder="Enter your email"
+									name="EMAIL" required autocomplete="off">
+								<button type="submit">Subscribe</button>
+								<div id="validator-newsletter" class="form-result"></div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="footer-bottom-area">
+				<div class="row align-items-center">
+					<div class="col-lg-6 col-md-6">
+						<p>
+							<span th:text="'@ ' + ${appName} + ' is Proudly Owned by'"></span>
+							<a href="https://www.linkedin.com/in/ankush-surani-645669229/"
+								target="_blank">Ankush Surani, It's not a business, it is just project</a>
+						</p>
+					</div>
+
+					<div class="col-lg-6 col-md-6">
+						<ul class="payment-types">
+							<li><a target="_blank"><img
+									src="/assets/img/payment/visa.png" alt="image"></a></li>
+							<li><a target="_blank"><img
+									src="/assets/img/payment/mastercard.png" alt="image"></a></li>
+							<li><a target="_blank"><img
+									src="/assets/img/payment/mastercard2.png" alt="image"></a></li>
+							<li><a target="_blank"><img
+									src="/assets/img/payment/visa2.png" alt="image"></a></li>
+							<li><a target="_blank"><img
+									src="/assets/img/payment/expresscard.png" alt="image"></a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="lines">
+			<div class="line"></div>
+			<div class="line"></div>
+			<div class="line"></div>
+		</div>
+	</footer>
+	<!-- End Footer Area -->
+
+	<div class="go-top">
+		<i class='bx bx-up-arrow-alt'></i>
+	</div>
+
+	<!-- Links of JS files -->
+	<script src="/assets/js/jquery.min.js"></script>
+	<script src="/assets/js/bootstrap.bundle.min.js"></script>
+	<script src="/assets/js/owl.carousel.min.js"></script>
+	<script src="/assets/js/magnific-popup.min.js"></script>
+	<script src="/assets/js/parallax.min.js"></script>
+	<script src="/assets/js/rangeSlider.min.js"></script>
+	<script src="/assets/js/nice-select.min.js"></script>
+	<script src="/assets/js/meanmenu.min.js"></script>
+	<script src="/assets/js/isotope.pkgd.min.js"></script>
+	<script src="/assets/js/slick.min.js"></script>
+	<script src="/assets/js/sticky-sidebar.min.js"></script>
+	<script src="/assets/js/wow.min.js"></script>
+	<script src="/assets/js/form-validator.min.js"></script>
+	<script src="/assets/js/contact-form-script.js"></script>
+	<script src="/assets/js/ajaxchimp.min.js"></script>
+	<script src="/assets/js/main.js"></script>
+
+<!-- sweet alert cdn -->
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+	<script th:src="@{/js/normal.js}"></script>
+
+	<!-- font awesome -->
+	<script src="https://kit.fontawesome.com/ea10794980.js"
+		crossorigin="anonymous"></script>
+
+
+	<script>
+	$(document).on("click", "#quickViewModal", function () {
+	     var productname = $(this).data('productname');
+	     var productprice = $(this).data('productprice');
+	     var productpriceafterdiscount = $(this).data('productpriceafterdiscount');
+	     var productimageurl = $(this).data('productimageurl');
+	     var brandname = $(this).data('brandname');
+	     var avgrating = $(this).data('avgrating');
+	     var quantity = $(this).data('quantity');
+	     var category = $(this).data('category');
+	     var viewfullinfourl = $(this).data('viewfullinfourl');
+	     
+	     
+	     $("#productsQuickView #productName").text( productname );
+	     $("#productsQuickView #productprice").text( productprice );
+	     $("#productsQuickView #productpriceafterdiscount").text( productpriceafterdiscount );
+	     $("#productsQuickView #productimageurl").attr("src", productimageurl);
+	     $("#productsQuickView #brandname").text( brandname );
+	     $("#productsQuickView #quantity").text( quantity );
+	     $("#productsQuickView #category").text( category );
+	     $("#productsQuickView #viewfullinfourl").attr("href", viewfullinfourl );
+	     
+	     
+	     	    	    
+	    	    // Clear existing stars
+	    	    $("#productsQuickView #avgrating").empty();
+
+	    	    // Generate rating stars
+	    	    var ratingStars = "";
+
+	    	    for (var i = 1; i <= 5; i++) {
+	    	        if (i <= avgrating) {
+	    	            ratingStars += '<span class="bi bi-star-fill"></span>';
+	    	        } else if (i === Math.ceil(avgrating) && avgrating % 1 >= 0.5) {
+	    	            ratingStars += '<span class="bi bi-star-half"></span>';
+	    	        } else {
+	    	            ratingStars += '<span class="bi bi-star"></span>';
+	    	        }
+	    	    }
+
+	    	    $("#productsQuickView #avgrating").html(ratingStars);
+
+	     
+	});
+	
+	
+		//open modal while reload
+		$(document).ready(function() {
+    // Check modal states and open them if necessary
+    checkAndOpenModal('productsFilterModal');
+    checkAndOpenModal('NewAddress');
+    checkAndOpenModal('OrderAddress');
+
+    // Store modal states in localStorage when modals are shown/hidden
+    $('#productsFilterModal').on('shown.bs.modal', function() {
+        storeModalState('productsFilterModal', 'open');
+    });
+
+    $('#productsFilterModal').on('hidden.bs.modal', function() {
+        storeModalState('productsFilterModal', 'closed');
+    });
+
+    $('#NewAddress').on('shown.bs.modal', function() {
+        storeModalState('NewAddress', 'open'); 
+    });
+
+    $('#NewAddress').on('hidden.bs.modal', function() {
+        storeModalState('NewAddress', 'closed'); 
+    });
+    
+    $('#OrderAddress').on('shown.bs.modal', function() {
+        storeModalState('OrderAddress', 'open'); 
+    });
+    
+    $('#OrderAddress').on('hidden.bs.modal', function() {
+        storeModalState('OrderAddress', 'closed'); 
+    });
+});
+
+function checkAndOpenModal(modalId) {
+    var modalState = localStorage.getItem(modalId + 'State');
+    if (modalState === 'open') {
+        $('#' + modalId).modal('show');
+    }
+}
+
+function storeModalState(modalId, state) {
+    localStorage.setItem(modalId + 'State', state);
+}
+
+
+
+
+		//update url while change category
+		function updateUrlWithCategoryId(link) {
+			var categoryId = link.getAttribute('data-categoryId');
+			var currentUrl = window.location.href;
+			var updatedUrl = updateQueryStringParameter(currentUrl,
+					'categoryId', categoryId);
+			
+			// Update "page" parameter to 0
+            updatedUrl = updatedUrl.replace(/page=\d+/, "page=0");
+			
+			window.location.href = updatedUrl;
+		}
+
+		function updateQueryStringParameter(uri, key, value) {
+			var re = new RegExp('([?&])' + key + '=.*?(&|$)', 'i');
+			var separator = uri.indexOf('?') !== -1 ? '&' : '?';
+			if (uri.match(re)) {
+				return uri.replace(re, '$1' + key + '=' + value + '$2');
+			} else {
+				return uri + separator + key + '=' + value;
+			}
+		}
+
+		// Add active
+		document
+				.addEventListener(
+						'DOMContentLoaded',
+						function() {
+							/* in current category */
+							var selectedCategoryId = getUrlParameter('categoryId');
+							var categoryLinks = document
+									.querySelectorAll('.collections-list-row li a');
+
+							categoryLinks
+									.forEach(function(link) {
+										if (link
+												.getAttribute('data-categoryId') === selectedCategoryId) {
+											link.closest('li').classList
+													.add('active');
+										}
+									});
+							
+							/* in current brand Name */
+							var selectedBrandName = getUrlParameter('brandName');
+							var brandNameLinks = document
+									.querySelectorAll('.brands-list-row li a');
+
+							brandNameLinks
+									.forEach(function(brandLink) {
+										if (brandLink
+												.getAttribute('data-brandName') === selectedBrandName) {
+											brandLink.closest('li').classList
+													.add('active');
+										}
+									});
+						});
+
+		function getUrlParameter(name) {
+			var urlParams = new URLSearchParams(window.location.search);
+			return urlParams.get(name);
+		}
+
+		//changing brandName param url add
+		function updateUrlWithBrandName(element) {
+			var selectedBrandName = $(element).data('brandname'); // Note: Use 'brandname' in lowercase
+			var currentUrl = window.location.href;
+
+			// Check if brandName parameter already exists in the URL
+			if (currentUrl.indexOf('brandName=') === -1) {
+				// BrandName parameter doesn't exist, start with '?' symbol
+				var separator = currentUrl.indexOf('?') !== -1 ? '&' : '?';
+				var updatedUrl = currentUrl + separator + 'brandName='
+						+ encodeURIComponent(selectedBrandName);
+			} else {
+				// BrandName parameter already exists, update its value
+				var updatedUrl = currentUrl.replace(/(brandName=)[^&]+/, '$1'
+						+ encodeURIComponent(selectedBrandName));
+			}
+			
+			// Update "page" parameter to 0
+            updatedUrl = updatedUrl.replace(/page=\d+/, "page=0");
+
+			// Navigate to the updated URL
+			window.location.href = updatedUrl;
+		}
+		
+		function removeParamFromUrl(paramName) {
+		    var currentUrl = window.location.href;
+
+		    // Remove the specified parameter from the URL
+		    var updatedUrl = currentUrl.replace(new RegExp('[?&]' + paramName + '=[^&]+'), '');
+
+		    // Check if there are any remaining parameters
+		    if (updatedUrl.indexOf('?') === -1) {
+		        // No parameters remaining, remove any trailing '&' characters
+		        updatedUrl = updatedUrl.replace('&', '?');
+		    }
+
+		    // Navigate to the updated URL
+		    window.location.href = updatedUrl;
+		}
+
+		
+		//change min max price in filter
+		 document.addEventListener("DOMContentLoaded", function() {
+		    var filterButton = document.getElementById("filterButton");
+		    filterButton.addEventListener("click", function() {
+		        updatePriceParams();
+		    });
+		
+		    // Function to get URL parameter value
+		    function getUrlParameter(name) {
+		        var urlParams = new URLSearchParams(window.location.search);
+		        return urlParams.get(name);
+		    }
+		
+		    // Initialize input fields with URL parameter values
+		    var minPriceInput = document.getElementById("minPrice");
+		    var maxPriceInput = document.getElementById("maxPrice");
+		
+		    var minPriceParam = getUrlParameter("minPrice");
+		    var maxPriceParam = getUrlParameter("maxPrice");
+		
+		    if (minPriceParam !== null) {
+		        minPriceInput.value = minPriceParam;
+		    }
+		    if (maxPriceParam !== null) {
+		        maxPriceInput.value = maxPriceParam;
+		    }
+		
+		    function updatePriceParams() {
+		        var minPrice = minPriceInput.value;
+		        var maxPrice = maxPriceInput.value;
+		
+		        var currentUrl = window.location.href;
+		        var updatedUrl = currentUrl.replace(/[\?&]minPrice=[^&]+/g, "").replace(/[\?&]maxPrice=[^&]+/g, "");
+		
+		        if (!isNaN(minPrice) && minPrice !== "") {
+		            updatedUrl += (updatedUrl.indexOf("?") !== -1 ? "&" : "?") + "minPrice=" + minPrice;
+		        }
+		        if (!isNaN(maxPrice) && maxPrice !== "") {
+		            updatedUrl += (updatedUrl.indexOf("?") !== -1 ? "&" : "?") + "maxPrice=" + maxPrice;
+		        }
+		
+		        window.location.href = updatedUrl;
+		    }
+		});
+		
+		
+		//if no input then filter price button disable
+		var minPriceInput = document.getElementById("minPrice");
+	    var maxPriceInput = document.getElementById("maxPrice");
+	    var filterButton = document.getElementById("filterButton");
+	
+	    // Add input event listeners to the input fields
+	    minPriceInput.addEventListener("input", updateFilterButton);
+	    maxPriceInput.addEventListener("input", updateFilterButton);
+	
+	    // Function to enable/disable the Filter button based on input values
+	    function updateFilterButton() {
+	        if (minPriceInput.value !== "" || maxPriceInput.value !== "") {
+	            filterButton.removeAttribute("disabled");
+	        } else {
+	            filterButton.setAttribute("disabled", "disabled");
+	        }
+	    }
+	    
+	    
+	    
+	    /* add search param in url */
+		document.querySelector('searchForm').onsubmit = function() {
+        	  this.setAttribute('action', "/product/page=0/" + document.querySelector('input[name=searchvalue]').value.toLowerCase())
+        	}
+
+
+	</script>
+
+
+</body>
+</html>

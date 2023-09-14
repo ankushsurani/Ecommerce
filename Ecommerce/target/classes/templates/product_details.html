@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="bs::layout(~{::section})">
+<head>
+
+</head>
+<body>
+
+
+
+
+	<!-- Start Product Details Area -->
+	<section class="product-details-area pt-100 pb-70">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-5 col-md-12">
+					<div class="products-details-image">
+						<ul class="products-details-image-slides">
+							<li th:each="productImage : ${product.productImages}"><img
+								style="height: 80vh; width: 67vw;"
+								th:src="@{'/product_img/' + ${productImage.productPic}}"
+								alt="image"></li>
+						</ul>
+
+						<div class="slick-thumbs">
+							<ul>
+								<li th:each="productImage : ${product.productImages}"><img
+									style="height: 15vh; width: 10vw;"
+									th:src="@{'/product_img/' + ${productImage.productPic}}"
+									alt="image"></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-7 col-md-12">
+					<div class="products-details-desc">
+						<h3 th:text="${product.name}">Long Sleeve Leopard T-Shirt</h3>
+
+						<div class="price">
+							<span class="new-price" th:text="${'&#8377;' + product.price}"></span>
+							<span class="old-price"
+								th:text="${'&#8377;' + product.getPriceAfterApplyingDiscount()}">$321.00</span>
+						</div>
+
+						<div class="products-review">
+							<div class="rating">
+								<span th:each="i : ${#numbers.sequence(1, 5)}"> <i
+									th:if="${product.avgRating >= i}" th:class="'bx bxs-star'"></i>
+									<i th:unless="${product.avgRating >= i}"
+									th:if="${product.avgRating >= i - 0.5}"
+									th:class="'bx bxs-star-half'"></i> <i
+									th:unless="${product.avgRating >= i || product.avgRating >= i - 0.5}"
+									th:class="'bx bx-star'"></i>
+								</span> <span class="text-dark fw-bold" th:text="${product.avgRating}"></span>
+							</div>
+							<!-- <a href="#" class="rating-count">3 reviews</a> -->
+						</div>
+
+						<ul class="products-info">
+							<li><span>Brand:</span> <a th:text="${product.brandName}"
+								th:href="@{'/product/page=0?brandName=' + ${product.brandName}}"></a></li>
+							<li><span>Availability: In stock (</span> <a
+								th:text="${product.quantity}"></a> items)</li>
+							<li><span>Products Type:</span> <a
+								th:text="${product.category.title}"
+								th:href="@{'/product/page=0?categoryId=' + ${product.category.id}}">T-Shirt</a></li>
+						</ul>
+
+						<div class="products-color-switch">
+							<span>Color:</span>
+
+							<ul>
+								<li><a title="Black" class="color-black"></a></li>
+								<li><a title="White" class="color-white"></a></li>
+								<li class="active"><a title="Green"
+									class="color-green"></a></li>
+								<li><a title="Yellow Green"
+									class="color-yellowgreen"></a></li>
+								<li><a title="Teal" class="color-teal"></a></li>
+							</ul>
+						</div>
+
+						<div class="products-size-wrapper">
+							<span>Size:</span>
+
+							<ul>
+								<li><a>XS</a></li>
+								<li class="active"><a>S</a></li>
+								<li><a>M</a></li>
+								<li><a>XL</a></li>
+								<li><a>XXL</a></li>
+							</ul>
+						</div>
+
+						<div class="products-info-btn">
+							<a href="#" data-bs-toggle="modal"
+								data-bs-target="#sizeGuideModal"><i class='bx bx-crop'></i>
+								Size guide</a> <a href="#" data-bs-toggle="modal"
+								data-bs-target="#productsShippingModal"><i
+								class='bx bxs-truck'></i> Shipping</a> <a><i
+								class='bx bx-envelope'></i> Ask about this products</a>
+						</div>
+
+						<div class="products-add-to-cart">
+							<div class="input-counter">
+								<span class="minus-btn"><i class='bx bx-minus'></i></span> <input
+									type="text" value="1"> <span class="plus-btn"><i
+									class='bx bx-plus'></i></span>
+							</div>
+
+							<a th:href="@{'/user/cart/add-to-cart/' + ${product.id}}"
+								type="submit" class="default-btn"> <i
+								class="fas fa-cart-plus"></i> Add to Cart
+							</a>
+						</div>
+
+						<div class="wishlist-compare-btn">
+							<a th:href="@{'/user/account/add-to-wishlist/' + ${product.id}}"
+								class="optional-btn"><i class='bx bx-heart'></i> Add to
+								Wishlist</a> <a
+								th:href="@{'/user/product-compare/add-compare-product/' + ${product.id}}"
+								class="optional-btn"><i class='bx bx-refresh'></i> Add to
+								Compare</a>
+						</div>
+
+						<div class="buy-checkbox-btn">
+
+							<div class="item">
+								<a
+									th:href="@{'/user/order/checkout-order?productId=' + ${product.id}}"
+									class="default-btn">Buy it now!</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="tab products-details-tab">
+				<ul class="tabs">
+					<li><a href="#">
+							<div class="dot"></div> Description
+					</a></li>
+
+					<li><a href="#">
+							<div class="dot"></div> Additional Information
+					</a></li>
+
+					<li><a href="#">
+							<div class="dot"></div> Shipping
+					</a></li>
+
+					<li><a href="#">
+							<div class="dot"></div> Warranty Details
+					</a></li>
+
+					<li><a href="#">
+							<div class="dot"></div> Reviews
+					</a></li>
+				</ul>
+
+				<div class="tab-content">
+					<div class="tabs-item">
+						<div class="products-details-tab-content"
+							th:utext="${product.description}"></div>
+					</div>
+
+					<div class="tabs-item">
+						<div class="products-details-tab-content"
+							th:utext="${product.additionalInformation}"></div>
+					</div>
+
+					<div class="tabs-item">
+						<div class="products-details-tab-content">
+							<div class="table-responsive">
+								<table class="table table-bordered">
+									<tbody>
+
+										<tr>
+											<td>Delivery</td>
+											<td>Estimated Delivery Date is <span
+												th:text="${deliveryDate}"> Wednesday 07/31/2021 and
+													Monday 08/05/2021 </span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<div class="tabs-item">
+						<div class="products-details-tab-content"
+							th:utext="${product.warranty}"></div>
+					</div>
+
+					<div class="tabs-item">
+						<div class="products-details-tab-content">
+							<div class="products-review-form">
+								<h3>Customer Reviews</h3>
+
+								<div class="review-title">
+									<div class="rating">
+										<span th:each="i : ${#numbers.sequence(1, 5)}"> <i
+											th:if="${product.avgRating >= i}" th:class="'bx bxs-star'"></i>
+											<i th:unless="${product.avgRating >= i}"
+											th:if="${product.avgRating >= i - 0.5}"
+											th:class="'bx bxs-star-half'"></i> <i
+											th:unless="${product.avgRating >= i || product.avgRating >= i - 0.5}"
+											th:class="'bx bx-star'"></i>
+										</span>
+										<p class="text-dark fw-bold" th:text="${product.avgRating}"></p>
+									</div>
+									<p>Based on verified customer ratings</p>
+									<a th:href="@{'/user/add-review/' + ${product.id}}"
+										class="default-btn">Write a Review</a>
+								</div>
+
+								<div class="review-comments">
+									<div class="review-item" th:each="review : ${reviews}">
+										<div class="rating" th:each="i : ${#numbers.sequence(1, 5)}">
+											<i th:if="${review.rating.value >= i}"
+												th:class="'bx bxs-star'"></i> <i
+												th:unless="${review.rating.value >= i}"
+												th:class="'bx bx-star'"></i>
+
+										</div>
+										<div>
+											<h3 th:text="${review.title}"></h3>
+											<span><strong th:text="${review.rating.user.fullName}"></strong>
+												on <strong
+												th:text="${#temporals.monthNameShort(review.rating.ratedDate) + ' ' +
+											#temporals.day(review.rating.ratedDate) + ', ' + #temporals.year(review.rating.ratedDate)}">Sep
+													21, 2021</strong></span>
+											<p th:text="${review.description}"></p>
+										</div>
+									</div>
+								</div>
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="related-products">
+			<div class="container">
+				<div class="section-title">
+					<span class="sub-title">Our Shop</span>
+					<h2>Related Products</h2>
+				</div>
+
+				<div class="products-slides owl-carousel owl-theme">
+					<div class="single-products-box"
+						th:each="similarProduct : ${similarProducts}">
+						<div class="products-image">
+							<a th:href="@{'/product/' + ${similarProduct.id}}"> <img
+								style="height: 45vh;"
+								th:src="@{'/product_img/' + ${similarProduct.productImages[0].productPic}}"
+								class="main-image" alt="image"> <img style="height: 45vh;"
+								th:src="@{'/product_img/' + ${similarProduct.productImages[1].productPic}}"
+								class="hover-image" alt="image">
+							</a>
+
+							<div class="products-button">
+								<ul>
+									<li>
+										<div class="wishlist-btn">
+											<a
+												th:href="@{'/user/account/add-to-wishlist/' + ${similarProduct.id}}">
+												<i class='bx bx-heart'></i> <span class="tooltip-label">Add
+													to Wishlist</span>
+											</a>
+										</div>
+									</li>
+									<li>
+										<div class="compare-btn">
+											<a
+												th:href="@{'/user/product-compare/add-compare-product/' + ${similarProduct.id}}">
+												<i class='bx bx-refresh'></i> <span class="tooltip-label">Compare</span>
+											</a>
+										</div>
+									</li>
+									<li>
+										<div class="quick-view-btn">
+											<a id="quickViewModal" href="#" data-bs-toggle="modal"
+												th:data-productname="${similarProduct.name}"
+												th:data-productprice="${similarProduct.price}"
+												th:data-productpriceafterdiscount="${similarProduct.getPriceAfterApplyingDiscount}"
+												th:data-productimageurl="@{'/product_img/' + ${similarProduct.productImages[0].productPic}}"
+												th:data-brandname="${similarProduct.brandName}"
+												th:data-avgrating="${similarProduct.avgRating}"
+												th:data-quantity="${similarProduct.quantity}"
+												th:data-category="${similarProduct.category.title}"
+												th:data-viewfullinfourl="@{'/product/' + ${similarProduct.id}}"
+												data-bs-target="#productsQuickView"> <i
+												class='bx bx-search-alt'></i> <span class="tooltip-label">Quick
+													View</span>
+											</a>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="products-content">
+							<h3>
+								<a th:href="@{'/product/' + ${similarProduct.id}}"
+									th:text="${similarProduct.name}"></a>
+							</h3>
+							<div class="price">
+								<i
+									class="fa-solid fa-indian-rupee-sign text-muted text-decoration-line-through"></i>
+								<span class="old-price" th:text="${similarProduct.price}"></span>
+								<i class="fa-solid fa-indian-rupee-sign"></i> <span
+									class="new-price"
+									th:text="${similarProduct.getPriceAfterApplyingDiscount}"></span>
+							</div>
+							<div class="star-rating">
+								<span th:each="i : ${#numbers.sequence(1, 5)}"> <i
+									th:if="${similarProduct.avgRating >= i}"
+									th:class="'bx bxs-star'"></i> <i
+									th:unless="${similarProduct.avgRating >= i}"
+									th:if="${similarProduct.avgRating >= i - 0.5}"
+									th:class="'bx bxs-star-half'"></i> <i
+									th:unless="${similarProduct.avgRating >= i || similarProduct.avgRating >= i - 0.5}"
+									th:class="'bx bx-star'"></i>
+								</span> <span class="text-dark fw-bold"
+									th:text="${similarProduct.avgRating}"></span>
+							</div>
+							<a th:href="@{'/user/cart/add-to-cart/' + ${similarProduct.id}}"
+								class="add-to-cart">Add to Cart</a>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End Product Details Area -->
+
+
+</body>
+</html>
